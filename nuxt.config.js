@@ -28,6 +28,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: '~plugins/vue2-google-maps.js' } 
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -39,6 +40,7 @@ export default {
     '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+    '@nuxtjs/composition-api/module'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -72,5 +74,21 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+   /*
+   ** You can extend webpack config here
+   */
+    extend(config, ctx) {
+      config.externals = config.externals || [];
+      if (!ctx.isClient) {
+        config.externals.splice(0, 0, function(context, request, callback) {
+          if (/^vue2-google-maps($|\/)/.test(request)) {
+            callback(null, false);
+          } else {
+            callback();
+          }
+        });
+      }
+    },
+    vendor: ['vue2-google-maps'],
   }
 }
