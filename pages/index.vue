@@ -1,81 +1,6 @@
 <template>
   <v-row justify="center" align="center">
     <v-col cols="12" sm="8" md="6">
-      <v-card class="logo py-4 d-flex justify-center">
-        <NuxtLogo />
-        <VuetifyLogo />
-      </v-card>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>
-            Vuetify is a progressive Material Design component framework for
-            Vue.js. It was designed to empower developers to create amazing
-            applications.
-          </p>
-          <p>
-            For more information on Vuetify, check out the
-            <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              documentation </a
-            >.
-          </p>
-          <p>
-            If you have questions, please join the official
-            <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord </a
-            >.
-          </p>
-          <p>
-            Find a bug? Report it on the github
-            <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board </a
-            >.
-          </p>
-          <p>
-            Thank you for developing with Vuetify and I look forward to bringing
-            more exciting features in the future.
-          </p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3" />
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt Documentation
-          </a>
-          <br />
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="primary" nuxt to="/inspire"> Continue </v-btn>
-        </v-card-actions>
-      </v-card>
       <v-card>
         <GmapMap
           map-type-id="roadmap"
@@ -85,6 +10,12 @@
           :options="mapOptions"
           ref="mapRef"
         >
+          <GmapMarker
+            :position="maplocation"
+            :clickable="true"
+            :draggable="false"
+          >
+          </GmapMarker>
           <GmapMarker
             v-for="m in markers"
             :position="m.position"
@@ -97,6 +28,7 @@
           </GmapMarker>
         </GmapMap>
       </v-card>
+      {{ maplocation }}
     </v-col>
   </v-row>
 </template>
@@ -105,6 +37,7 @@
 import {
   computed,
   defineComponent,
+  onBeforeMount,
   onMounted,
   PropType,
   reactive,
@@ -129,7 +62,7 @@ export default defineComponent({
       gestureHandling: "greedy",
     });
     const markers = reactive<any>([]);
-    const mapRef = ref(null) as any;
+    const mapRef = ref<any>(null);
 
     onMounted(() => {
       getCurrentPosition();
@@ -138,7 +71,17 @@ export default defineComponent({
     const success = (position: any) => {
       maplocation.lat = position.coords.latitude;
       maplocation.lng = position.coords.longitude;
+      mapRef.value.$gmapApiPromiseLazy().then(() => {
+        google.maps.event.addListenerOnce(
+          mapRef.value.$mapObject,
+          "idle",
+          function () {
+            setPlaceMarker();
+          }
+        );
+      });
     };
+
     const error = (error: any) => {
       switch (error.code) {
         case 1: //PERMISSION_DENIED
@@ -155,17 +98,57 @@ export default defineComponent({
           break;
       }
     };
+
     const getCurrentPosition = () => {
-      if (!navigator.geolocation) {
+      if (navigator.geolocation) {
+        return new Promise(() =>
+          navigator.geolocation.getCurrentPosition(success, error)
+        );
+      } else {
         alert(
           "現在地情報を取得できませんでした。お使いのブラウザでは現在地情報を利用できない可能性があります。エリアを入力してください。"
         );
         // 現在地取得不可の場合は東京駅付近に移動
         maplocation.lat = 35.6813092;
         maplocation.lng = 139.7677269;
-        return;
       }
-      navigator.geolocation.getCurrentPosition(success, error);
+    };
+
+    const setPlaceMarker = () => {
+      mapRef.value.$mapPromise.then(() => {
+        const map = mapRef.value.$mapObject;
+        const placeService = new google.maps.places.PlacesService(map);
+        placeService.nearbySearch(
+          {
+            location: new google.maps.LatLng(maplocation.lat, maplocation.lng),
+            radius: 500,
+            type: "cafe",
+          },
+          function (
+            results: google.maps.places.PlaceResult[],
+            status: google.maps.places.PlacesServiceStatus
+          ) {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+              results.forEach((place: any) => {
+                // デフォルトのアイコンが大きめなので縮小
+                const icon = {
+                  url: "/img/coffee.png", // url
+                  scaledSize: new google.maps.Size(30, 30), // scaled size
+                  origin: new google.maps.Point(0, 0), // origin
+                  anchor: new google.maps.Point(0, 0), // anchor
+                };
+                const marker = {
+                  position: place.geometry.location,
+                  icon: icon,
+                  title: place.name,
+                  id: place.place_id,
+                };
+                markers.push(marker);
+              });
+            }
+          }.bind(this)
+        );
+      });
     };
 
     return {

@@ -26,8 +26,12 @@
     "types": [
       "@nuxt/types",
       "@types/node",
+      "@types/googlemaps"
     ]
   },
+  "files": [
+    "types/vue2-google-maps.d.ts",
+  ],
   "exclude": [
     "node_modules",
     ".nuxt",
