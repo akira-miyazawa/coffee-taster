@@ -17,16 +17,23 @@
           >
           </GmapMarker>
           <GmapMarker
-            v-for="m in markers"
+            v-for="(m, index) in markers"
             :position="m.position"
             :title="m.title"
             :clickable="true"
             :draggable="false"
             :icon="m.icon"
             :key="m.id"
-            @click="moveCenterLocation(m.position)"
+            @click="handleEvent(m.position, index, markers)"
           >
           </GmapMarker>
+          <GmapInfoWindow
+            v-for="m in markers"
+            :key="m.id"
+            :position="m.position"
+            :title="m.title"
+            :opened="m.disable"
+          ></GmapInfoWindow>
         </GmapMap>
       </v-card>
       {{ markers }}
@@ -52,6 +59,12 @@ export default defineComponent({
       lat: 0,
       lng: 0,
     });
+    const selectedLocation = reactive<{ lat: number; lng: number }>({
+      lat: 0,
+      lng: 0,
+    });
+    const infoWinOpenDisable = ref<boolean>(false);
+    const selectedLocationIndex = ref<number | null>(null);
     const zoom = ref<number>(17);
     const styleMap = reactive<any>({
       width: "100%",
@@ -158,6 +171,7 @@ export default defineComponent({
                   title: place.name,
                   id: place.place_id,
                   animation: google.maps.Animation.DROP,
+                  disable: false,
                 };
                 markers.push(marker);
               });
@@ -168,24 +182,58 @@ export default defineComponent({
     };
 
     /**
-     * マップの中心点を変更する
-     * @param 緯度
-     * @param 経度
+     * 場所を選択したときの処理を実行
+     * @param position 緯度・経度
+     * @param index インデックス
+     * @param markers マーカーの情報
      */
-    const moveCenterLocation = (positon: { lat: number; lng: number }) => {
-      centerLocation.lat = positon.lat;
-      centerLocation.lng = positon.lng;
+    const handleEvent = (
+      positon: { lat: number; lng: number },
+      index: number,
+      markers: any[]
+    ) => {
+      setCenterLocation(positon.lat, positon.lng);
+      setSelectedLocation(positon.lat, positon.lng);
+      handleGmapInfoWindow(index);
+    };
+
+    const setCenterLocation = (lat: number, lng: number) => {
+      centerLocation.lat = lat;
+      centerLocation.lng = lng;
+    };
+    const setSelectedLocation = (lat: number, lng: number) => {
+      selectedLocation.lat = lat;
+      selectedLocation.lng = lng;
+    };
+    const handleGmapInfoWindow = (index: number) => {
+      // 初回
+      if (selectedLocationIndex.value == null) {
+        // 前の選択された場所のindexを更新
+        selectedLocationIndex.value = index;
+        // 表示する
+        markers[index].disable = true;
+        return;
+      }
+      // 前に選択された場所は非表示にする
+      markers[selectedLocationIndex.value].disable = false;
+      // 前の選択された場所のindexを更新
+      selectedLocationIndex.value = index;
+      // 表示する
+      markers[index].disable = true;
     };
 
     return {
       currentLocation,
       centerLocation,
+      selectedLocation,
+      infoWinOpenDisable,
+      selectedLocationIndex,
       zoom,
       styleMap,
       mapOptions,
       markers,
       mapRef,
-      moveCenterLocation,
+      handleEvent,
     };
   },
 });
