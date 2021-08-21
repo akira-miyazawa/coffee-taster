@@ -4,14 +4,14 @@
       <v-card>
         <GmapMap
           map-type-id="roadmap"
-          :center="maplocation"
+          :center="centerLocation"
           :zoom="zoom"
           :style="styleMap"
           :options="mapOptions"
           ref="mapRef"
         >
           <GmapMarker
-            :position="maplocation"
+            :position="currentLocation"
             :clickable="true"
             :draggable="false"
           >
@@ -24,10 +24,12 @@
             :draggable="false"
             :icon="m.icon"
             :key="m.id"
+            @click="moveCenterLocation(m.position)"
           >
           </GmapMarker>
         </GmapMap>
       </v-card>
+      {{ markers }}
     </v-col>
   </v-row>
 </template>
@@ -42,7 +44,11 @@ import {
 
 export default defineComponent({
   setup(props, context) {
-    const maplocation = reactive<{ lat: number; lng: number }>({
+    const currentLocation = reactive<{ lat: number; lng: number }>({
+      lat: 0,
+      lng: 0,
+    });
+    const centerLocation = reactive<{ lat: number; lng: number }>({
       lat: 0,
       lng: 0,
     });
@@ -64,8 +70,11 @@ export default defineComponent({
     });
 
     const success = (position: any) => {
-      maplocation.lat = position.coords.latitude;
-      maplocation.lng = position.coords.longitude;
+      currentLocation.lat = position.coords.latitude;
+      currentLocation.lng = position.coords.longitude;
+      // 初回は現在地が中心点
+      centerLocation.lat = position.coords.latitude;
+      centerLocation.lng = position.coords.longitude;
       mapRef.value.$gmapApiPromiseLazy().then(() => {
         google.maps.event.addListenerOnce(
           mapRef.value.$mapObject,
@@ -94,6 +103,9 @@ export default defineComponent({
       }
     };
 
+    /**
+     * 現在地を取得
+     */
     const getCurrentPosition = () => {
       if (navigator.geolocation) {
         return new Promise(() =>
@@ -104,18 +116,26 @@ export default defineComponent({
           "現在地情報を取得できませんでした。お使いのブラウザでは現在地情報を利用できない可能性があります。エリアを入力してください。"
         );
         // 現在地取得不可の場合は東京駅付近に移動
-        maplocation.lat = 35.6813092;
-        maplocation.lng = 139.7677269;
+        currentLocation.lat = 35.6813092;
+        currentLocation.lng = 139.7677269;
+        centerLocation.lat = 35.6813092;
+        centerLocation.lng = 139.7677269;
       }
     };
 
+    /**
+     *  カフェの場所にマーカーをセット
+     */
     const setPlaceMarker = () => {
       mapRef.value.$mapPromise.then(() => {
         const map = mapRef.value.$mapObject;
         const placeService = new google.maps.places.PlacesService(map);
         placeService.nearbySearch(
           {
-            location: new google.maps.LatLng(maplocation.lat, maplocation.lng),
+            location: new google.maps.LatLng(
+              currentLocation.lat,
+              currentLocation.lng
+            ),
             radius: 500,
             type: "cafe",
           },
@@ -124,7 +144,7 @@ export default defineComponent({
             status: google.maps.places.PlacesServiceStatus
           ) {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
-              results.forEach((place: any) => {
+              results.forEach((place: google.maps.places.PlaceResult) => {
                 // デフォルトのアイコンが大きめなので縮小
                 const icon = {
                   url: "/img/coffee.png", // url
@@ -133,10 +153,11 @@ export default defineComponent({
                   anchor: new google.maps.Point(0, 0), // anchor
                 };
                 const marker = {
-                  position: place.geometry.location,
+                  position: place.geometry?.location,
                   icon: icon,
                   title: place.name,
                   id: place.place_id,
+                  animation: google.maps.Animation.DROP,
                 };
                 markers.push(marker);
               });
@@ -146,13 +167,25 @@ export default defineComponent({
       });
     };
 
+    /**
+     * マップの中心点を変更する
+     * @param 緯度
+     * @param 経度
+     */
+    const moveCenterLocation = (positon: { lat: number; lng: number }) => {
+      centerLocation.lat = positon.lat;
+      centerLocation.lng = positon.lng;
+    };
+
     return {
-      maplocation,
+      currentLocation,
+      centerLocation,
       zoom,
       styleMap,
       mapOptions,
       markers,
       mapRef,
+      moveCenterLocation,
     };
   },
 });
