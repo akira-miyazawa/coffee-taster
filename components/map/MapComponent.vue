@@ -1,43 +1,39 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <v-card>
-        <GmapMap
-          map-type-id="roadmap"
-          :center="centerLocation"
-          :zoom="zoom"
-          :style="styleMap"
-          :options="mapOptions"
-          ref="mapRef"
-        >
-          <GmapMarker
-            :position="currentLocation"
-            :clickable="true"
-            :draggable="false"
-          >
-          </GmapMarker>
-          <GmapMarker
-            v-for="(m, index) in markers"
-            :position="m.position"
-            :title="m.title"
-            :clickable="true"
-            :draggable="false"
-            :icon="m.icon"
-            :key="m.id"
-            @click="handleEvent(m.position, index, markers)"
-          >
-          </GmapMarker>
-          <GmapInfoWindow
-            v-for="m in markers"
-            :key="m.id"
-            :position="m.position"
-            :title="m.title"
-            :opened="m.disable"
-          ></GmapInfoWindow>
-        </GmapMap>
-      </v-card>
-      {{ markers }}
-    </v-col>
+    <GmapMap
+      class="gmap-map"
+      map-type-id="roadmap"
+      :center="centerLocation"
+      :zoom="zoom"
+      :style="styleMap"
+      :options="mapOptions"
+      ref="mapRef"
+    >
+      <GmapMarker
+        :position="currentLocation"
+        :clickable="true"
+        :draggable="false"
+      >
+      </GmapMarker>
+      <GmapMarker
+        v-for="(m, index) in markers"
+        :key="`GmapMarker${m.id}`"
+        :position="m.position"
+        :title="m.title"
+        :clickable="true"
+        :draggable="false"
+        :icon="m.icon"
+        @click="handleEvent(m.position, index, markers)"
+      >
+      </GmapMarker>
+      <GmapInfoWindow
+        v-for="m in markers"
+        :key="`GmapInfoWindow${m.id}`"
+        :position="m.position"
+        :title="m.title"
+        :opened="m.disable"
+      ></GmapInfoWindow>
+    </GmapMap>
   </v-row>
 </template>
 
@@ -238,3 +234,11 @@ export default defineComponent({
   },
 });
 </script>
+ 
+<style scoped>
+.gmap-map {
+  position: unset;
+  width: 100%;
+  height: 100%;
+}
+</style>
