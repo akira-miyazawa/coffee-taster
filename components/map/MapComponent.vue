@@ -70,6 +70,8 @@ export default defineComponent({
       streetViewControl: false,
       styles: [],
       gestureHandling: "greedy",
+      mapTypeControl: false,
+      fullscreenControl: false,
     });
     const markers = reactive<any>([]);
     const mapRef = ref<any>(null);

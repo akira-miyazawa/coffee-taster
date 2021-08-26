@@ -12,8 +12,10 @@
     "@nuxtjs/composition-api": "^0.26.0",
     "@nuxtjs/pwa": "^3.3.5",
     "@types/googlemaps": "^3.43.3",
+    "chart.js": "^2.8.0",
     "core-js": "^2.6.11",
     "nuxt": "^2.15.7",
+    "vue-chartjs": "^3.4.2",
     "vue2-google-maps": "^0.10.7",
     "vuetify": "^2.5.5"
   },

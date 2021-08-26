@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ "List" }}
+    {{ "Login" }}
   </div>
 </template>
 
