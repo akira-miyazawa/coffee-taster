@@ -68,11 +68,8 @@ export default defineComponent({
       },
     });
     const legend = reactive<any>({
-      legend: {
-        display: false,
-      },
+      display: false,
     });
-
     return {
       chartData,
       scale,
