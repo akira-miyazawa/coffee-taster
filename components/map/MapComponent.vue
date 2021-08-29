@@ -32,7 +32,9 @@
         :position="m.position"
         :title="m.title"
         :opened="m.disable"
-      ></GmapInfoWindow>
+      >
+        <SpeechballoonComponent :title="m.title" />
+      </GmapInfoWindow>
     </GmapMap>
   </v-row>
 </template>
@@ -44,8 +46,12 @@ import {
   reactive,
   ref,
 } from "@nuxtjs/composition-api";
+import SpeechballoonComponent from "@/components/map/SpeechballoonComponent.vue";
 
 export default defineComponent({
+  components: {
+    SpeechballoonComponent,
+  },
   setup(props, context) {
     const currentLocation = reactive<{ lat: number; lng: number }>({
       lat: 0,
@@ -169,7 +175,7 @@ export default defineComponent({
                   title: place.name,
                   id: place.place_id,
                   animation: google.maps.Animation.DROP,
-                  disable: false,
+                  // disable: false,
                 };
                 markers.push(marker);
               });
