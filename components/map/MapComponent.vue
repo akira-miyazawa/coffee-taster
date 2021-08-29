@@ -42,6 +42,7 @@
 <script lang="ts">
 import {
   defineComponent,
+  onBeforeUnmount,
   onMounted,
   reactive,
   ref,
@@ -82,6 +83,9 @@ export default defineComponent({
     const markers = reactive<any>([]);
     const mapRef = ref<any>(null);
 
+    onBeforeUnmount(() => {
+      getCurrentPosition();
+    });
     onMounted(() => {
       getCurrentPosition();
     });
