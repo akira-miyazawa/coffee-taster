@@ -19,14 +19,14 @@
       @event="scoreSweetness"
     />
     <RatingComponent
-      itemName="香り"
-      :tasteScore="coffeeTasteScore.scent"
-      @event="scoreScent"
-    />
-    <RatingComponent
       itemName="コク"
       :tasteScore="coffeeTasteScore.richness"
       @event="scoreRichness"
+    />
+    <RatingComponent
+      itemName="香り"
+      :tasteScore="coffeeTasteScore.scent"
+      @event="scoreScent"
     />
     <v-text-field class="input" label="フード名" hide-details="auto" />
     <v-textarea
