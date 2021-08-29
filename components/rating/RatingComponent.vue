@@ -8,14 +8,15 @@
         background-color="cyan lighten-2"
         color="blue"
         length="5"
-        :value="1"
+        :value="tasteScore"
+        @input="handleScore"
       />
     </v-flex>
   </v-layout>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@nuxtjs/composition-api";
+import { defineComponent, ref } from "@nuxtjs/composition-api";
 
 export default defineComponent({
   props: {
@@ -23,6 +24,19 @@ export default defineComponent({
       type: String,
       require: true,
     },
+    tasteScore: {
+      type: Number,
+      require: true,
+    },
+  },
+  setup(props, context) {
+    const score = ref<number>(3);
+    const handleScore = (score: number) => {
+      context.emit("event", score);
+    };
+    return {
+      handleScore,
+    };
   },
 });
 </script>
