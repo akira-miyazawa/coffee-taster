@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "@nuxtjs/composition-api";
+import { defineComponent } from "@nuxtjs/composition-api";
 
 export default defineComponent({
   props: {
@@ -30,7 +30,6 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    const score = ref<number>(3);
     const handleScore = (score: number) => {
       context.emit("event", score);
     };

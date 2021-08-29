@@ -1,32 +1,20 @@
 <template>
-  <v-app>
-    <v-row class="ma-auto">
-      <v-col md="6">
-        <div class="rader">
-          <rader-chart :chart-data="chartData()" :options="{ scale, legend }" />
-        </div>
-      </v-col>
-    </v-row>
-  </v-app>
+  <rader-chart :chart-data="chartData()" :options="{ scale, legend }" />
 </template>
 
 <script lang="ts">
 import {
-  computed,
-  ComputedRef,
   defineComponent,
-  onMounted,
   PropType,
   reactive,
-  ref,
   watch,
 } from "@nuxtjs/composition-api";
-import { CoffeeTaste } from "@/types/CoffeeTaste";
+import { CoffeeTasteScore } from "@/types/coffeeTasteScore";
 
 export default defineComponent({
   props: {
-    coffeeTaste: {
-      type: Object as PropType<CoffeeTaste>,
+    coffeeTasteScore: {
+      type: Object as PropType<CoffeeTasteScore>,
       require: true,
     },
   },
@@ -41,11 +29,11 @@ export default defineComponent({
         datasets: [
           {
             data: [
-              props.coffeeTaste?.bitterness,
-              props.coffeeTaste?.sourness,
-              props.coffeeTaste?.sweetness,
-              props.coffeeTaste?.scent,
-              props.coffeeTaste?.richness,
+              props.coffeeTasteScore?.bitterness,
+              props.coffeeTasteScore?.sourness,
+              props.coffeeTasteScore?.sweetness,
+              props.coffeeTasteScore?.scent,
+              props.coffeeTasteScore?.richness,
             ],
             fill: true,
             borderWidth: 2,
@@ -80,8 +68,4 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.rader {
-  width: 400px;
-  max-height: 300px;
-}
 </style>

@@ -1,4 +1,4 @@
-export interface CoffeeTaste {
+export interface CoffeeTasteScore {
   bitterness: number;
   sourness: number;
   sweetness: number;

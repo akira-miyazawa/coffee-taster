@@ -25,9 +25,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, useRouter } from "@nuxtjs/composition-api";
+import {
+  defineComponent,
+  onMounted,
+  reactive,
+  ref,
+  useRouter,
+} from "@nuxtjs/composition-api";
 export default defineComponent({
-  setup() {
+  setup(_, context) {
     const router = useRouter();
 
     const homeRoute = () => {
@@ -54,8 +60,9 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.v-footer {
-  padding: 0px;
+.v-main {
+  overflow-y: scroll;
+  margin-bottom: 80px;
 }
 .v-tab {
   min-width: 40px;

@@ -1,4 +1,4 @@
-export class CoffeeTaste {
+export class coffeeTasteScore {
   /** 苦味 */
   private _bitterness: number = 3;
   /** 酸味 */
