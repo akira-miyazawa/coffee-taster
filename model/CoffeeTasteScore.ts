@@ -1,14 +1,14 @@
 export class coffeeTasteScore {
   /** 苦味 */
-  private _bitterness: number = 3;
+  public readonly bitterness: number = 3;
   /** 酸味 */
-  private _sourness: number = 3;
+  public readonly sourness: number = 3;
   /** 甘み */
-  private _sweetness: number = 3;
+  public readonly sweetness: number = 3;
   /** 香り */
-  private _scent: number = 3;
+  public readonly scent: number = 3;
   /** コク */
-  private _richness: number = 3;
+  public readonly richness: number = 3;
 
   constructor(bitterness: number, sourness: number, sweetness: number, scent: number, richness: number) {
     if (bitterness > 0 && bitterness <= 5) {
@@ -26,30 +26,10 @@ export class coffeeTasteScore {
     if (richness > 0 && richness <= 5) {
       throw new Error('richnessは, 1以上５以下の値です')
     }
-    this._bitterness = bitterness;
-    this._sourness = sourness;
-    this._sweetness = sweetness;
-    this._scent = scent;
-    this._richness = richness
-  }
-
-  get bitterness(): number {
-    return this._bitterness;
-  }
-
-  get sourness(): number {
-    return this._sourness;
-  }
-
-  get sweetness(): number {
-    return this._sweetness;
-  }
-
-  get scent(): number {
-    return this._scent;
-  }
-
-  get richness(): number {
-    return this._richness;
+    this.bitterness = bitterness;
+    this.sourness = sourness;
+    this.sweetness = sweetness;
+    this.scent = scent;
+    this.richness = richness
   }
 }

@@ -13,22 +13,20 @@
         :position="currentLocation"
         :clickable="true"
         :draggable="false"
-      >
-      </GmapMarker>
+      />
       <GmapMarker
         v-for="(m, index) in markers"
         :key="`GmapMarker${m.id}`"
         :position="m.position"
         :title="m.title"
         :clickable="true"
-        :draggable="false"
+        :draggable="true"
         :icon="m.icon"
         @click="handleEvent(m.position, index, markers)"
-      >
-      </GmapMarker>
+      />
       <GmapInfoWindow
         v-for="m in markers"
-        :key="`GmapInfoWindow${m.id}`"
+        :key="`${m.id}`"
         :position="m.position"
         :title="m.title"
         :opened="m.disable"
@@ -42,8 +40,10 @@
 <script lang="ts">
 import {
   defineComponent,
+  onBeforeMount,
   onBeforeUnmount,
   onMounted,
+  onUnmounted,
   reactive,
   ref,
 } from "@nuxtjs/composition-api";
@@ -83,19 +83,17 @@ export default defineComponent({
     const markers = reactive<any>([]);
     const mapRef = ref<any>(null);
 
-    onBeforeUnmount(() => {
-      getCurrentPosition();
-    });
-    onMounted(() => {
-      getCurrentPosition();
+    onMounted(async () => {
+      await getCurrentPosition();
     });
 
     const success = (position: any) => {
       currentLocation.lat = position.coords.latitude;
       currentLocation.lng = position.coords.longitude;
       // 初回は現在地が中心点
-      centerLocation.lat = position.coords.latitude;
-      centerLocation.lng = position.coords.longitude;
+      centerLocation.lat = currentLocation.lat;
+      centerLocation.lng = currentLocation.lng;
+
       mapRef.value.$gmapApiPromiseLazy().then(() => {
         google.maps.event.addListenerOnce(
           mapRef.value.$mapObject,
@@ -127,7 +125,7 @@ export default defineComponent({
     /**
      * 現在地を取得
      */
-    const getCurrentPosition = () => {
+    const getCurrentPosition = async () => {
       if (navigator.geolocation) {
         return new Promise(() =>
           navigator.geolocation.getCurrentPosition(success, error)
@@ -179,9 +177,10 @@ export default defineComponent({
                   title: place.name,
                   id: place.place_id,
                   animation: google.maps.Animation.DROP,
-                  // disable: false,
+                  disable: true,
                 };
                 markers.push(marker);
+                console.log(markers);
               });
             }
           }.bind(this)
@@ -200,35 +199,35 @@ export default defineComponent({
       index: number,
       markers: any[]
     ) => {
-      setCenterLocation(positon.lat, positon.lng);
-      setSelectedLocation(positon.lat, positon.lng);
-      handleGmapInfoWindow(index);
+      // setCenterLocation(positon.lat, positon.lng);
+      // setSelectedLocation(positon.lat, positon.lng);
+      // handleGmapInfoWindow(index);
     };
 
-    const setCenterLocation = (lat: number, lng: number) => {
-      centerLocation.lat = lat;
-      centerLocation.lng = lng;
-    };
-    const setSelectedLocation = (lat: number, lng: number) => {
-      selectedLocation.lat = lat;
-      selectedLocation.lng = lng;
-    };
-    const handleGmapInfoWindow = (index: number) => {
-      // 初回
-      if (selectedLocationIndex.value == null) {
-        // 前の選択された場所のindexを更新
-        selectedLocationIndex.value = index;
-        // 表示する
-        markers[index].disable = true;
-        return;
-      }
-      // 前に選択された場所は非表示にする
-      markers[selectedLocationIndex.value].disable = false;
-      // 前の選択された場所のindexを更新
-      selectedLocationIndex.value = index;
-      // 表示する
-      markers[index].disable = true;
-    };
+    // const setCenterLocation = (lat: number, lng: number) => {
+    //   centerLocation.lat = lat;
+    //   centerLocation.lng = lng;
+    // };
+    // const setSelectedLocation = (lat: number, lng: number) => {
+    //   selectedLocation.lat = lat;
+    //   selectedLocation.lng = lng;
+    // };
+    // const handleGmapInfoWindow = (index: number) => {
+    //   // 初回
+    //   if (selectedLocationIndex.value == null) {
+    //     // 前の選択された場所のindexを更新
+    //     selectedLocationIndex.value = index;
+    //     // 表示する
+    //     markers[index].disable = true;
+    //     return;
+    //   }
+    //   // 前に選択された場所は非表示にする
+    //   markers[selectedLocationIndex.value].disable = false;
+    //   // 前の選択された場所のindexを更新
+    //   selectedLocationIndex.value = index;
+    //   // 表示する
+    //   markers[index].disable = true;
+    // };
 
     return {
       currentLocation,
