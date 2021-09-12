@@ -5,10 +5,11 @@
     </v-flex>
     <v-flex align-self-center text-center>
       <v-rating
-        background-color="cyan lighten-2"
-        color="blue"
+        :background-color="backgroundColor"
+        :color="color"
         length="5"
         :value="tasteScore"
+        :large="isLarge"
         @input="handleScore"
       />
     </v-flex>
@@ -26,6 +27,18 @@ export default defineComponent({
     },
     tasteScore: {
       type: Number,
+      require: true,
+    },
+    backgroundColor: {
+      type: String,
+      require: true,
+    },
+    color: {
+      type: String,
+      require: true,
+    },
+    isLarge: {
+      type: Boolean,
       require: true,
     },
   },

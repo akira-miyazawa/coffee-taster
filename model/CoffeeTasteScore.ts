@@ -1,4 +1,12 @@
-export class coffeeTasteScore {
+export interface CoffeeTasteScoreType {
+  bitterness: number;
+  sourness: number;
+  sweetness: number;
+  richness: number;
+  scent: number;
+}
+
+export class CoffeeTasteScore {
   /** 苦味 */
   public readonly bitterness: number = 3;
   /** 酸味 */
