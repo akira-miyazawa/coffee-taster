@@ -10,27 +10,29 @@ export const state = (): State => ({
 })
 
 export const getters = {
-  isLoggedIn: (state: State) => state.status = true
+  isLoggedIn: (state: State) => state.status
 }
 
 export const actions = {
   gotUser({ commit }, user) {
-      commit("setUser", user)
+    commit("setUser", user)
   },
   logout({ commit }) {
-      auth.signOut().then(() => {
-          commit("logout")
-      })
+    auth.signOut().then(() => {
+      commit("logout")
+    })
   }
 }
 
 export const mutations = {
-  setUser(state, user) {
+  setUser(state: State, user) {
     state.status = true;
-    state.username = user.displayName
+    state.user.userName = user.displayName;
+    state.user.token = user.uid;
   },
-  logout(state) {
+  logout(state: State) {
     state.status = false;
-    state.username = ""
+    state.user.userName = "";
+    state.user.token = "";
   }
 }
