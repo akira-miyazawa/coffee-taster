@@ -29,7 +29,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '@/plugins/vue2-google-maps.js' },
-    { src: '@/plugins/rader.js' }
+    { src: '@/plugins/rader.js' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -54,11 +54,15 @@ export default {
     lang: 'ja'
   },
 
+  router: {
+    middleware: ['authenticated']
+  },
+
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
           primary: colors.blue.darken2,

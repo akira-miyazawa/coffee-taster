@@ -6,7 +6,7 @@
       </v-container>
     </v-main>
     <v-footer fixed>
-      <v-tabs fixed-tabs dark>
+      <v-tabs fixed-tabs>
         <v-tab @click="homeRoute()">
           <v-icon>mdi-map-outline</v-icon>
         </v-tab>
@@ -25,13 +25,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  onMounted,
-  reactive,
-  ref,
-  useRouter,
-} from "@nuxtjs/composition-api";
+import { defineComponent, useRouter } from "@nuxtjs/composition-api";
 export default defineComponent({
   setup(_, context) {
     const router = useRouter();

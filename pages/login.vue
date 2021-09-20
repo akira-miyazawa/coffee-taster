@@ -1,23 +1,40 @@
 <template>
   <div>
-    {{ "Login" }}
+    <div id="firebaseui-auth-container"></div>
   </div>
 </template>
 
-<script lang="ts">
-import {
-  computed,
-  defineComponent,
-  onBeforeMount,
-  onMounted,
-  PropType,
-  reactive,
-  ref,
-  watch,
-} from "@nuxtjs/composition-api";
+<script>
+import firebase from "@/plugins/firebase";
+import { defineComponent, onMounted } from "@nuxtjs/composition-api";
 
 export default defineComponent({
-  components: {},
-  setup(props, context) {},
+  layout: "login",
+  setup() {
+    const useFirebaseUi = () => {
+      const firebaseui = require("firebaseui-ja");
+      require("firebaseui-ja/dist/firebaseui.css");
+      //firebaseuiの設定
+      const uiConfig = {
+        //signin成功後に遷移先
+        signInSuccessUrl: "/",
+        //signin方法
+        signInOptions: [
+          firebase.auth.EmailAuthProvider.PROVIDER_ID,
+          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        ],
+      };
+      //再度アクセスした時に、もう一度 new するとerrorが出るため分岐
+      if (firebaseui.auth.AuthUI.getInstance()) {
+        const ui = firebaseui.auth.AuthUI.getInstance();
+        ui.start("#firebaseui-auth-container", uiConfig);
+      } else {
+        const ui = new firebaseui.auth.AuthUI(firebase.auth());
+        ui.start("#firebaseui-auth-container", uiConfig);
+      }
+    };
+
+    onMounted(useFirebaseUi);
+  },
 });
 </script>
