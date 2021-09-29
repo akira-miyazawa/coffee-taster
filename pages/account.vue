@@ -2,7 +2,6 @@
   <div>
     {{ "account" }}
     {{ userName }}
-    {{ isLoggedIn }}
     <v-btn v-if="isLoggedIn" @click="logout" x-large color="primary">
       ログアウト
     </v-btn>
@@ -20,7 +19,7 @@ export default defineComponent({
     return {
       userName: computed(() => store.state.auth.user.userName),
       isLoggedIn: computed(() => store.getters["auth/isLoggedIn"]),
-      logout: () => store.dispatch("auth/logout"),
+      logout: async () => await store.dispatch("auth/logout"),
     };
   },
 });
