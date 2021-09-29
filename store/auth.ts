@@ -12,7 +12,9 @@ export const state = (): State => ({
 });
 
 export const getters = {
-  isLoggedIn: (state: State) => state.status
+  isLoggedIn: (state: State) => state.status,
+  userName: (state: State) => state.user.userName,
+  userToken: (state: State) => state.user.token,
 }
 
 export const actions = {
@@ -20,7 +22,7 @@ export const actions = {
     const user: User = new User(userInfo.uid, userInfo.displayName);
     const service = new UserService();
     try {
-      const response = await service.getUser(userInfo.uid);
+      const response = await service.get(userInfo.uid);
       if (response.exists) {
         commit('setUser', userInfo);
       } else {

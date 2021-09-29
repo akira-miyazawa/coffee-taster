@@ -1,11 +1,3 @@
-export interface CoffeeTasteScoreType {
-  bitterness: number;
-  sourness: number;
-  sweetness: number;
-  richness: number;
-  scent: number;
-}
-
 export class CoffeeTasteScore {
   /** 苦味 */
   public readonly bitterness: number = 3;
@@ -19,19 +11,19 @@ export class CoffeeTasteScore {
   public readonly richness: number = 3;
 
   constructor(bitterness: number, sourness: number, sweetness: number, scent: number, richness: number) {
-    if (bitterness > 0 && bitterness <= 5) {
+    if (bitterness <= 0 || bitterness > 5) {
       throw new Error('bitternessは, 1以上５以下の値です')
     }
-    if (sourness > 0 && sourness <= 5) {
+    if (sourness <= 0 || sourness > 5) {
       throw new Error('sournessは, 1以上５以下の値です')
     }
-    if (sweetness > 0 && sweetness <= 5) {
+    if (sweetness <= 0 || sweetness > 5) {
       throw new Error('sweetnessは, 1以上５以下の値です')
     }
-    if (scent > 0 && scent <= 5) {
+    if (scent <= 0 || scent > 5) {
       throw new Error('scentは, 1以上５以下の値です')
     }
-    if (richness > 0 && richness <= 5) {
+    if (richness <= 0 || richness > 5) {
       throw new Error('richnessは, 1以上５以下の値です')
     }
     this.bitterness = bitterness;

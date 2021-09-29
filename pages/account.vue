@@ -17,7 +17,7 @@ export default defineComponent({
     const store: any = useStore();
 
     return {
-      userName: computed(() => store.state.auth.user.userName),
+      userName: computed(() => store.getters["auth/userName"]),
       isLoggedIn: computed(() => store.getters["auth/isLoggedIn"]),
       logout: async () => await store.dispatch("auth/logout"),
     };

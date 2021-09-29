@@ -1,4 +1,5 @@
-export type RoastType = 'LIGHT' | 'MEDIUM' | 'DEEP' | 'NONE';
+import { RoastType } from "../types/input";
+
 export class Bean {
   /** 焙煎 */
   public readonly roast: RoastType;
