@@ -10,19 +10,17 @@ export class ShopRepository {
     this.token = token;
   }
 
-  async get(): Promise<firebase.firestore.QuerySnapshot<firebase.firestore.DocumentData>> {
-    return await db.collection('user').doc(this.token).collection('shop').get();
+  async get(): Promise<firebase.firestore.DocumentData[]> {
+    const snapshot = await db.collection('user').doc(this.token).collection('shop').get();
+    return snapshot.docs.map(doc => doc.data());
   }
 
   async post(shop: Shop, coffee: Coffee): Promise<void> {
     try {
       const userDoc = db.collection('user').doc(this.token);
-      const shopResponse = await userDoc.collection('shop').add({
-        name: shop.name,
-      });
-      const shopDoc = userDoc.collection('shop').doc(shopResponse.id);
-      const response = await shopDoc.collection('coffee').add({
-        name: coffee.name,
+      await userDoc.collection('shop').add({
+        shop_name: shop.name,
+        coffee_name: coffee.name,
         status: coffee.status,
         coffee_state_score: {
           bitterness: coffee.coffeeTastescore.bitterness,
@@ -36,7 +34,8 @@ export class ShopRepository {
           origin: coffee.bean.origin
         },
         score: coffee.score,
-        comment: coffee.comment
+        comment: coffee.comment,
+        timeStamp: firebase.firestore.Timestamp.now().toDate(),
       });
     } catch (e) {
       throw new Error('ショップの保存に失敗しました')

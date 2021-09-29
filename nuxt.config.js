@@ -30,6 +30,8 @@ export default {
   plugins: [
     { src: '@/plugins/vue2-google-maps.js' },
     { src: '@/plugins/rader.js' },
+    // サーバーサイドでは使用できないのでssrはfalseにする
+    { src: '~/plugins/persistedstate.ts', ssr: false}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
