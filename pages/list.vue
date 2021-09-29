@@ -17,7 +17,6 @@
 <script lang="ts">
 import {
   defineComponent,
-  nextTick,
   onMounted,
   reactive,
   useStore,
