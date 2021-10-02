@@ -1,14 +1,12 @@
 <template>
   <div>
     <v-list>
-      <v-list-item v-for="(item, index) in postsData.posts" :key="index" link>
+      <v-list-item v-for="(item, index) in shopList" :key="index" link>
         <v-list-item-content>
-          <v-list-item-title>{{ item.shop_name }}</v-list-item-title>
+          <v-list-item-title>{{ item.shopName }}</v-list-item-title>
+          <v-list-item-subtitle> {{ item.timeStamp }}</v-list-item-subtitle>
         </v-list-item-content>
-        <v-list-item-action>
-          <v-checkbox v-model="item.value"></v-checkbox>
-          <v-list-item-action-text>Done</v-list-item-action-text>
-        </v-list-item-action>
+        <v-divider />
       </v-list-item>
     </v-list>
   </div>
@@ -19,20 +17,22 @@ import {
   defineComponent,
   onMounted,
   reactive,
+  ref,
   useStore,
 } from "@nuxtjs/composition-api";
 import { getShop } from "@/usecase/ShopService";
+import { ShopResponse } from "~/types/response";
 
 export default defineComponent({
   components: {},
   setup(props, context) {
     const store = useStore();
-    const postsData = reactive<any>({ posts: [] });
+    const shopList = ref<ShopResponse[]>([]);
     onMounted(async () => {
-      postsData.posts = await getShop(store.getters["auth/userToken"]);
+      shopList.value = await getShop(store.getters["auth/userToken"]);
     });
     return {
-      postsData,
+      shopList,
     };
   },
 });

@@ -2,7 +2,9 @@ import { ShopRepository } from "../infra/ShopRepository";
 import { Bean } from "../model/Bean";
 import { Coffee } from "../model/Coffee";
 import { Shop } from "../model/Shop";
+import { TimeStamp } from "../model/TimeStamp";
 import { Form } from "../types/input";
+import { ShopResponse } from "../types/response";
 
 export class ShopService {
   public readonly repository: ShopRepository;
@@ -14,14 +16,37 @@ export class ShopService {
     this.repository = new ShopRepository(token);
   }
 
-  async get() {
-    return await this.repository.get();
+  async get(): Promise<ShopResponse[]> {
+    const responses = await this.repository.get();
+    return responses.map((res): ShopResponse => {
+      const shop = new Shop(res.shop_name);
+      const coffee = new Coffee(
+        res.coffee_name,
+        res.status,
+        res.score,
+        res.coffee_state_score,
+        new Bean(res.roast, res.origin),
+        res.comment,
+      );
+      const timeStamp = new TimeStamp(res.timeStamp.toDate());
+      return {
+        shopName: shop.name,
+        coffeeName: coffee.name,
+        drinkStatus: coffee.status,
+        score: coffee.score,
+        coffeeTasteScore: coffee.coffeeTastescore,
+        roast: coffee.bean.roast,
+        origin: coffee.bean.origin,
+        comment: coffee.comment,
+        timeStamp: timeStamp.date,
+      };
+    });
   }
 
   async post(form: Form) {
     const shop = new Shop(form.shopName);
     const coffee = new Coffee(
-      form.drinkName,
+      form.coffeeName,
       form.drinkStatus,
       form.score,
       form.coffeeTasteScore,

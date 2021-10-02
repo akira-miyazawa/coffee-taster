@@ -1,4 +1,6 @@
-export interface Form {
+import { CoffeeTasteScoreType, DrinkStatus, RoastType } from "./input";
+
+export interface ShopResponse {
   /** ショップ名 */
   shopName: string;
   /** ドリンク名 */
@@ -15,18 +17,6 @@ export interface Form {
   origin: string;
   /** コメント */
   comment: string;
+  /** 登録日時(YYYY/MM/DD) */
+  timeStamp: string;
 }
-
-export interface CoffeeTasteScoreType {
-  bitterness: number;
-  sourness: number;
-  sweetness: number;
-  richness: number;
-  scent: number;
-}
-
-/** HOT or ICE */
-export type DrinkStatus = 'HOT' | 'ICE';
-
-/** 焙煎 */
-export type RoastType = 'LIGHT' | 'MEDIUM' | 'DEEP' | 'NONE';

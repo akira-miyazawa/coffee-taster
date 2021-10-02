@@ -7,7 +7,7 @@
       hide-details="auto"
     />
     <v-text-field
-      v-model="form.drinkName"
+      v-model="form.coffeeName"
       class="input"
       label="ドリンク名"
       hide-details="auto"
@@ -104,7 +104,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, useStore } from "@nuxtjs/composition-api";
+import {
+  defineComponent,
+  reactive,
+  useRouter,
+  useStore,
+} from "@nuxtjs/composition-api";
 import RatingComponent from "@/components/rating/RatingComponent.vue";
 import RadarChertComponent from "@/components/chart/RadarChertComponent.vue";
 import { Form, RoastType } from "@/types/input";
@@ -117,10 +122,11 @@ export default defineComponent({
   },
   setup(props, context) {
     const store: any = useStore();
+    const router = useRouter();
 
     const form = reactive<Form>({
       shopName: "",
-      drinkName: "",
+      coffeeName: "",
       drinkStatus: "HOT",
       coffeeTasteScore: {
         bitterness: 3,
@@ -154,8 +160,10 @@ export default defineComponent({
 
     const score = (score: number) => (form.score = score);
 
-    const postForm = async () =>
+    const postForm = async () => {
       await postShop(store.getters["auth/userToken"], form);
+      router.push("list");
+    };
 
     return {
       form,
