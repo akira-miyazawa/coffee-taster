@@ -11,7 +11,7 @@ export class ShopRepository {
   }
 
   async get(): Promise<firebase.firestore.DocumentData[]> {
-    const snapshot = await db.collection('user').doc(this.token).collection('shop').get();
+    const snapshot = await db.collection('user').doc(this.token).collection('shop').orderBy("timeStamp", "desc").get();
     return snapshot.docs.map(doc => doc.data());
   }
 
