@@ -9,12 +9,12 @@ import {
   reactive,
   watch,
 } from "@nuxtjs/composition-api";
-import { CoffeeTasteScore } from "@/types/coffeeTasteScore";
+import { CoffeeTasteScoreType } from "@/types/input";
 
 export default defineComponent({
   props: {
     coffeeTasteScore: {
-      type: Object as PropType<CoffeeTasteScore>,
+      type: Object as PropType<CoffeeTasteScoreType>,
       require: true,
     },
   },

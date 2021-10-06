@@ -11,6 +11,7 @@
         :value="tasteScore"
         :large="isLarge"
         @input="handleScore"
+        :readonly="isReadonly"
       />
     </v-flex>
   </v-layout>
@@ -38,6 +39,10 @@ export default defineComponent({
       require: true,
     },
     isLarge: {
+      type: Boolean,
+      require: true,
+    },
+    isReadonly: {
       type: Boolean,
       require: true,
     },
