@@ -2,17 +2,17 @@
   <div>
     <text-component
       class="input"
-      :text="form.shopName"
+      :text.sync="form.shopName"
+      :rules="[rules.required, rules.textCounter]"
       label="ショップ名"
       :isReadonly="false"
-      @event="handleShopName"
     />
     <text-component
       class="input"
-      :text="form.coffeeName"
+      :text.sync="form.coffeeName"
+      :rules="[rules.required, rules.textCounter]"
       label="ドリンク名"
       :isReadonly="false"
-      @event="handleCoffeeName"
     />
     <v-btn-toggle class="btn-toggle" v-model="form.drinkStatus" group>
       <toggle-button-component value="HOT" label="HOT" :isDisabled="false" />
@@ -90,17 +90,16 @@
     </v-btn-toggle>
     <text-component
       class="input"
-      :text="form.origin"
+      :text.sync="form.origin"
       label="産地"
       :isReadonly="false"
-      @event="handleOrigin"
     />
     <textarea-component
       class="input"
-      :text="form.comment"
+      :text.sync="form.comment"
+      :rules="[rules.required, rules.textareaCounter]"
       label="コメント"
       :isReadonly="false"
-      @event="handleComment"
     />
     <RatingComponent
       class="rating"
@@ -166,8 +165,14 @@ export default defineComponent({
       score: 3,
     });
 
-    const handleShopName = (name: string) => (form.shopName = name);
-    const handleCoffeeName = (name: string) => (form.coffeeName = name);
+    const rules = reactive<any>({
+      required: (value: string) => !!value || "必須項目です",
+      textCounter: (value: string) =>
+        value.length <= 50 || "上限の50文字を超えています",
+      textareaCounter: (value: string) =>
+        value.length <= 500 || "上限の500文字を超えています",
+    });
+
     const handleBitterness = (score: number) =>
       (form.coffeeTasteScore.bitterness = score);
     const handleSourness = (score: number) =>
@@ -178,8 +183,6 @@ export default defineComponent({
       (form.coffeeTasteScore.scent = score);
     const handleRichness = (score: number) =>
       (form.coffeeTasteScore.richness = score);
-    const handleOrigin = (origin: string) => (form.origin = origin);
-    const handleComment = (comment: string) => (form.comment = comment);
     const handleScore = (score: number) => (form.score = score);
 
     const changeRoast = (value: RoastType) => {
@@ -196,15 +199,12 @@ export default defineComponent({
 
     return {
       form,
-      handleShopName,
-      handleCoffeeName,
+      rules,
       handleBitterness,
       handleSourness,
       handleSweetness,
       handleScent,
       handleRichness,
-      handleOrigin,
-      handleComment,
       handleScore,
       changeRoast,
       postForm,

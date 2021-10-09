@@ -1,6 +1,6 @@
 <template>
   <v-textarea
-    v-model="text"
+    :value="text"
     :label="label"
     :readonly="isReadonly"
     auto-grow
@@ -31,7 +31,7 @@ export default defineComponent({
   },
   setup(props, context) {
     const handleText = (text: string) => {
-      context.emit("event", text);
+      context.emit("update:text", text);
     };
     return {
       handleText,

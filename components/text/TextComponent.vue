@@ -1,6 +1,7 @@
 <template>
   <v-text-field
-    v-model="text"
+    :value="text"
+    :roles="rules"
     :label="label"
     :readonly="isReadonly"
     hide-details="auto"
@@ -17,6 +18,10 @@ export default defineComponent({
       type: String,
       require: true,
     },
+    rules: {
+      type: Array,
+      require: true,
+    },
     label: {
       type: String,
       require: true,
@@ -28,7 +33,7 @@ export default defineComponent({
   },
   setup(props, context) {
     const handleText = (text: string) => {
-      context.emit("event", text);
+      context.emit("update:text", text);
     };
     return {
       handleText,
