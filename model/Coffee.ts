@@ -32,6 +32,9 @@ export class Coffee {
     if (score == null) {
       throw new Error('ドリンクの評価は必須です');
     }
+    if (comment == null || comment === '') {
+      throw new Error('コメントは必須です');
+    }
     this.name = name;
     this.status = status;
     this.coffeeTastescore = coffeeTastescore;
