@@ -49,7 +49,7 @@ export default defineComponent({
   },
   setup(props, context) {
     const handleScore = (score: number) => {
-      context.emit("event", score);
+      context.emit("update:score", score);
     };
     return {
       handleScore,

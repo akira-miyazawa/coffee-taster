@@ -1,10 +1,12 @@
 <template>
   <v-text-field
     :value="text"
-    :roles="rules"
+    :rules="rules"
     :label="label"
     :readonly="isReadonly"
     hide-details="auto"
+    :hint="hint"
+    persistent-hint
     @input="handleText"
   />
 </template>
@@ -28,6 +30,10 @@ export default defineComponent({
     },
     isReadonly: {
       type: Boolean,
+      require: true,
+    },
+    hint: {
+      type: String,
       require: true,
     },
   },
