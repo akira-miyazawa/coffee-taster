@@ -7,6 +7,7 @@
     outlined
     rows="5"
     row-height="15"
+    @input="handleText"
   />
 </template>
 
@@ -27,6 +28,14 @@ export default defineComponent({
       type: Boolean,
       require: true,
     },
+  },
+  setup(props, context) {
+    const handleText = (text: string) => {
+      context.emit("event", text);
+    };
+    return {
+      handleText,
+    };
   },
 });
 </script>

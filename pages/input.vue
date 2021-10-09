@@ -1,20 +1,22 @@
 <template>
   <div>
-    <v-text-field
-      v-model="form.shopName"
+    <text-component
       class="input"
+      :text="form.shopName"
       label="ショップ名"
-      hide-details="auto"
+      :isReadonly="false"
+      @event="handleShopName"
     />
-    <v-text-field
-      v-model="form.coffeeName"
+    <text-component
       class="input"
+      :text="form.coffeeName"
       label="ドリンク名"
-      hide-details="auto"
+      :isReadonly="false"
+      @event="handleCoffeeName"
     />
     <v-btn-toggle class="btn-toggle" v-model="form.drinkStatus" group>
-      <v-btn class="hot-btn" value="HOT">HOT</v-btn>
-      <v-btn class="ice-btn" value="ICE">ICE</v-btn>
+      <toggle-button-component value="HOT" label="HOT" :isDisabled="false" />
+      <toggle-button-component value="ICE" label="ICE" :isDisabled="false" />
     </v-btn-toggle>
     <radar-chert-component :coffeeTasteScore="form.coffeeTasteScore" />
     <RatingComponent
@@ -23,7 +25,8 @@
       backgroundColor="cyan lighten-2"
       color="blue"
       :isLarge="false"
-      @event="scoreBitterness"
+      :isReadonly="false"
+      @event="handleBitterness"
     />
     <RatingComponent
       itemName="酸味"
@@ -31,7 +34,8 @@
       backgroundColor="cyan lighten-2"
       color="blue"
       :isLarge="false"
-      @event="scoreSourness"
+      :isReadonly="false"
+      @event="handleSourness"
     />
     <RatingComponent
       itemName="甘み"
@@ -39,7 +43,8 @@
       backgroundColor="cyan lighten-2"
       color="blue"
       :isLarge="false"
-      @event="scoreSweetness"
+      :isReadonly="false"
+      @event="handleSweetness"
     />
     <RatingComponent
       itemName="コク"
@@ -47,7 +52,8 @@
       backgroundColor="cyan lighten-2"
       color="blue"
       :isLarge="false"
-      @event="scoreRichness"
+      :isReadonly="false"
+      @event="handleRichness"
     />
     <RatingComponent
       itemName="香り"
@@ -55,7 +61,8 @@
       backgroundColor="cyan lighten-2"
       color="blue"
       :isLarge="false"
-      @event="scoreScent"
+      :isReadonly="false"
+      @event="handleScent"
     />
     <v-btn-toggle
       v-model="form.roast"
@@ -65,24 +72,35 @@
       color="blue"
       group
     >
-      <v-btn value="LIGHT">浅煎り</v-btn>
-      <v-btn value="MEDIUM">中煎り</v-btn>
-      <v-btn value="DEEP">深煎り</v-btn>
+      <toggle-button-component
+        value="LIGHT"
+        label="浅煎り"
+        :isDisabled="false"
+      />
+      <toggle-button-component
+        value="MEDIUM"
+        label="中煎り"
+        :isDisabled="false"
+      />
+      <toggle-button-component
+        value="DEEP"
+        label="深煎り"
+        :isDisabled="false"
+      />
     </v-btn-toggle>
-    <v-text-field
-      v-model="form.origin"
+    <text-component
       class="input"
+      :text="form.origin"
       label="産地"
-      hide-details="auto"
+      :isReadonly="false"
+      @event="handleOrigin"
     />
-    <v-textarea
-      v-model="form.comment"
+    <textarea-component
       class="input"
+      :text="form.comment"
       label="コメント"
-      auto-grow
-      outlined
-      rows="5"
-      row-height="15"
+      :isReadonly="false"
+      @event="handleComment"
     />
     <RatingComponent
       class="rating"
@@ -91,7 +109,8 @@
       backgroundColor="grey darken-1"
       color="yellow darken-3"
       :isLarge="true"
-      @event="score"
+      :isReadonly="false"
+      @event="handleScore"
     />
     <v-row align="center">
       <v-col>
@@ -110,15 +129,21 @@ import {
   useRouter,
   useStore,
 } from "@nuxtjs/composition-api";
+import TextComponent from "@/components/text/TextComponent.vue";
+import ToggleButtonComponent from "@/components/button/ToggleButtonComponent.vue";
 import RatingComponent from "@/components/rating/RatingComponent.vue";
 import RadarChertComponent from "@/components/chart/RadarChertComponent.vue";
+import TextareaComponent from "@/components/text/TextareaComponent.vue";
 import { Form, RoastType } from "@/types/input";
 import { postShop } from "@/usecase/ShopService";
 
 export default defineComponent({
   components: {
+    TextComponent,
+    ToggleButtonComponent,
     RatingComponent,
     RadarChertComponent,
+    TextareaComponent,
   },
   setup(props, context) {
     const store: any = useStore();
@@ -141,15 +166,21 @@ export default defineComponent({
       score: 3,
     });
 
-    const scoreBitterness = (score: number) =>
+    const handleShopName = (name: string) => (form.shopName = name);
+    const handleCoffeeName = (name: string) => (form.coffeeName = name);
+    const handleBitterness = (score: number) =>
       (form.coffeeTasteScore.bitterness = score);
-    const scoreSourness = (score: number) =>
+    const handleSourness = (score: number) =>
       (form.coffeeTasteScore.sourness = score);
-    const scoreSweetness = (score: number) =>
+    const handleSweetness = (score: number) =>
       (form.coffeeTasteScore.sweetness = score);
-    const scoreScent = (score: number) => (form.coffeeTasteScore.scent = score);
-    const scoreRichness = (score: number) =>
+    const handleScent = (score: number) =>
+      (form.coffeeTasteScore.scent = score);
+    const handleRichness = (score: number) =>
       (form.coffeeTasteScore.richness = score);
+    const handleOrigin = (origin: string) => (form.origin = origin);
+    const handleComment = (comment: string) => (form.comment = comment);
+    const handleScore = (score: number) => (form.score = score);
 
     const changeRoast = (value: RoastType) => {
       if (value == null) {
@@ -158,8 +189,6 @@ export default defineComponent({
       form.roast = value;
     };
 
-    const score = (score: number) => (form.score = score);
-
     const postForm = async () => {
       await postShop(store.getters["auth/userToken"], form);
       router.push("list");
@@ -167,13 +196,17 @@ export default defineComponent({
 
     return {
       form,
-      scoreBitterness,
-      scoreSourness,
-      scoreSweetness,
-      scoreScent,
-      scoreRichness,
+      handleShopName,
+      handleCoffeeName,
+      handleBitterness,
+      handleSourness,
+      handleSweetness,
+      handleScent,
+      handleRichness,
+      handleOrigin,
+      handleComment,
+      handleScore,
       changeRoast,
-      score,
       postForm,
     };
   },

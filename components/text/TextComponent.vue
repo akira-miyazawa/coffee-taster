@@ -4,6 +4,7 @@
     :label="label"
     :readonly="isReadonly"
     hide-details="auto"
+    @input="handleText"
   />
 </template>
 
@@ -25,6 +26,13 @@ export default defineComponent({
       require: true,
     },
   },
-  setup(props, context) {},
+  setup(props, context) {
+    const handleText = (text: string) => {
+      context.emit("event", text);
+    };
+    return {
+      handleText,
+    };
+  },
 });
 </script>

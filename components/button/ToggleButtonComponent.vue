@@ -1,5 +1,5 @@
 <template>
-  <v-btn :value="value" :disabled="isDisabled">{{ value }}</v-btn>
+  <v-btn :value="value" :disabled="isDisabled">{{ label }}</v-btn>
 </template>
 
 <script lang="ts">
@@ -8,6 +8,10 @@ import { defineComponent } from "@nuxtjs/composition-api";
 export default defineComponent({
   props: {
     value: {
+      type: String,
+      require: true,
+    },
+    label: {
       type: String,
       require: true,
     },
