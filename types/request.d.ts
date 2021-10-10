@@ -1,6 +1,6 @@
 import { CoffeeTasteScoreType, DrinkStatus, RoastType } from "./input";
 
-export interface ShopResponse {
+export interface ShopRequest {
   /** ドキュメントID */
   documentId: string;
   /** ショップ名 */
@@ -19,6 +19,4 @@ export interface ShopResponse {
   origin: string;
   /** コメント */
   comment: string;
-  /** 登録日時(YYYY/MM/DD) */
-  timeStamp: string;
 }

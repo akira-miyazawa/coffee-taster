@@ -17,152 +17,161 @@
     </v-list>
     <v-dialog v-model="isOpen" fullscreen>
       <v-card>
-        <text-component
-          class="input"
-          :text.sync="shop.shopName"
-          label="ショップ名"
-          :isReadonly="!isEdit"
-        />
-        <text-component
-          class="input"
-          :text.sync="shop.coffeeName"
-          label="ドリンク名"
-          :isReadonly="!isEdit"
-        />
-        <v-btn-toggle class="btn-toggle" v-model="shop.drinkStatus" group>
-          <toggle-button-component
-            value="HOT"
-            label="HOT"
-            :isDisabled="!isEdit"
+        <v-form ref="formRef" v-model="valid" lazy-validation>
+          <text-component
+            class="input"
+            :text.sync="shop.shopName"
+            :rules="[rules.required, rules.textCounter]"
+            label="ショップ名"
+            :isReadonly="!isEdit"
+            hint="必須"
           />
-          <toggle-button-component
-            value="ICE"
-            label="ICE"
-            :isDisabled="!isEdit"
+          <text-component
+            class="input"
+            :text.sync="shop.coffeeName"
+            :rules="[rules.required, rules.textCounter]"
+            label="ドリンク名"
+            :isReadonly="!isEdit"
+            hint="必須"
           />
-        </v-btn-toggle>
-        <radar-chert-component :coffeeTasteScore="shop.coffeeTasteScore" />
-        <RatingComponent
-          itemName="苦味"
-          :tasteScore="shop.coffeeTasteScore.bitterness"
-          backgroundColor="cyan lighten-2"
-          color="blue"
-          :isLarge="false"
-          :isReadonly="!isEdit"
-          @event="handleBitterness"
-        />
-        <RatingComponent
-          itemName="酸味"
-          :tasteScore="shop.coffeeTasteScore.sourness"
-          backgroundColor="cyan lighten-2"
-          color="blue"
-          :isLarge="false"
-          :isReadonly="!isEdit"
-          @event="handleSourness"
-        />
-        <RatingComponent
-          itemName="甘み"
-          :tasteScore="shop.coffeeTasteScore.sweetness"
-          backgroundColor="cyan lighten-2"
-          color="blue"
-          :isLarge="false"
-          :isReadonly="!isEdit"
-          @event="handleSweetness"
-        />
-        <RatingComponent
-          itemName="コク"
-          :tasteScore="shop.coffeeTasteScore.richness"
-          backgroundColor="cyan lighten-2"
-          color="blue"
-          :isLarge="false"
-          :isReadonly="!isEdit"
-          @event="handleRichness"
-        />
-        <RatingComponent
-          itemName="香り"
-          :tasteScore="shop.coffeeTasteScore.scent"
-          backgroundColor="cyan lighten-2"
-          color="blue"
-          :isLarge="false"
-          :isReadonly="!isEdit"
-          @event="handleScent"
-        />
-        <v-btn-toggle
-          v-model="shop.roast"
-          class="btn-toggle"
-          @change="changeRoast"
-          tile
-          color="blue"
-          group
-        >
-          <toggle-button-component
-            value="LIGHT"
-            label="浅煎り"
-            :isDisabled="!isEdit"
+          <v-btn-toggle
+            class="btn-toggle"
+            v-model="shop.drinkStatus"
+            :color="stateColor(shop.drinkStatus)"
+            group
+          >
+            <toggle-button-component
+              value="HOT"
+              label="HOT"
+              :isDisabled="!isEdit"
+            />
+            <toggle-button-component
+              value="ICE"
+              label="ICE"
+              :isDisabled="!isEdit"
+            />
+          </v-btn-toggle>
+          <radar-chert-component :coffeeTasteScore="shop.coffeeTasteScore" />
+          <RatingComponent
+            itemName="苦味"
+            :tasteScore.sync="shop.coffeeTasteScore.bitterness"
+            backgroundColor="cyan lighten-2"
+            color="blue"
+            :isLarge="false"
+            :isReadonly="!isEdit"
           />
-          <toggle-button-component
-            value="MEDIUM"
-            label="中煎り"
-            :isDisabled="!isEdit"
+          <RatingComponent
+            itemName="酸味"
+            :tasteScore.sync="shop.coffeeTasteScore.sourness"
+            backgroundColor="cyan lighten-2"
+            color="blue"
+            :isLarge="false"
+            :isReadonly="!isEdit"
           />
-          <toggle-button-component
-            value="DEEP"
-            label="深煎り"
-            :isDisabled="!isEdit"
+          <RatingComponent
+            itemName="甘み"
+            :tasteScore.sync="shop.coffeeTasteScore.sweetness"
+            backgroundColor="cyan lighten-2"
+            color="blue"
+            :isLarge="false"
+            :isReadonly="!isEdit"
           />
-        </v-btn-toggle>
-        <text-component
-          class="input"
-          :text.sync="shop.origin"
-          label="産地"
-          :isReadonly="!isEdit"
-        />
-        <textarea-component
-          class="input"
-          :text.sync="shop.comment"
-          label="コメント"
-          :isReadonly="!isEdit"
-        />
-        <RatingComponent
-          class="score-rating"
-          itemName="あなたの評価"
-          :tasteScore="shop.score"
-          backgroundColor="grey darken-1"
-          color="yellow darken-3"
-          :isLarge="true"
-          :isReadonly="!isEdit"
-          @event="handleScore"
-        />
-        <v-row class="flex-column">
-          <v-col>
-            <v-speed-dial
-              v-model="fab"
-              fab
-              fixed
-              bottom
-              right
-              style="bottom: 80px"
-            >
-              <template v-slot:activator>
-                <v-btn v-model="fab" color="blue darken-2" dark fab>
-                  <v-icon v-if="fab"> mdi-undo </v-icon>
-                  <v-icon v-else> mdi-format-list-bulleted-square </v-icon>
+          <RatingComponent
+            itemName="コク"
+            :tasteScore.sync="shop.coffeeTasteScore.richness"
+            backgroundColor="cyan lighten-2"
+            color="blue"
+            :isLarge="false"
+            :isReadonly="!isEdit"
+          />
+          <RatingComponent
+            itemName="香り"
+            :tasteScore.sync="shop.coffeeTasteScore.scent"
+            backgroundColor="cyan lighten-2"
+            color="blue"
+            :isLarge="false"
+            :isReadonly="!isEdit"
+          />
+          <v-btn-toggle
+            v-model="shop.roast"
+            class="btn-toggle"
+            @change="changeRoast"
+            tile
+            color="blue"
+            group
+          >
+            <toggle-button-component
+              value="LIGHT"
+              label="浅煎り"
+              :isDisabled="!isEdit"
+            />
+            <toggle-button-component
+              value="MEDIUM"
+              label="中煎り"
+              :isDisabled="!isEdit"
+            />
+            <toggle-button-component
+              value="DEEP"
+              label="深煎り"
+              :isDisabled="!isEdit"
+            />
+          </v-btn-toggle>
+          <text-component
+            class="input"
+            :text.sync="shop.origin"
+            label="産地"
+            :isReadonly="!isEdit"
+            hint=""
+          />
+          <textarea-component
+            class="input"
+            :text.sync="shop.comment"
+            :rules="[rules.required, rules.textareaCounter]"
+            :maxlength="500"
+            label="コメント"
+            :isReadonly="!isEdit"
+            hint="必須"
+          />
+          <RatingComponent
+            class="rating"
+            itemName="あなたの評価"
+            :tasteScore.sync="shop.score"
+            backgroundColor="grey darken-1"
+            color="yellow darken-3"
+            :isLarge="true"
+            :isReadonly="!isEdit"
+          />
+          <v-row class="flex-column">
+            <v-col>
+              <v-speed-dial
+                v-model="fab"
+                fab
+                fixed
+                bottom
+                right
+                style="bottom: 80px"
+              >
+                <template v-slot:activator>
+                  <v-btn v-model="fab" color="blue darken-2" dark fab>
+                    <v-icon v-if="fab"> mdi-undo </v-icon>
+                    <v-icon v-else> mdi-format-list-bulleted-square </v-icon>
+                  </v-btn>
+                </template>
+                <v-btn fab dark small color="red">
+                  <v-icon>mdi-delete</v-icon>
                 </v-btn>
-              </template>
-              <v-btn fab dark small color="red">
-                <v-icon>mdi-delete</v-icon>
+                <v-btn fab dark small color="green" @click="update">
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
+              </v-speed-dial>
+            </v-col>
+            <v-col>
+              <v-btn fixed fab bottom right @click="close">
+                <v-icon>mdi-close</v-icon>
               </v-btn>
-              <v-btn fab dark small color="green">
-                <v-icon>mdi-pencil</v-icon>
-              </v-btn>
-            </v-speed-dial>
-          </v-col>
-          <v-col>
-            <v-btn fixed fab bottom right @click="close">
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-          </v-col>
-        </v-row>
+            </v-col>
+          </v-row>
+        </v-form>
       </v-card>
     </v-dialog>
   </div>
@@ -181,9 +190,12 @@ import ToggleButtonComponent from "@/components/button/ToggleButtonComponent.vue
 import RatingComponent from "@/components/rating/RatingComponent.vue";
 import RadarChertComponent from "@/components/chart/RadarChertComponent.vue";
 import TextareaComponent from "@/components/text/TextareaComponent.vue";
+import { convertShopRequest } from "@/util/Convert";
 import { getShop } from "@/usecase/ShopService";
 import { ShopResponse } from "@/types/response";
-import { RoastType } from "@/types/input";
+import { DrinkStatus, RoastType } from "@/types/input";
+import { ShopRequest } from "@/types/request";
+import { updateShop } from "@/usecase/ShopService";
 
 export default defineComponent({
   components: {
@@ -195,8 +207,9 @@ export default defineComponent({
   },
   setup(props, context) {
     const store = useStore();
-    const shopList = ref<ShopResponse[]>([]);
-    const shop = reactive<ShopResponse>({
+    const shopList = ref<ShopRequest[]>([]);
+    const shop = reactive<ShopRequest>({
+      documentId: "",
       shopName: "",
       coffeeName: "",
       drinkStatus: "HOT",
@@ -211,15 +224,30 @@ export default defineComponent({
       roast: "NONE",
       origin: "不明",
       comment: "",
-      timeStamp: "",
     });
+    const formRef = ref<any>(null);
     const isEdit = ref<boolean>(false);
     const fab = ref<boolean>(false);
     const isOpen = ref<boolean>(false);
-    onMounted(async () => {
-      shopList.value = await getShop(store.getters["auth/userToken"]);
+    const valid = ref<Boolean>(false);
+
+    const rules = reactive<any>({
+      required: (value: string) => !!value || "必須",
+      textCounter: (value: string) =>
+        value.length <= 50 || "上限50文字を超えています",
+      textareaCounter: (value: string) =>
+        value.length <= 500 || "上限500文字を超えています",
     });
+
+    onMounted(async () => {
+      const responses: ShopResponse[] = await getShop(
+        store.getters["auth/userToken"]
+      );
+      shopList.value = responses.map((res) => convertShopRequest(res));
+    });
+
     const selectItem = (item: ShopResponse) => {
+      shop.documentId = item.documentId;
       shop.shopName = item.shopName;
       shop.coffeeName = item.coffeeName;
       shop.drinkStatus = item.drinkStatus;
@@ -228,7 +256,6 @@ export default defineComponent({
       shop.roast = item.roast;
       shop.origin = item.origin;
       shop.comment = item.comment;
-      shop.timeStamp = item.timeStamp;
       isOpen.value = true;
     };
 
@@ -244,6 +271,10 @@ export default defineComponent({
       (shop.coffeeTasteScore.richness = score);
     const handleScore = (score: number) => (shop.score = score);
 
+    const stateColor = (drinkStatus: DrinkStatus) => {
+      return drinkStatus === "HOT" ? "red" : "blue";
+    };
+
     const changeRoast = (value: RoastType) => {
       if (value == null) {
         shop.roast = "NONE";
@@ -252,12 +283,28 @@ export default defineComponent({
     };
 
     const close = () => (isOpen.value = false);
+
+    const update = async () => {
+      if (formRef.value.validate()) {
+        // await updateShop(store.getters["auth/userToken"], shop);
+        alert("バリデーションOK！！");
+      } else {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }
+    };
+
     return {
       shopList,
       shop,
+      formRef,
       isEdit,
       fab,
       isOpen,
+      valid,
+      rules,
       selectItem,
       handleBitterness,
       handleSourness,
@@ -265,8 +312,10 @@ export default defineComponent({
       handleScent,
       handleRichness,
       handleScore,
+      stateColor,
       changeRoast,
       close,
+      update,
     };
   },
 });

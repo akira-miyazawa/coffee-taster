@@ -151,7 +151,7 @@ export default defineComponent({
     RadarChertComponent,
     TextareaComponent,
   },
-  setup(props, { refs }) {
+  setup(props) {
     const store: any = useStore();
     const router = useRouter();
     const formRef = ref<any>(null);

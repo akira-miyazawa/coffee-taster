@@ -1,5 +1,5 @@
 <template>
-  <v-btn :value="value" :disabled="isDisabled">{{ label }}</v-btn>
+  <v-btn :value="value" :aria-readonly="isDisabled">{{ label }}</v-btn>
 </template>
 
 <script lang="ts">

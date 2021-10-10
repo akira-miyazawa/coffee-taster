@@ -4,6 +4,7 @@ import { Coffee } from "../model/Coffee";
 import { Shop } from "../model/Shop";
 import { TimeStamp } from "../model/TimeStamp";
 import { Form } from "../types/input";
+import { ShopRequest } from "../types/request";
 import { ShopResponse } from "../types/response";
 
 export class ShopService {
@@ -19,17 +20,18 @@ export class ShopService {
   async get(): Promise<ShopResponse[]> {
     const responses = await this.repository.get();
     return responses.map((res): ShopResponse => {
-      const shop = new Shop(res.shop_name);
+      const shop = new Shop(res.data.shop_name);
       const coffee = new Coffee(
-        res.coffee_name,
-        res.status,
-        res.score,
-        res.coffee_state_score,
-        new Bean(res.roast, res.origin),
-        res.comment,
+        res.data.coffee_name,
+        res.data.status,
+        res.data.score,
+        res.data.coffee_state_score,
+        new Bean(res.data.roast, res.data.origin),
+        res.data.comment,
       );
-      const timeStamp = new TimeStamp(res.timeStamp.toDate());
+      const timeStamp = new TimeStamp(res.data.timeStamp.toDate());
       return {
+        documentId: res.documentId,
         shopName: shop.name,
         coffeeName: coffee.name,
         drinkStatus: coffee.status,
@@ -55,6 +57,19 @@ export class ShopService {
     );
     return await this.repository.post(shop, coffee);
   }
+
+  async update(shopReq: ShopRequest) {
+    const shop = new Shop(shopReq.shopName);
+    const coffee = new Coffee(
+      shopReq.coffeeName,
+      shopReq.drinkStatus,
+      shopReq.score,
+      shopReq.coffeeTasteScore,
+      new Bean(shopReq.roast, shopReq.origin),
+      shopReq.comment,
+    );
+    return await this.repository.update(shopReq.documentId, shop, coffee);
+  }
 }
 
 /**
@@ -77,3 +92,15 @@ export const postShop = async (token: string, form: Form) => {
   const service = new ShopService(token);
   return await service.post(form);
 }
+
+/**
+ * ショップ情報を編集します
+ * @param token ユーザートークン
+ * @param form 入力情報 
+ * @param documentId ドキュメントID
+ * @returns 
+ */
+export const updateShop = async (token: string, shopReq: ShopRequest) => {
+  const service = new ShopService(token);
+  return await service.update(shopReq);
+};
