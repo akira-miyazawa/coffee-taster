@@ -17,15 +17,20 @@
         :isReadonly="false"
         hint="必須"
       />
-      <v-btn-toggle
-        class="btn-toggle"
-        v-model="form.drinkStatus"
-        :color="stateColor(form.drinkStatus)"
-        group
-      >
-        <toggle-button-component value="HOT" label="HOT" :isDisabled="false" />
-        <toggle-button-component value="ICE" label="ICE" :isDisabled="false" />
-      </v-btn-toggle>
+      <v-radio-group class="radio-group" v-model="form.drinkStatus" row>
+        <radio-button-component
+          value="HOT"
+          label="HOT"
+          :isDisabled="false"
+          color="red"
+        />
+        <radio-button-component
+          value="ICE"
+          label="ICE"
+          :isDisabled="false"
+          color="indigo"
+        />
+      </v-radio-group>
       <radar-chert-component :coffeeTasteScore="form.coffeeTasteScore" />
       <RatingComponent
         itemName="苦味"
@@ -67,30 +72,15 @@
         :isLarge="false"
         :isReadonly="false"
       />
-      <v-btn-toggle
-        v-model="form.roast"
-        class="btn-toggle"
-        @change="changeRoast"
-        tile
-        color="blue"
-        group
-      >
-        <toggle-button-component
-          value="LIGHT"
-          label="浅煎り"
-          :isDisabled="false"
-        />
-        <toggle-button-component
-          value="MEDIUM"
-          label="中煎り"
-          :isDisabled="false"
-        />
-        <toggle-button-component
-          value="DEEP"
-          label="深煎り"
-          :isDisabled="false"
-        />
-      </v-btn-toggle>
+      <select-component
+        class="input"
+        :selectValue.sync="form.roast"
+        :items="roastList"
+        label="焙煎"
+        :isReadonly="false"
+        itemText="name"
+        itemValue="id"
+      />
       <text-component
         class="input"
         :text.sync="form.origin"
@@ -136,9 +126,10 @@ import {
   useStore,
 } from "@nuxtjs/composition-api";
 import TextComponent from "@/components/text/TextComponent.vue";
-import ToggleButtonComponent from "@/components/button/ToggleButtonComponent.vue";
+import RadioButtonComponent from "@/components/button/RadioButtonComponent.vue";
 import RatingComponent from "@/components/rating/RatingComponent.vue";
 import RadarChertComponent from "@/components/chart/RadarChertComponent.vue";
+import SelectComponent from "@/components/select/SelectComponent.vue";
 import TextareaComponent from "@/components/text/TextareaComponent.vue";
 import { DrinkStatus, Form, RoastType } from "@/types/input";
 import { postShop } from "@/usecase/ShopService";
@@ -146,9 +137,10 @@ import { postShop } from "@/usecase/ShopService";
 export default defineComponent({
   components: {
     TextComponent,
-    ToggleButtonComponent,
+    RadioButtonComponent,
     RatingComponent,
     RadarChertComponent,
+    SelectComponent,
     TextareaComponent,
   },
   setup(props) {
@@ -173,6 +165,13 @@ export default defineComponent({
       score: 3,
     });
 
+    const roastList = [
+      { id: "LIGHT", name: "浅煎り" },
+      { id: "MEDIUM", name: "中煎り" },
+      { id: "DEEP", name: "深煎り" },
+      { id: "NONE", name: "不明" },
+    ];
+
     const valid = ref<Boolean>(false);
 
     const rules = reactive<any>({
@@ -182,10 +181,6 @@ export default defineComponent({
       textareaCounter: (value: string) =>
         value.length <= 500 || "上限500文字を超えています",
     });
-
-    const stateColor = (drinkStatus: DrinkStatus) => {
-      return drinkStatus === "HOT" ? "red" : "blue";
-    };
 
     const changeRoast = (value: RoastType) => {
       if (value == null) {
@@ -210,9 +205,9 @@ export default defineComponent({
     return {
       formRef,
       form,
+      roastList,
       valid,
       rules,
-      stateColor,
       changeRoast,
       postForm,
     };
@@ -228,8 +223,7 @@ export default defineComponent({
 .btn {
   text-align: center;
 }
-.btn-toggle {
-  width: 100%;
+.radio-group >>> .v-input--radio-group__input {
   justify-content: center;
 }
 .rating {
