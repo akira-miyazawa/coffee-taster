@@ -50,22 +50,27 @@ export class ShopRepository {
   async update(documentId: string, shop: Shop, coffee: Coffee) {
     const userDoc = db.collection('user').doc(this.token);
     await userDoc.collection('shop').doc(documentId).update({
-        shop_name: shop.name,
-        coffee_name: coffee.name,
-        status: coffee.status,
-        coffee_state_score: {
-          bitterness: coffee.coffeeTastescore.bitterness,
-          sourness: coffee.coffeeTastescore.sourness,
-          sweetness: coffee.coffeeTastescore.sweetness,
-          richness: coffee.coffeeTastescore.richness,
-          scent: coffee.coffeeTastescore.scent
-        },
-        bean: {
-          roast: coffee.bean.roast,
-          origin: coffee.bean.origin
-        },
-        score: coffee.score,
-        comment: coffee.comment,
-    })
+      shop_name: shop.name,
+      coffee_name: coffee.name,
+      status: coffee.status,
+      coffee_state_score: {
+        bitterness: coffee.coffeeTastescore.bitterness,
+        sourness: coffee.coffeeTastescore.sourness,
+        sweetness: coffee.coffeeTastescore.sweetness,
+        richness: coffee.coffeeTastescore.richness,
+        scent: coffee.coffeeTastescore.scent
+      },
+      bean: {
+        roast: coffee.bean.roast,
+        origin: coffee.bean.origin
+      },
+      score: coffee.score,
+      comment: coffee.comment,
+    });
+  }
+
+  async delete(documentId: string) {
+    const userDoc = db.collection('user').doc(this.token);
+    await userDoc.collection('shop').doc(documentId).delete();
   }
 }

@@ -70,6 +70,10 @@ export class ShopService {
     );
     return await this.repository.update(shopReq.documentId, shop, coffee);
   }
+
+  async delete(shopReq: ShopRequest) {
+    return await this.repository.delete(shopReq.documentId);
+  }
 }
 
 /**
@@ -96,11 +100,21 @@ export const postShop = async (token: string, form: Form) => {
 /**
  * ショップ情報を編集します
  * @param token ユーザートークン
- * @param form 入力情報 
- * @param documentId ドキュメントID
+ * @param shopReq
  * @returns 
  */
 export const updateShop = async (token: string, shopReq: ShopRequest) => {
   const service = new ShopService(token);
   return await service.update(shopReq);
 };
+
+/**
+ * ショップ情報を削除します
+ * @param token ユーザートークン
+ * @param shopReq
+ * @returns 
+ */
+export const deleteShop = async (token: string, shopReq: ShopRequest) => {
+  const service = new ShopService(token);
+  return await service.delete(shopReq);
+}

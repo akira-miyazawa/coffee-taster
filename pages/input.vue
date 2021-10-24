@@ -21,13 +21,13 @@
         <radio-button-component
           value="HOT"
           label="HOT"
-          :isDisabled="false"
+          :isReadonly="false"
           color="red"
         />
         <radio-button-component
           value="ICE"
           label="ICE"
-          :isDisabled="false"
+          :isReadonly="false"
           color="indigo"
         />
       </v-radio-group>
@@ -131,7 +131,7 @@ import RatingComponent from "@/components/rating/RatingComponent.vue";
 import RadarChertComponent from "@/components/chart/RadarChertComponent.vue";
 import SelectComponent from "@/components/select/SelectComponent.vue";
 import TextareaComponent from "@/components/text/TextareaComponent.vue";
-import { DrinkStatus, Form, RoastType } from "@/types/input";
+import { Form, RoastType } from "@/types/input";
 import { postShop } from "@/usecase/ShopService";
 
 export default defineComponent({
@@ -165,14 +165,14 @@ export default defineComponent({
       score: 3,
     });
 
+    const valid = ref<Boolean>(false);
+
     const roastList = [
       { id: "LIGHT", name: "浅煎り" },
       { id: "MEDIUM", name: "中煎り" },
       { id: "DEEP", name: "深煎り" },
       { id: "NONE", name: "不明" },
     ];
-
-    const valid = ref<Boolean>(false);
 
     const rules = reactive<any>({
       required: (value: string) => !!value || "必須",
@@ -191,9 +191,8 @@ export default defineComponent({
 
     const postForm = async () => {
       if (formRef.value.validate()) {
-        // await postShop(store.getters["auth/userToken"], form);
-        // router.push("list");
-        alert("バリデーションOK！！");
+        await postShop(store.getters["auth/userToken"], form);
+        router.push("list");
       } else {
         window.scrollTo({
           top: 0,

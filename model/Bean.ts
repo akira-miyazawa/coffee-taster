@@ -8,6 +8,6 @@ export class Bean {
 
   constructor(roast: RoastType, origin: string) {
     this.roast = roast == null ? 'NONE' : roast;
-    this.origin = origin == null ? '' : origin;
+    this.origin = origin === '' || origin == null ? '不明' : origin;
   }
 }

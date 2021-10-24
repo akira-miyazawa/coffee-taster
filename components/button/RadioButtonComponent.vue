@@ -2,7 +2,7 @@
   <v-radio
     :value="value"
     :label="label"
-    :disabled="isDisabled"
+    :readonly="isReadonly"
     :color="color"
   ></v-radio>
 </template>
@@ -20,7 +20,7 @@ export default defineComponent({
       type: String,
       require: true,
     },
-    isDisabled: {
+    isReadonly: {
       type: Boolean,
       require: true,
     },

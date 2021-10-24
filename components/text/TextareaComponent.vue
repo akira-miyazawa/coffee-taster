@@ -8,9 +8,8 @@
     :maxlength="maxlength"
     counter
     persistent-hint
-    auto-grow
     outlined
-    rows="5"
+    rows="6"
     row-height="15"
     @input="handleText"
   />
