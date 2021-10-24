@@ -6,17 +6,17 @@
       </v-container>
     </v-main>
     <v-footer fixed>
-      <v-tabs fixed-tabs>
-        <v-tab @click="homeRoute()">
+      <v-tabs v-model="selectedTab" fixed-tabs>
+        <v-tab href="index" @click.prevent="homeRoute()">
           <v-icon>mdi-map-outline</v-icon>
         </v-tab>
-        <v-tab @click="inputRoute()">
+        <v-tab href="input" @click.prevent="inputRoute()">
           <v-icon>mdi-pencil-plus</v-icon>
         </v-tab>
-        <v-tab @click="listRoute()">
+        <v-tab href="list" @click.prevent="listRoute()">
           <v-icon>mdi-format-list-bulleted</v-icon>
         </v-tab>
-        <v-tab @click="accountRoute()">
+        <v-tab href="account" @click.prevent="accountRoute()">
           <v-icon>mdi-account</v-icon>
         </v-tab>
       </v-tabs>
@@ -25,10 +25,42 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, useRouter } from "@nuxtjs/composition-api";
+import {
+  computed,
+  defineComponent,
+  onMounted,
+  ref,
+  useRoute,
+  useRouter,
+} from "@nuxtjs/composition-api";
+
+type Tab = "index" | "input" | "list" | "account";
+
 export default defineComponent({
   setup(_, context) {
     const router = useRouter();
+    const route = useRoute();
+    const query = computed(() => route.value.path);
+    const selectedTab = ref<Tab>();
+
+    onMounted(() => {
+      if (query.value === "/") {
+        selectedTab.value = "index";
+        return;
+      }
+      if (query.value === "/input") {
+        selectedTab.value = "input";
+        return;
+      }
+      if (query.value === "/list") {
+        selectedTab.value = "list";
+        return;
+      }
+      if (query.value === "/account") {
+        selectedTab.value = "account";
+        return;
+      }
+    });
 
     const homeRoute = () => {
       router.push("/");
@@ -44,6 +76,7 @@ export default defineComponent({
     };
 
     return {
+      selectedTab,
       homeRoute,
       inputRoute,
       listRoute,
