@@ -180,7 +180,6 @@ export default defineComponent({
                   disable: true,
                 };
                 markers.push(marker);
-                console.log(markers);
               });
             }
           }.bind(this)

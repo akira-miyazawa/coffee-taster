@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-form ref="formRef" v-model="valid" lazy-validation>
-      <text-component
+      <TextComponent
         class="input"
         :text.sync="form.shopName"
         :rules="[rules.required, rules.textCounter]"
@@ -9,7 +9,7 @@
         :isReadonly="false"
         hint="必須"
       />
-      <text-component
+      <TextComponent
         class="input"
         :text.sync="form.coffeeName"
         :rules="[rules.required, rules.textCounter]"
@@ -18,20 +18,20 @@
         hint="必須"
       />
       <v-radio-group class="radio-group" v-model="form.drinkStatus" row>
-        <radio-button-component
+        <RadioButtonComponent
           value="HOT"
           label="HOT"
           :isReadonly="false"
           color="red"
         />
-        <radio-button-component
+        <RadioButtonComponent
           value="ICE"
           label="ICE"
           :isReadonly="false"
           color="indigo"
         />
       </v-radio-group>
-      <radar-chert-component :coffeeTasteScore="form.coffeeTasteScore" />
+      <RadarChertComponent :coffeeTasteScore="form.coffeeTasteScore" />
       <RatingComponent
         itemName="苦味"
         :tasteScore.sync="form.coffeeTasteScore.bitterness"
@@ -72,7 +72,7 @@
         :isLarge="false"
         :isReadonly="false"
       />
-      <select-component
+      <SelectComponent
         class="input"
         :selectValue.sync="form.roast"
         :items="roastList"
@@ -81,14 +81,14 @@
         itemText="name"
         itemValue="id"
       />
-      <text-component
+      <TextComponent
         class="input"
         :text.sync="form.origin"
         label="産地"
         :isReadonly="false"
         hint=""
       />
-      <textarea-component
+      <TextareaComponent
         class="input"
         :text.sync="form.comment"
         :rules="[rules.required, rules.textareaCounter]"

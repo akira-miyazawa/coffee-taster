@@ -26,7 +26,7 @@ export class ShopService {
         res.data.status,
         res.data.score,
         res.data.coffee_state_score,
-        new Bean(res.data.roast, res.data.origin),
+        new Bean(res.data.bean.roast, res.data.bean.origin),
         res.data.comment,
       );
       const timeStamp = new TimeStamp(res.data.timeStamp.toDate());

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <map-component /> -->
+    <!-- <MapComponent /> -->
   </div>
 </template>
 

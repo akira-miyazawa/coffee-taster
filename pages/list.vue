@@ -1,20 +1,6 @@
 <template>
   <div>
-    <v-list>
-      <template v-for="(item, index) in shopList">
-        <v-list-item :key="`list-item-${index}`" link @click="selectItem(item)">
-          <v-list-item-content>
-            <v-list-item-title v-text="item.shopName" />
-            <v-list-item-subtitle v-text="item.coffeeName" />
-          </v-list-item-content>
-          <v-list-item-action>
-            <v-list-item-action-text v-text="item.timeStamp" />
-            <v-rating small dense :value="item.score" length="5" readonly />
-          </v-list-item-action>
-        </v-list-item>
-        <v-divider :key="`divider-${index}`" />
-      </template>
-    </v-list>
+    <ListComponent :shopList="shopList" :selectItem="selectItem" />
     <v-dialog v-model="isOpen" fullscreen>
       <v-card>
         <v-switch
@@ -24,7 +10,7 @@
           @change="editDisplay"
         />
         <v-form ref="formRef" v-model="valid" lazy-validation>
-          <text-component
+          <TextComponent
             class="input"
             :text.sync="displayShop.shopName"
             :rules="[rules.required, rules.textCounter]"
@@ -32,7 +18,7 @@
             :isReadonly="!isEdit"
             hint="必須"
           />
-          <text-component
+          <TextComponent
             class="input"
             :text.sync="displayShop.coffeeName"
             :rules="[rules.required, rules.textCounter]"
@@ -45,20 +31,20 @@
             v-model="displayShop.drinkStatus"
             row
           >
-            <radio-button-component
+            <RadioButtonComponent
               value="HOT"
               label="HOT"
               :isReadonly="!isEdit"
               color="red"
             />
-            <radio-button-component
+            <RadioButtonComponent
               value="ICE"
               label="ICE"
               :isReadonly="!isEdit"
               color="indigo"
             />
           </v-radio-group>
-          <radar-chert-component
+          <RadarChertComponent
             :coffeeTasteScore="displayShop.coffeeTasteScore"
           />
           <RatingComponent
@@ -101,7 +87,7 @@
             :isLarge="false"
             :isReadonly="!isEdit"
           />
-          <select-component
+          <SelectComponent
             class="input"
             :selectValue.sync="displayShop.roast"
             :items="roastList"
@@ -110,14 +96,14 @@
             itemText="name"
             itemValue="id"
           />
-          <text-component
+          <TextComponent
             class="input"
             :text.sync="displayShop.origin"
             label="産地"
             :isReadonly="!isEdit"
             hint=""
           />
-          <textarea-component
+          <TextareaComponent
             class="input"
             :text.sync="displayShop.comment"
             :rules="[rules.required, rules.textareaCounter]"
@@ -135,74 +121,43 @@
             :isLarge="true"
             :isReadonly="!isEdit"
           />
-          <v-row class="flex-column">
-            <v-col>
-              <v-speed-dial
-                v-model="fab"
-                fab
-                fixed
-                bottom
-                right
-                style="bottom: 80px"
-              >
-                <template v-slot:activator>
-                  <v-btn v-model="fab" color="blue darken-2" dark fab>
-                    <v-icon v-if="fab"> mdi-undo </v-icon>
-                    <v-icon v-else> mdi-format-list-bulleted-square </v-icon>
-                  </v-btn>
-                </template>
-                <v-btn
-                  fab
-                  dark
-                  small
-                  color="red"
-                  @click="indicateConfirmDelete"
-                >
-                  <v-icon>mdi-delete</v-icon>
-                </v-btn>
-                <v-btn
-                  fab
-                  dark
-                  small
-                  color="green"
-                  @click="indicateConfirmEdit"
-                >
-                  <v-icon>mdi-pencil</v-icon>
-                </v-btn>
-              </v-speed-dial>
-            </v-col>
-            <v-col>
-              <v-btn fixed fab bottom right @click="close">
-                <v-icon>mdi-close</v-icon>
-              </v-btn>
-            </v-col>
-          </v-row>
+          <FloatingButtonComponent
+            :indicateConfirmDelete="indicateConfirmDelete"
+            :indicateConfirmEdit="indicateConfirmEdit"
+            :close="close"
+          />
         </v-form>
       </v-card>
-      <v-dialog v-model="isConfirmBrowsing">
-        <v-card>
-          <v-card-text> 編集内容は破棄されますがよろしいですか？ </v-card-text>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="toBrose">変更を破棄</v-btn>
-          <v-btn color="primary" text @click="toEdit">編集を続ける</v-btn>
-        </v-card>
-      </v-dialog>
-      <v-dialog v-model="isConfirmEdit">
-        <v-card>
-          <v-card-text> 上書きしますがよろしいですか？ </v-card-text>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="handleUpdate">変更</v-btn>
-          <v-btn color="primary" text @click="cancelEdit">キャンセル</v-btn>
-        </v-card>
-      </v-dialog>
-      <v-dialog v-model="isConfirmDelete">
-        <v-card>
-          <v-card-text> 削除しますがよろしいですか？ </v-card-text>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="handleDelete">削除</v-btn>
-          <v-btn color="primary" text @click="cancelDelete">キャンセル</v-btn>
-        </v-card>
-      </v-dialog>
+      <DialogComponent
+        :isOpen.sync="isConfirmBrowsing"
+        text="編集内容は破棄されますがよろしいですか？"
+        :handle="toBrose"
+        handleBtnText="変更を破棄"
+        handleBtnColor="error"
+        :cancel="toEdit"
+        cancelBtnText="編集を続ける"
+        canselBtnColor="primary"
+      />
+      <DialogComponent
+        :isOpen.sync="isConfirmEdit"
+        text="上書きしますがよろしいですか？"
+        :handle="handleUpdate"
+        handleBtnText="変更"
+        handleBtnColor="success"
+        :cancel="cancelEdit"
+        cancelBtnText="キャンセル"
+        canselBtnColor="primary"
+      />
+      <DialogComponent
+        :isOpen.sync="isConfirmDelete"
+        text="削除しますがよろしいですか？"
+        :handle="handleDelete"
+        handleBtnText="削除"
+        handleBtnColor="error"
+        :cancel="cancelDelete"
+        cancelBtnText="キャンセル"
+        canselBtnColor="primary"
+      />
     </v-dialog>
   </div>
 </template>
@@ -213,15 +168,17 @@ import {
   onMounted,
   reactive,
   ref,
-  useRouter,
   useStore,
 } from "@nuxtjs/composition-api";
+import ListComponent from "@/components/page/ListComponent.vue";
 import TextComponent from "@/components/text/TextComponent.vue";
 import RadioButtonComponent from "@/components/button/RadioButtonComponent.vue";
 import RatingComponent from "@/components/rating/RatingComponent.vue";
 import RadarChertComponent from "@/components/chart/RadarChertComponent.vue";
 import SelectComponent from "@/components/select/SelectComponent.vue";
 import TextareaComponent from "@/components/text/TextareaComponent.vue";
+import FloatingButtonComponent from "@/components/button/FloatingButtonComponent.vue";
+import DialogComponent from "@/components/dialog/DialogComponent.vue";
 import { convertShopRequest } from "@/util/Convert";
 import { deleteShop, getShop } from "@/usecase/ShopService";
 import { ShopResponse } from "@/types/response";
@@ -231,16 +188,18 @@ import { updateShop } from "@/usecase/ShopService";
 
 export default defineComponent({
   components: {
+    ListComponent,
     TextComponent,
     RadioButtonComponent,
     RatingComponent,
     RadarChertComponent,
     SelectComponent,
     TextareaComponent,
+    FloatingButtonComponent,
+    DialogComponent,
   },
   setup(props, context) {
     const store = useStore();
-    const router = useRouter();
     const shopList = ref<ShopRequest[]>([]);
     const shop = reactive<ShopRequest>({
       documentId: "",
@@ -283,7 +242,6 @@ export default defineComponent({
     const isConfirmEdit = ref<boolean>(false);
     const isConfirmDelete = ref<boolean>(false);
 
-    const fab = ref<boolean>(false);
     const isOpen = ref<boolean>(false);
     const valid = ref<Boolean>(false);
 
@@ -381,7 +339,7 @@ export default defineComponent({
 
     const close = async () => {
       isOpen.value = false;
-      router.push("list");
+      isEdit.value = false;
       const responses: ShopResponse[] = await getShop(
         store.getters["auth/userToken"]
       );
@@ -408,7 +366,6 @@ export default defineComponent({
       isEdit.value = false;
     };
     const cancelEdit = () => (isConfirmEdit.value = false);
-
     const indicateConfirmDelete = () => (isConfirmDelete.value = true);
     const handleDelete = async () => {
       await deleteShop(store.getters["auth/userToken"], shop);
@@ -425,7 +382,6 @@ export default defineComponent({
       isConfirmBrowsing,
       isConfirmEdit,
       isConfirmDelete,
-      fab,
       isOpen,
       valid,
       roastList,

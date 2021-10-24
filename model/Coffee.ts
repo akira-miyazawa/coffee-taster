@@ -23,7 +23,6 @@ export class Coffee {
       throw new Error('ドリンクのHOT or ICEは必須です');
     }
     if (score <= 0 || score > 5) {
-      console.log(score);
       throw new Error('ドリンクのお気に入り度は, 1以上５以下の値です');
     }
     if (coffeeTastescore == null) {
