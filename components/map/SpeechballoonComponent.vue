@@ -1,14 +1,17 @@
 <template>
   <div>
-    <div class="window">{{ title }}</div>
-    <v-btn color="primary" fab small @click="handleClick">
-      <v-icon>mdi-pencil-plus</v-icon>
-    </v-btn>
+    <div class="window">
+      <div class="title">{{ title }}</div>
+      <v-btn tile color="primary" @click="handleClick">
+        <v-icon left> mdi-pencil </v-icon>
+        記録する
+      </v-btn>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { useRouter } from "@nuxtjs/composition-api";
+import { useRouter, useStore } from "@nuxtjs/composition-api";
 import { defineComponent } from "@vue/composition-api";
 
 export default defineComponent({
@@ -18,9 +21,11 @@ export default defineComponent({
       require: true,
     },
   },
-  setup() {
+  setup(props) {
+    const store = useStore();
     const router = useRouter();
     const handleClick = () => {
+      store.commit("shop/setShop", props.title);
       router.push("input");
     };
     return { handleClick };
@@ -30,6 +35,9 @@ export default defineComponent({
 
 <style scoped>
 .window {
-  color: #000;
+  text-align: center;
+}
+.btn {
+  text-align: center;
 }
 </style>

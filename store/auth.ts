@@ -1,20 +1,20 @@
 import { auth } from '../plugins/firebase';
-import { State } from '../types/store';
+import { AuthState } from '../types/store';
 import { User } from '../model/User';
 import { UserService } from '../usecase/UserService';
 
-export const state = (): State => ({
+export const state = (): AuthState => ({
   status: false,
   user: {
     userName: '',
-    token: ''
+    token: '',
   },
 });
 
 export const getters = {
-  isLoggedIn: (state: State) => state.status,
-  userName: (state: State) => state.user.userName,
-  userToken: (state: State) => state.user.token,
+  isLoggedIn: (state: AuthState) => state.status,
+  userName: (state: AuthState) => state.user.userName,
+  userToken: (state: AuthState) => state.user.token,
 }
 
 export const actions = {
@@ -40,12 +40,12 @@ export const actions = {
 }
 
 export const mutations = {
-  setUser(state: State, userInfo: any) {
+  setUser(state: AuthState, userInfo: any) {
     state.status = true;
     state.user.userName = userInfo.displayName;
     state.user.token = userInfo.uid;
   },
-  logout(state: State) {
+  logout(state: AuthState) {
     state.status = false;
     state.user.userName = "";
     state.user.token = "";

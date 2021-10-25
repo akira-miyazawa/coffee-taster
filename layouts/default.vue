@@ -32,6 +32,7 @@ import {
   ref,
   useRoute,
   useRouter,
+  watch,
 } from "@nuxtjs/composition-api";
 
 type Tab = "index" | "input" | "list" | "account";
@@ -57,6 +58,25 @@ export default defineComponent({
         return;
       }
       if (query.value === "/account") {
+        selectedTab.value = "account";
+        return;
+      }
+    });
+
+    watch(query, (newVal) => {
+      if (newVal === "/") {
+        selectedTab.value = "index";
+        return;
+      }
+      if (newVal === "/input") {
+        selectedTab.value = "input";
+        return;
+      }
+      if (newVal === "/list") {
+        selectedTab.value = "list";
+        return;
+      }
+      if (newVal === "/account") {
         selectedTab.value = "account";
         return;
       }

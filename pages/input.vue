@@ -120,6 +120,8 @@
 <script lang="ts">
 import {
   defineComponent,
+  onBeforeUnmount,
+  onMounted,
   reactive,
   ref,
   useRouter,
@@ -144,7 +146,7 @@ export default defineComponent({
     TextareaComponent,
   },
   setup(props) {
-    const store: any = useStore();
+    const store = useStore();
     const router = useRouter();
     const formRef = ref<any>(null);
 
@@ -180,6 +182,14 @@ export default defineComponent({
         value.length <= 50 || "上限50文字を超えています",
       textareaCounter: (value: string) =>
         value.length <= 500 || "上限500文字を超えています",
+    });
+
+    onMounted(() => {
+      form.shopName = store.getters["shop/shopName"];
+    });
+
+    onBeforeUnmount(() => {
+      store.commit("shop/setShop", "");
     });
 
     const changeRoast = (value: RoastType) => {

@@ -11,7 +11,7 @@
     >
       <GmapMarker
         :position="currentLocation"
-        :clickable="true"
+        :clickable="false"
         :draggable="false"
       />
       <GmapMarker
@@ -20,11 +20,13 @@
         :position="m.position"
         :title="m.title"
         :clickable="true"
-        :draggable="true"
+        :draggable="false"
         :icon="m.icon"
         @click="handleEvent(m.position, index, markers)"
       />
       <GmapInfoWindow
+        class="info-window"
+        :options="infoOptions"
         v-for="m in markers"
         :key="`${m.id}`"
         :position="m.position"
@@ -40,10 +42,7 @@
 <script lang="ts">
 import {
   defineComponent,
-  onBeforeMount,
-  onBeforeUnmount,
   onMounted,
-  onUnmounted,
   reactive,
   ref,
 } from "@nuxtjs/composition-api";
@@ -79,6 +78,10 @@ export default defineComponent({
       gestureHandling: "greedy",
       mapTypeControl: false,
       fullscreenControl: false,
+    });
+    const infoOptions = reactive<any>({
+      maxWidth: 300,
+      minWidth: 200,
     });
     const markers = reactive<any>([]);
     const mapRef = ref<any>(null);
@@ -176,8 +179,7 @@ export default defineComponent({
                   icon: icon,
                   title: place.name,
                   id: place.place_id,
-                  animation: google.maps.Animation.DROP,
-                  disable: true,
+                  disable: false,
                 };
                 markers.push(marker);
               });
@@ -198,35 +200,35 @@ export default defineComponent({
       index: number,
       markers: any[]
     ) => {
-      // setCenterLocation(positon.lat, positon.lng);
-      // setSelectedLocation(positon.lat, positon.lng);
-      // handleGmapInfoWindow(index);
+      setCenterLocation(positon.lat, positon.lng);
+      setSelectedLocation(positon.lat, positon.lng);
+      handleGmapInfoWindow(index);
     };
 
-    // const setCenterLocation = (lat: number, lng: number) => {
-    //   centerLocation.lat = lat;
-    //   centerLocation.lng = lng;
-    // };
-    // const setSelectedLocation = (lat: number, lng: number) => {
-    //   selectedLocation.lat = lat;
-    //   selectedLocation.lng = lng;
-    // };
-    // const handleGmapInfoWindow = (index: number) => {
-    //   // 初回
-    //   if (selectedLocationIndex.value == null) {
-    //     // 前の選択された場所のindexを更新
-    //     selectedLocationIndex.value = index;
-    //     // 表示する
-    //     markers[index].disable = true;
-    //     return;
-    //   }
-    //   // 前に選択された場所は非表示にする
-    //   markers[selectedLocationIndex.value].disable = false;
-    //   // 前の選択された場所のindexを更新
-    //   selectedLocationIndex.value = index;
-    //   // 表示する
-    //   markers[index].disable = true;
-    // };
+    const setCenterLocation = (lat: number, lng: number) => {
+      centerLocation.lat = lat;
+      centerLocation.lng = lng;
+    };
+    const setSelectedLocation = (lat: number, lng: number) => {
+      selectedLocation.lat = lat;
+      selectedLocation.lng = lng;
+    };
+    const handleGmapInfoWindow = (index: number) => {
+      // 初回
+      if (selectedLocationIndex.value == null) {
+        // 前の選択された場所のindexを更新
+        selectedLocationIndex.value = index;
+        // 表示する
+        markers[index].disable = true;
+        return;
+      }
+      // 前に選択された場所は非表示にする
+      markers[selectedLocationIndex.value].disable = false;
+      // 前の選択された場所のindexを更新
+      selectedLocationIndex.value = index;
+      // 表示する
+      markers[index].disable = true;
+    };
 
     return {
       currentLocation,
@@ -237,6 +239,7 @@ export default defineComponent({
       zoom,
       styleMap,
       mapOptions,
+      infoOptions,
       markers,
       mapRef,
       handleEvent,
@@ -245,7 +248,7 @@ export default defineComponent({
 });
 </script>
  
-<style scoped>
+<style lang="postcss" scoped>
 .gmap-map {
   position: unset;
   width: 100%;
