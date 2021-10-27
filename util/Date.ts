@@ -1,4 +1,8 @@
-// 日付をYYYY-MM-DDの書式で返す
+/**
+ * 日付をYYYY-MM-DDの書式で返す
+ * @param dt 
+ * @returns 
+ */
 export const formatDate = (dt: Date) => {
   var y = dt.getFullYear();
   var m = ('00' + (dt.getMonth()+1)).slice(-2);

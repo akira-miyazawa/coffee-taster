@@ -1,7 +1,7 @@
 import { auth } from '../plugins/firebase';
 import { AuthState } from '../types/store';
 import { User } from '../model/User';
-import { UserService } from '../usecase/UserService';
+import { existUser, postUser } from '../usecase/UserService';
 
 export const state = (): AuthState => ({
   status: false,
@@ -19,14 +19,12 @@ export const getters = {
 
 export const actions = {
   async login({ commit }, userInfo: any) {
-    const user: User = new User(userInfo.uid, userInfo.displayName);
-    const service = new UserService();
+    const user: User = new User(userInfo.uid, userInfo.displayName, null);
     try {
-      const response = await service.get(userInfo.uid);
-      if (response.exists) {
+      if (await existUser(userInfo.uid)) {
         commit('setUser', userInfo);
       } else {
-        await service.post(user);
+        await postUser(user);
         commit('setUser', userInfo);
       }
     } catch (e) {
