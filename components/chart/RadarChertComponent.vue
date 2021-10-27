@@ -37,8 +37,8 @@ export default defineComponent({
             ],
             fill: true,
             borderWidth: 2,
-            backgroundColor: "rgba(54, 162, 235, 0.2)",
-            borderColor: "rgb(54, 162, 235)",
+            backgroundColor: "rgba(141, 110, 99, 0.2)",
+            borderColor: "#6D4C41",
           },
         ],
       };
@@ -51,8 +51,11 @@ export default defineComponent({
         display: false,
       },
       gridLines: {
-        color: "#fff",
+        color: "#BCAAA4",
         borderDash: [2],
+      },
+      pointLabels: {
+        fontSize: 14,
       },
     });
     const legend = reactive<any>({

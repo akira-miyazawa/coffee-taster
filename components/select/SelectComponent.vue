@@ -8,6 +8,8 @@
     :readonly="isReadonly"
     hide-details="auto"
     @change="handleValue"
+    color="brown"
+    item-color="brown"
   />
 </template>
 

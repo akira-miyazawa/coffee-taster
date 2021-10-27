@@ -1,30 +1,37 @@
 <template>
   <div>
-    <v-card color="grey lighten-4" flat>
-      <v-toolbar>
-        <v-app-bar-nav-icon></v-app-bar-nav-icon>
-        <v-toolbar-title>{{ userName }}</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-btn icon>
-          <v-icon>mdi-magnify</v-icon>
-        </v-btn>
-        <v-btn icon>
-          <v-icon>mdi-heart</v-icon>
-        </v-btn>
-        <v-btn icon>
-          <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
-      </v-toolbar>
-    </v-card>
-    <v-btn v-if="isLoggedIn" @click="logout" x-large color="primary">
-      ログアウト
-    </v-btn>
-    <div v-if="isUnMatchTaste">
-      <v-alert border="bottom" color="pink darken-1" dark>
-        {{ `コーヒーの${unMatchTaste}に気をつけてください` }}</v-alert
+    <v-row class="user-info">
+      <v-icon class="user-icon" absolute left>mdi-account-circle</v-icon>
+      <v-col>{{ userName }} さん</v-col>
+      <v-icon
+        class="logout-icon"
+        style="font-size: 36px"
+        absolute
+        right
+        @click="indicateConfirmLogout"
+        >mdi-logout</v-icon
       >
+    </v-row>
+    <v-divider></v-divider>
+    <div v-if="isUnMatchTaste">
+      <div>あなたの苦手な傾向</div>
+      <row v-for="taste in unMatchTastes" :key="taste">
+        <v-chip class="ma-2" color="red" text-color="white">
+          {{ taste }}
+        </v-chip>
+      </row>
       <RadarChertComponent :coffeeTasteScore="unMatchCoffeeTasteScore" />
     </div>
+    <DialogComponent
+      :isOpen.sync="isConfirmLogout"
+      text="ログアウトします"
+      :handle="logout"
+      handleBtnText="ログアウト"
+      handleBtnColor="error"
+      :cancel="cancelLogout"
+      cancelBtnText="キャンセル"
+      canselBtnColor="primary"
+    />
   </div>
 </template>
 
@@ -53,8 +60,8 @@ export default defineComponent({
   },
   setup(props, context) {
     const store: any = useStore();
-    const isUnMatchTaste = ref<Boolean>(true);
-    const unMatchTaste = ref<string>();
+    const isUnMatchTaste = ref<Boolean>(false);
+    const unMatchTastes = ref<string[]>([]);
     const unMatchCoffeeTasteScore = reactive({
       bitterness: 0,
       sourness: 0,
@@ -62,6 +69,7 @@ export default defineComponent({
       richness: 0,
       scent: 0,
     });
+    const isConfirmLogout = ref<boolean>(false);
 
     onMounted(async () => {
       const token = store.getters["auth/userToken"];
@@ -73,9 +81,9 @@ export default defineComponent({
     const convertUnmatchCoffeeTasteScore = (user: User) => {
       // nullの場合は非表示
       if (user.unmatchCoffeeTasteScore == null) {
-        isUnMatchTaste.value = false;
         return;
       }
+      isUnMatchTaste.value = true;
       unMatchCoffeeTasteScore.bitterness =
         user.unmatchCoffeeTasteScore.bitterness;
       unMatchCoffeeTasteScore.sourness = user.unmatchCoffeeTasteScore.sourness;
@@ -112,20 +120,41 @@ export default defineComponent({
         },
       ];
       const maxValue = max(tastes.map((taste) => taste.value));
-      unMatchTaste.value = tastes
+      unMatchTastes.value = tastes
         .filter((taste) => taste.value === maxValue)
-        .map((tastes) => tastes.name)
-        .join(", ");
+        .map((tastes) => tastes.name);
     };
+
+    const indicateConfirmLogout = () => (isConfirmLogout.value = true);
+    const cancelLogout = () => (isConfirmLogout.value = false);
 
     return {
       userName: computed(() => store.getters["auth/userName"]),
       isLoggedIn: computed(() => store.getters["auth/isLoggedIn"]),
       logout: async () => await store.dispatch("auth/logout"),
       isUnMatchTaste,
-      unMatchTaste,
+      unMatchTastes,
       unMatchCoffeeTasteScore,
+      isConfirmLogout,
+      indicateConfirmLogout,
+      cancelLogout,
     };
   },
 });
 </script>
+<style lang="postcss" scoped>
+.user-info {
+  align-items: center;
+}
+.v-divider {
+  margin: 10px 0 10px 0;
+}
+.user-icon {
+  margin-left: 10px;
+  font-size: 36px;
+}
+.logout-icon {
+  margin-right: 10px;
+  font-size: 36px;
+}
+</style>

@@ -35,40 +35,40 @@
       <RatingComponent
         itemName="苦味"
         :tasteScore.sync="form.coffeeTasteScore.bitterness"
-        backgroundColor="cyan lighten-2"
-        color="blue"
+        backgroundColor="brown lighten-2"
+        color="brown"
         :isLarge="false"
         :isReadonly="false"
       />
       <RatingComponent
         itemName="酸味"
         :tasteScore.sync="form.coffeeTasteScore.sourness"
-        backgroundColor="cyan lighten-2"
-        color="blue"
+        backgroundColor="brown lighten-2"
+        color="brown"
         :isLarge="false"
         :isReadonly="false"
       />
       <RatingComponent
         itemName="甘み"
         :tasteScore.sync="form.coffeeTasteScore.sweetness"
-        backgroundColor="cyan lighten-2"
-        color="blue"
+        backgroundColor="brown lighten-2"
+        color="brown"
         :isLarge="false"
         :isReadonly="false"
       />
       <RatingComponent
         itemName="コク"
         :tasteScore.sync="form.coffeeTasteScore.richness"
-        backgroundColor="cyan lighten-2"
-        color="blue"
+        backgroundColor="brown lighten-2"
+        color="brown"
         :isLarge="false"
         :isReadonly="false"
       />
       <RatingComponent
         itemName="香り"
         :tasteScore.sync="form.coffeeTasteScore.scent"
-        backgroundColor="cyan lighten-2"
-        color="blue"
+        backgroundColor="brown lighten-2"
+        color="brown"
         :isLarge="false"
         :isReadonly="false"
       />
@@ -106,13 +106,9 @@
         :isLarge="true"
         :isReadonly="false"
       />
-      <v-row align="center">
-        <v-col>
-          <div class="btn">
-            <v-btn x-large color="primary" @click="postForm"> 記録する </v-btn>
-          </div>
-        </v-col>
-      </v-row>
+      <v-btn class="btn" fixed fab bottom right @click="postForm" color="brown">
+        <v-icon color="white">mdi-plus</v-icon>
+      </v-btn>
     </v-form>
   </div>
 </template>
@@ -230,13 +226,13 @@ export default defineComponent({
   margin-bottom: 5vh;
 }
 .btn {
-  text-align: center;
+  margin-bottom: 50px;
 }
 .radio-group >>> .v-input--radio-group__input {
   justify-content: center;
 }
 .rating {
   display: block;
-  margin-bottom: 5vh;
+  margin-bottom: 10vh;
 }
 </style>

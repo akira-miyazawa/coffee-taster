@@ -8,7 +8,15 @@
         </v-list-item-content>
         <v-list-item-action>
           <v-list-item-action-text v-text="item.timeStamp" />
-          <v-rating small dense :value="item.score" length="5" readonly />
+          <v-rating
+            small
+            dense
+            :value="item.score"
+            length="5"
+            backgroundColor="grey darken-1"
+            color="yellow darken-3"
+            readonly
+          />
         </v-list-item-action>
       </v-list-item>
       <v-divider :key="`divider-${index}`" />
@@ -34,3 +42,9 @@ export default defineComponent({
   setup() {},
 });
 </script>
+
+<style lang="postcss" scoped>
+.v-list {
+  background-color: #efebe9;
+}
+</style>

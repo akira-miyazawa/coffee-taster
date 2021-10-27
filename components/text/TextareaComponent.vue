@@ -12,6 +12,7 @@
     rows="6"
     row-height="15"
     @input="handleText"
+    color="brown"
   />
 </template>
 

@@ -3,12 +3,15 @@
     <ListComponent :shopList="shopList" :selectItem="selectItem" />
     <v-dialog v-model="isOpen" fullscreen>
       <v-card>
-        <v-switch
-          v-model="isEdit"
-          class="switch"
-          label="編集"
-          @change="editDisplay"
-        />
+        <div class="switch-area">
+          <v-switch
+            v-model="isEdit"
+            class="switch"
+            label="編集"
+            color="brown"
+            @change="editDisplay"
+          />
+        </div>
         <v-form ref="formRef" v-model="valid" lazy-validation>
           <TextComponent
             class="input"
@@ -50,40 +53,40 @@
           <RatingComponent
             itemName="苦味"
             :tasteScore.sync="displayShop.coffeeTasteScore.bitterness"
-            backgroundColor="cyan lighten-2"
-            color="blue"
+            backgroundColor="brown lighten-2"
+            color="brown"
             :isLarge="false"
             :isReadonly="!isEdit"
           />
           <RatingComponent
             itemName="酸味"
             :tasteScore.sync="displayShop.coffeeTasteScore.sourness"
-            backgroundColor="cyan lighten-2"
-            color="blue"
+            backgroundColor="brown lighten-2"
+            color="brown"
             :isLarge="false"
             :isReadonly="!isEdit"
           />
           <RatingComponent
             itemName="甘み"
             :tasteScore.sync="displayShop.coffeeTasteScore.sweetness"
-            backgroundColor="cyan lighten-2"
-            color="blue"
+            backgroundColor="brown lighten-2"
+            color="brown"
             :isLarge="false"
             :isReadonly="!isEdit"
           />
           <RatingComponent
             itemName="コク"
             :tasteScore.sync="displayShop.coffeeTasteScore.richness"
-            backgroundColor="cyan lighten-2"
-            color="blue"
+            backgroundColor="brown lighten-2"
+            color="brown"
             :isLarge="false"
             :isReadonly="!isEdit"
           />
           <RatingComponent
             itemName="香り"
             :tasteScore.sync="displayShop.coffeeTasteScore.scent"
-            backgroundColor="cyan lighten-2"
-            color="blue"
+            backgroundColor="brown lighten-2"
+            color="brown"
             :isLarge="false"
             :isReadonly="!isEdit"
           />
@@ -420,20 +423,21 @@ export default defineComponent({
 }
 .switch {
   margin-right: 1vw;
+  display: inline-block;
 }
-.switch >>> .v-input__slot {
+.switch-area {
   text-align: right;
-  display: block;
 }
 .rating {
   display: block;
-  margin-bottom: 5vh;
+  margin-bottom: 10vh;
 }
 .score-rating {
   display: block;
 }
 .v-card {
   padding: 14px !important;
+  background-color: #efebe9;
 }
 .radio-group >>> .v-input--radio-group__input {
   justify-content: center;

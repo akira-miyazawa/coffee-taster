@@ -8,6 +8,7 @@
     :hint="hint"
     persistent-hint
     @input="handleText"
+    color="brown"
   />
 </template>
 

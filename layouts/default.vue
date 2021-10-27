@@ -1,14 +1,17 @@
 <template>
   <v-app>
+    <v-app-bar fixed dense app color="brown lighten-3">
+      <v-app-bar-title>{{ headerText }}</v-app-bar-title>
+    </v-app-bar>
     <v-main>
       <v-container>
         <Nuxt />
       </v-container>
     </v-main>
-    <v-footer fixed>
-      <v-tabs v-model="selectedTab" fixed-tabs>
+    <v-footer fixed padless app>
+      <v-tabs v-model="selectedTab" fixed-tabs color="brown lighten-4">
         <v-tab href="index" @click.prevent="homeRoute()">
-          <v-icon>mdi-map-outline</v-icon>
+          <v-icon>mdi-map-marker</v-icon>
         </v-tab>
         <v-tab href="input" @click.prevent="inputRoute()">
           <v-icon>mdi-pencil-plus</v-icon>
@@ -42,23 +45,28 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
     const query = computed(() => route.value.path);
+    const headerText = ref<string>();
     const selectedTab = ref<Tab>();
 
     onMounted(() => {
       if (query.value === "/") {
         selectedTab.value = "index";
+        headerText.value = "周辺のカフェ";
         return;
       }
       if (query.value === "/input") {
         selectedTab.value = "input";
+        headerText.value = "MEMO";
         return;
       }
       if (query.value === "/list") {
         selectedTab.value = "list";
+        headerText.value = "一覧";
         return;
       }
       if (query.value === "/account") {
         selectedTab.value = "account";
+        headerText.value = "マイページ";
         return;
       }
     });
@@ -66,18 +74,22 @@ export default defineComponent({
     watch(query, (newVal) => {
       if (newVal === "/") {
         selectedTab.value = "index";
+        headerText.value = "周辺のカフェ";
         return;
       }
       if (newVal === "/input") {
         selectedTab.value = "input";
+        headerText.value = "MEMO";
         return;
       }
       if (newVal === "/list") {
         selectedTab.value = "list";
+        headerText.value = "一覧";
         return;
       }
       if (newVal === "/account") {
         selectedTab.value = "account";
+        headerText.value = "マイページ";
         return;
       }
     });
@@ -97,6 +109,7 @@ export default defineComponent({
 
     return {
       selectedTab,
+      headerText,
       homeRoute,
       inputRoute,
       listRoute,
@@ -106,10 +119,20 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
+.v-app-bar >>> .v-toolbar__content {
+  justify-content: center;
+}
+.v-app-bar-title {
+  font-size: 16px;
+  color: #3e2723;
+}
 .v-main {
   overflow-y: scroll;
-  margin-bottom: 80px;
+  background-color: #efebe9;
+}
+.v-tabs >>> .v-slide-group__content {
+  background-color: #795548;
 }
 .v-tab {
   min-width: 40px;

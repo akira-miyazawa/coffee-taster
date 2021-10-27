@@ -3,7 +3,7 @@
     <v-col>
       <v-speed-dial v-model="fab" fab fixed bottom right style="bottom: 80px">
         <template v-slot:activator>
-          <v-btn v-model="fab" color="blue darken-2" dark fab>
+          <v-btn v-model="fab" color="brown" dark fab>
             <v-icon v-if="fab"> mdi-undo </v-icon>
             <v-icon v-else> mdi-format-list-bulleted-square </v-icon>
           </v-btn>
