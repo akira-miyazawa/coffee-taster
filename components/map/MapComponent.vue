@@ -67,7 +67,7 @@ export default defineComponent({
     });
     const infoWinOpenDisable = ref<boolean>(false);
     const selectedLocationIndex = ref<number | null>(null);
-    const zoom = ref<number>(17);
+    const zoom = ref<number>(16);
     const styleMap = reactive<any>({
       width: "100%",
       height: "400px",
@@ -214,12 +214,23 @@ export default defineComponent({
       selectedLocation.lng = lng;
     };
     const handleGmapInfoWindow = (index: number) => {
+      console.log(selectedLocationIndex.value);
+      console.log(markers[index].disable);
       // 初回
       if (selectedLocationIndex.value == null) {
         // 前の選択された場所のindexを更新
         selectedLocationIndex.value = index;
         // 表示する
         markers[index].disable = true;
+        return;
+      }
+      if (
+        selectedLocationIndex.value != null &&
+        markers[index].disable === true
+      ) {
+        // 前の選択された場所のindexを更新
+        selectedLocationIndex.value = index;
+        markers[index].disable = false;
         return;
       }
       // 前に選択された場所は非表示にする
@@ -253,5 +264,8 @@ export default defineComponent({
   position: unset;
   width: 100%;
   height: 100%;
+}
+.gmap-map >>> button.gm-ui-hover-effect {
+  visibility: hidden;
 }
 </style>
