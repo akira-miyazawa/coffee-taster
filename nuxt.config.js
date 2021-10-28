@@ -53,7 +53,11 @@ export default {
 
   manifest: {
     name: 'COFFEE TASTER',
-    lang: 'ja'
+    short_name: 'COFFEE TASTER',
+    lang: 'ja',
+    icon: {
+      iconFileName: 'img/icon.png'
+    },
   },
 
   router: {

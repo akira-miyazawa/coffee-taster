@@ -372,7 +372,13 @@ export default defineComponent({
     const indicateConfirmDelete = () => (isConfirmDelete.value = true);
     const handleDelete = async () => {
       await deleteShop(store.getters["auth/userToken"], shop);
-      location.reload();
+      // 再取得の処理
+      const responses: ShopResponse[] = await getShop(
+        store.getters["auth/userToken"]
+      );
+      shopList.value = responses.map((res) => convertShopRequest(res));
+      isConfirmDelete.value = false;
+      isOpen.value = false;
     };
     const cancelDelete = () => (isConfirmDelete.value = false);
 
