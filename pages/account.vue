@@ -15,11 +15,15 @@
     <v-divider></v-divider>
     <div v-if="isUnMatchTaste">
       <div>あなたの苦手な傾向</div>
-      <row v-for="taste in unMatchTastes" :key="taste">
-        <v-chip class="ma-2" color="red" text-color="white">
-          {{ taste }}
-        </v-chip>
-      </row>
+      <v-chip
+        v-for="taste in unMatchTastes"
+        :key="taste"
+        class="ma-2"
+        color="red"
+        text-color="white"
+      >
+        {{ taste }}
+      </v-chip>
       <RadarChertComponent :coffeeTasteScore="unMatchCoffeeTasteScore" />
     </div>
     <DialogComponent
@@ -45,6 +49,7 @@ import {
   useStore,
 } from "@nuxtjs/composition-api";
 import RadarChertComponent from "@/components/chart/RadarChertComponent.vue";
+import DialogComponent from "@/components/dialog/DialogComponent.vue";
 import { getUser } from "@/usecase/UserService";
 import { User } from "@/model/User";
 import { max } from "@/util/Calc";
@@ -57,6 +62,7 @@ type UnMatchTaste = {
 export default defineComponent({
   components: {
     RadarChertComponent,
+    DialogComponent,
   },
   setup(props, context) {
     const store: any = useStore();

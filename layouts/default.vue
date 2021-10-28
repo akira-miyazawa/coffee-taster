@@ -119,6 +119,17 @@ export default defineComponent({
 });
 </script>
 
+<style>
+html,
+body,
+#__nuxt,
+#__layout {
+  height: 100% !important;
+  width: 100% !important;
+  background-color: #efebe9;
+}
+</style>
+
 <style lang="postcss" scoped>
 .v-app-bar >>> .v-toolbar__content {
   justify-content: center;

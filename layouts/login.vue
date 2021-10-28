@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p>ログイン画面</p>
     <Nuxt />
   </div>
 </template>

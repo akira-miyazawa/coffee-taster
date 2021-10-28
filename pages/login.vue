@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="firebase-ui">
     <div id="firebaseui-auth-container"></div>
   </div>
 </template>
@@ -38,3 +38,9 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="postcss" scoped>
+#firebaseui-auth-container >>> .firebaseui-container.mdl-card {
+  background-color: #efebe9;
+}
+</style>
