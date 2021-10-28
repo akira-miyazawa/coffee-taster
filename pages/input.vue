@@ -226,7 +226,7 @@ export default defineComponent({
   margin-bottom: 5vh;
 }
 .btn {
-  margin-bottom: 50px;
+  margin-bottom: 70px;
 }
 .radio-group >>> .v-input--radio-group__input {
   justify-content: center;

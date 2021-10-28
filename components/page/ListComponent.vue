@@ -1,5 +1,5 @@
 <template>
-  <v-list>
+  <v-list class="list">
     <template v-for="(item, index) in shopList">
       <v-list-item :key="`list-item-${index}`" link @click="selectItem(item)">
         <v-list-item-content>
@@ -44,7 +44,7 @@ export default defineComponent({
 </script>
 
 <style lang="postcss" scoped>
-.v-list {
+.list {
   background-color: #efebe9;
 }
 </style>
