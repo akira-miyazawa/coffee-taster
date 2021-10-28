@@ -52,7 +52,7 @@ export default {
   ],
 
   manifest: {
-    name: 'プロジェクト名',
+    name: 'COFFEE TASTER',
     lang: 'ja'
   },
 

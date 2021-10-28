@@ -8,8 +8,13 @@
         <Nuxt />
       </v-container>
     </v-main>
-    <v-footer fixed padless app>
-      <v-tabs v-model="selectedTab" fixed-tabs color="brown lighten-4">
+    <v-footer fixed padless app :height="70">
+      <v-tabs
+        v-model="selectedTab"
+        :height="70"
+        fixed-tabs
+        color="brown lighten-4"
+      >
         <v-tab href="index" @click.prevent="homeRoute()">
           <v-icon>mdi-map-marker</v-icon>
         </v-tab>
