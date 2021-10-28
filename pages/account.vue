@@ -1,8 +1,16 @@
 <template>
   <div>
+    <div class="img">
+      <v-layout class="layout">
+        <v-img src="/img/logo.png" max-height="200" max-width="200"></v-img>
+      </v-layout>
+    </div>
+    <v-divider></v-divider>
     <v-row class="user-info">
       <v-icon class="user-icon" absolute left>mdi-account-circle</v-icon>
-      <v-col>{{ userName }} さん</v-col>
+      <v-col class="name"
+        ><span class="user-name">{{ userName }}</span> さん</v-col
+      >
       <v-icon
         class="logout-icon"
         style="font-size: 36px"
@@ -14,7 +22,7 @@
     </v-row>
     <v-divider></v-divider>
     <div v-if="isUnMatchTaste">
-      <div>あなたの苦手な傾向</div>
+      <div class="title">あなたの苦手な傾向</div>
       <v-chip
         v-for="taste in unMatchTastes"
         :key="taste"
@@ -149,18 +157,27 @@ export default defineComponent({
 });
 </script>
 <style lang="postcss" scoped>
+.layout {
+  justify-content: center;
+}
 .user-info {
   align-items: center;
 }
 .v-divider {
-  margin: 10px 0 10px 0;
+  margin: 20px 0 20px 0;
 }
 .user-icon {
   margin-left: 10px;
   font-size: 36px;
 }
+.user-name {
+  font-weight: 600;
+}
 .logout-icon {
   margin-right: 10px;
   font-size: 36px;
+}
+.title {
+  font-weight: 600;
 }
 </style>

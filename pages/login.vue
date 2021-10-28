@@ -1,5 +1,10 @@
 <template>
   <div id="firebase-ui">
+    <div class="img">
+      <v-layout class="layout">
+        <v-img src="/img/logo.png" max-height="300" max-width="300"></v-img>
+      </v-layout>
+    </div>
     <div id="firebaseui-auth-container"></div>
   </div>
 </template>
@@ -40,6 +45,9 @@ export default defineComponent({
 </script>
 
 <style lang="postcss" scoped>
+.layout {
+  justify-content: center;
+}
 #firebaseui-auth-container >>> .firebaseui-container.mdl-card {
   background-color: #efebe9;
 }
