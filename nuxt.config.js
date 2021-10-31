@@ -51,16 +51,10 @@ export default {
     '@nuxtjs/pwa'
   ],
 
-  pwa: {
-    manifest: {
-      name: 'COFFEE TASTER',
-      short_name: 'COFFEE TASTER',
-      lang: 'ja',
-    },
-    icon: {
-      source: 'SRC_DIR/static/img/icon_pwa.png',
-      fileName: 'icon_pwa.png'
-    }
+  manifest: {
+    name: 'COFFEE TASTER',
+    short_name: 'COFFEE TASTER',
+    lang: 'ja',
   },
 
   router: {
