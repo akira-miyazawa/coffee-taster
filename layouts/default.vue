@@ -1,35 +1,37 @@
 <template>
-  <v-app>
-    <v-app-bar fixed dense app color="brown lighten-3">
-      <v-app-bar-title>{{ headerText }}</v-app-bar-title>
-    </v-app-bar>
-    <v-main>
-      <v-container>
-        <Nuxt />
-      </v-container>
-    </v-main>
-    <v-footer fixed padless app :height="70">
-      <v-tabs
-        v-model="selectedTab"
-        :height="70"
-        fixed-tabs
-        color="brown lighten-4"
-      >
-        <v-tab href="index" @click.prevent="homeRoute()">
-          <v-icon>mdi-map-marker</v-icon>
-        </v-tab>
-        <v-tab href="input" @click.prevent="inputRoute()">
-          <v-icon>mdi-pencil-plus</v-icon>
-        </v-tab>
-        <v-tab href="list" @click.prevent="listRoute()">
-          <v-icon>mdi-format-list-bulleted</v-icon>
-        </v-tab>
-        <v-tab href="account" @click.prevent="accountRoute()">
-          <v-icon>mdi-account</v-icon>
-        </v-tab>
-      </v-tabs>
-    </v-footer>
-  </v-app>
+  <div id="default">
+    <v-app>
+      <v-app-bar fixed dense app color="brown lighten-3">
+        <v-app-bar-title>{{ headerText }}</v-app-bar-title>
+      </v-app-bar>
+      <v-main>
+        <v-container>
+          <Nuxt />
+        </v-container>
+      </v-main>
+      <v-footer fixed padless app>
+        <v-tabs
+          v-model="selectedTab"
+          :height="70"
+          fixed-tabs
+          color="brown lighten-4"
+        >
+          <v-tab href="index" @click.prevent="homeRoute()">
+            <v-icon>mdi-map-marker</v-icon>
+          </v-tab>
+          <v-tab href="input" @click.prevent="inputRoute()">
+            <v-icon>mdi-pencil-plus</v-icon>
+          </v-tab>
+          <v-tab href="list" @click.prevent="listRoute()">
+            <v-icon>mdi-format-list-bulleted</v-icon>
+          </v-tab>
+          <v-tab href="account" @click.prevent="accountRoute()">
+            <v-icon>mdi-account</v-icon>
+          </v-tab>
+        </v-tabs>
+      </v-footer>
+    </v-app>
+  </div>
 </template>
 
 <script lang="ts">
@@ -128,7 +130,8 @@ export default defineComponent({
 html,
 body,
 #__nuxt,
-#__layout {
+#__layout,
+#default {
   height: 100% !important;
   width: 100% !important;
   background-color: #efebe9;
