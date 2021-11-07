@@ -1,6 +1,6 @@
-import firebase from '../plugins/firebase';
-import { db } from '../plugins/firebase';
-import { User } from '../model/User';
+import firebase from '@/plugins/firebase';
+import { db } from '@/plugins/firebase';
+import { User } from '@/model/User';
 
 export class UserRepository {
 

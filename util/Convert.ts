@@ -1,5 +1,5 @@
-import { ShopRequest } from "../types/request";
-import { ShopResponse } from "../types/response";
+import { ShopRequest } from "@/types/request";
+import { ShopResponse } from "@/types/response";
 
 export const convertShopRequest = (shop: ShopResponse):ShopRequest => {
   return {

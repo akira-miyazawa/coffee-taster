@@ -1,5 +1,5 @@
-import { CoffeeTasteScoreType, DrinkStatus } from "../types/input";
-import { Bean } from "./Bean";
+import { CoffeeTasteScoreType, DrinkStatus } from "@/types/input";
+import { Bean } from "@/model/Bean";
 
 export class Coffee {
   /** 名前 */

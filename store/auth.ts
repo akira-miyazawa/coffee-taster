@@ -18,7 +18,7 @@ export const getters = {
 }
 
 export const actions = {
-  async login({ commit }, userInfo: any) {
+  async login({ commit }: any, userInfo: any) {
     const user: User = new User(userInfo.uid, userInfo.displayName, null);
     try {
       if (await existUser(userInfo.uid)) {
@@ -28,10 +28,10 @@ export const actions = {
         commit('setUser', userInfo);
       }
     } catch (e) {
-      throw new Error(e);
+      throw new Error(`${e}`);
     }
   },
-  async logout({ commit }) {
+  async logout({ commit }: any) {
     await auth.signOut();
     commit("logout");
   },

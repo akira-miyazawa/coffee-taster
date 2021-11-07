@@ -1,4 +1,4 @@
-import { ShopState } from "../types/store";
+import { ShopState } from "@/types/store";
 
 export const state = (): ShopState => ({
   shopName: '',

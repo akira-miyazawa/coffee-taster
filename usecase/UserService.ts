@@ -1,9 +1,9 @@
-import { UserRepository } from "../infra/UserRepository";
-import { ShopRepository } from "../infra/ShopRepository";
-import { User } from "../model/User";
-import { CoffeeTasteScore } from "../model/CoffeeTasteScore";
-import { average } from "../util/Calc";
-import { UnmatchCoffeeTasteScore } from "../model/UnMatchCoffeeTasteScore";
+import { UserRepository } from "@/infra/UserRepository";
+import { ShopRepository } from "@/infra/ShopRepository";
+import { User } from "@/model/User";
+import { CoffeeTasteScore } from "@/model/CoffeeTasteScore";
+import { average } from "@/util/Calc";
+import { UnmatchCoffeeTasteScore } from "@/model/UnmatchCoffeeTasteScore";
 
 export class UserService {
   private repository = new UserRepository();
@@ -28,12 +28,16 @@ export class UserService {
         );
       });
     const umMatchCoffeeStateScores = this.convertUmMatchCoffeeStateScores(coffeeStateScores);
-    const res = await this.repository.get(token);
-    return new User(
-      res.data().user_id,
-      res.data().name,
-      umMatchCoffeeStateScores
-    )
+    try {
+      const res = await this.repository.get(token);
+      return new User(
+        res?.data()?.user_id,
+        res?.data()?.name,
+        umMatchCoffeeStateScores
+      );
+    } catch (e) {
+      throw new Error(`${e}`);
+    }
   }
 
   async post(user: User) {

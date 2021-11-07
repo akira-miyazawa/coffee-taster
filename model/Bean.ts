@@ -1,4 +1,4 @@
-import { RoastType } from "../types/input";
+import { RoastType } from "@/types/input";
 
 export class Bean {
   /** 焙煎 */

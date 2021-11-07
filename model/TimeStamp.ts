@@ -1,4 +1,4 @@
-import { formatDate } from '../util/Date';
+import { formatDate } from '@/util/Date';
 
 export class TimeStamp {
   /** 登録日時(YYYY/MM/DD) */

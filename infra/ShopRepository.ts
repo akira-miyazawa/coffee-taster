@@ -1,7 +1,7 @@
-import firebase from '../plugins/firebase';
-import { db } from '../plugins/firebase';
-import { Shop } from '../model/Shop';
-import { Coffee } from '../model/Coffee';
+import firebase from '@/plugins/firebase';
+import { db } from '@/plugins/firebase';
+import { Shop } from '@/model/Shop';
+import { Coffee } from '@/model/Coffee';
 
 export class ShopRepository {
   public readonly token: string;

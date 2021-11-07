@@ -1,11 +1,11 @@
-import { ShopRepository } from "../infra/ShopRepository";
-import { Bean } from "../model/Bean";
-import { Coffee } from "../model/Coffee";
-import { Shop } from "../model/Shop";
-import { TimeStamp } from "../model/TimeStamp";
-import { Form } from "../types/input";
-import { ShopRequest } from "../types/request";
-import { ShopResponse } from "../types/response";
+import { ShopRepository } from "@/infra/ShopRepository";
+import { Bean } from "@/model/Bean";
+import { Coffee } from "@/model/Coffee";
+import { Shop } from "@/model/Shop";
+import { TimeStamp } from "@/model/TimeStamp";
+import { Form } from "@/types/input";
+import { ShopRequest } from "@/types/request";
+import { ShopResponse } from "@/types/response";
 
 export class ShopService {
   public readonly repository: ShopRepository;
