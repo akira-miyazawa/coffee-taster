@@ -220,6 +220,7 @@ export default defineComponent({
       roast: "NONE",
       origin: "不明",
       comment: "",
+      timeStamp: "",
     });
     const displayShop = reactive<ShopRequest>({
       documentId: "",
@@ -237,6 +238,7 @@ export default defineComponent({
       roast: "NONE",
       origin: "不明",
       comment: "",
+      timeStamp: "",
     });
     const formRef = ref<any>(null);
 
@@ -280,6 +282,7 @@ export default defineComponent({
       shop.roast = item.roast;
       shop.origin = item.origin;
       shop.comment = item.comment;
+      shop.timeStamp = item.timeStamp;
 
       displayShop.documentId = item.documentId;
       displayShop.shopName = item.shopName;
@@ -290,6 +293,7 @@ export default defineComponent({
       displayShop.roast = item.roast;
       displayShop.origin = item.origin;
       displayShop.comment = item.comment;
+      displayShop.timeStamp = item.timeStamp;
       isOpen.value = true;
     };
 

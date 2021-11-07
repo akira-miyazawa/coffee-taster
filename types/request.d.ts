@@ -19,4 +19,6 @@ export interface ShopRequest {
   origin: string;
   /** コメント */
   comment: string;
+  /** 登録日時(YYYY/MM/DD) */
+  timeStamp: string;
 }

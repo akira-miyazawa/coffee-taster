@@ -11,6 +11,7 @@ export const convertShopRequest = (shop: ShopResponse):ShopRequest => {
     coffeeTasteScore: shop.coffeeTasteScore,
     roast: shop.roast,
     origin: shop.origin,
-    comment: shop.comment
+    comment: shop.comment,
+    timeStamp: shop.timeStamp
   };
 }
