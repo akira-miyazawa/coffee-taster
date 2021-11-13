@@ -8,26 +8,43 @@
             <v-icon v-else> mdi-format-list-bulleted-square </v-icon>
           </v-btn>
         </template>
-        <v-btn fab dark small color="red" @click="indicateConfirmDelete">
-          <v-icon>mdi-delete</v-icon>
-        </v-btn>
-        <v-btn fab dark small color="green" @click="indicateConfirmEdit">
-          <v-icon>mdi-pencil</v-icon>
-        </v-btn>
+        <RoundButtonComponent
+          :isFab="true"
+          :isDark="true"
+          :isSmall="true"
+          color="red"
+          :handleClick="indicateConfirmDelete"
+          icon="mdi-delete"
+        />
+        <RoundButtonComponent
+          :isFab="true"
+          :isDark="true"
+          :isSmall="true"
+          color="green"
+          :handleClick="indicateConfirmEdit"
+          icon="mdi-pencil"
+        />
       </v-speed-dial>
     </v-col>
     <v-col>
-      <v-btn fixed fab bottom right @click="close">
-        <v-icon>mdi-close</v-icon>
-      </v-btn>
+      <RoundButtonComponent
+        :isFixed="true"
+        :isFab="true"
+        :isBottom="true"
+        :isRight="true"
+        :handleClick="close"
+        icon="mdi-close"
+      />
     </v-col>
   </v-row>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from "@nuxtjs/composition-api";
+import RoundButtonComponent from "@/components/atoms/button/RoundButtonComponent.vue";
 
 export default defineComponent({
+  components: { RoundButtonComponent },
   props: {
     indicateConfirmDelete: {
       type: Function,

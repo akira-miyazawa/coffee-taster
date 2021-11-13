@@ -123,12 +123,12 @@ import {
   useRouter,
   useStore,
 } from "@nuxtjs/composition-api";
-import TextComponent from "@/components/text/TextComponent.vue";
-import RadioButtonComponent from "@/components/button/RadioButtonComponent.vue";
-import RatingComponent from "@/components/rating/RatingComponent.vue";
-import RadarChertComponent from "@/components/chart/RadarChertComponent.vue";
-import SelectComponent from "@/components/select/SelectComponent.vue";
-import TextareaComponent from "@/components/text/TextareaComponent.vue";
+import TextComponent from "@/components/atoms/text/TextComponent.vue";
+import RadioButtonComponent from "@/components/atoms/button/RadioButtonComponent.vue";
+import RatingComponent from "@/components/atoms/rating/RatingComponent.vue";
+import RadarChertComponent from "@/components/atoms/chart/RadarChertComponent.vue";
+import SelectComponent from "@/components/atoms/select/SelectComponent.vue";
+import TextareaComponent from "@/components/atoms/text/TextareaComponent.vue";
 import { Form, RoastType } from "@/types/input";
 import { postShop } from "@/usecase/ShopService";
 

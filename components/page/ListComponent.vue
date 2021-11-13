@@ -1,7 +1,7 @@
 <template>
   <v-list class="list" style="background-color: #efebe9">
-    <template v-for="(item, index) in shopList">
-      <v-list-item :key="`list-item-${index}`" link @click="selectItem(item)">
+    <div v-for="(item, index) in shopList" :key="`list-item-${index}`">
+      <v-list-item link :key="`list-item-${index}`" @click="selectItem(item)">
         <v-list-item-content>
           <v-list-item-title v-text="item.shopName" />
           <v-list-item-subtitle v-text="item.coffeeName" />
@@ -20,7 +20,7 @@
         </v-list-item-action>
       </v-list-item>
       <v-divider :key="`divider-${index}`" />
-    </template>
+    </div>
   </v-list>
 </template>
 
@@ -35,10 +35,9 @@ export default defineComponent({
       require: true,
     },
     selectItem: {
-      type: Function,
+      type: Function as unknown as () => (item: ShopRequest) => void,
       require: true,
     },
   },
-  setup() {},
 });
 </script>

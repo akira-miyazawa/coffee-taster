@@ -6,12 +6,18 @@
       </v-card-title>
       <v-spacer></v-spacer>
       <div class="btn-group">
-        <v-btn :color="handleBtnColor" text @click="handle">
-          {{ handleBtnText }}
-        </v-btn>
-        <v-btn :color="canselBtnColor" text @click="cancel">
-          {{ cancelBtnText }}
-        </v-btn>
+        <TextButtonComponent
+          :isText="true"
+          :color="execBtnColor"
+          :handleClick="exec"
+          :btnText="execBtnText"
+        />
+        <TextButtonComponent
+          :isText="true"
+          :color="canselBtnColor"
+          :handleClick="cancel"
+          :btnText="cancelBtnText"
+        />
       </div>
     </v-card>
   </v-dialog>
@@ -19,8 +25,12 @@
 
 <script lang="ts">
 import { defineComponent } from "@nuxtjs/composition-api";
+import TextButtonComponent from "@/components/atoms/button/TextButtonComponent.vue";
 
 export default defineComponent({
+  components: {
+    TextButtonComponent,
+  },
   props: {
     isOpen: {
       type: Boolean,
@@ -30,15 +40,15 @@ export default defineComponent({
       type: String,
       require: true,
     },
-    handle: {
+    exec: {
       type: Function,
       require: true,
     },
-    handleBtnText: {
+    execBtnText: {
       type: String,
       require: true,
     },
-    handleBtnColor: {
+    execBtnColor: {
       type: String,
       require: true,
     },
@@ -55,7 +65,6 @@ export default defineComponent({
       require: true,
     },
   },
-  setup() {},
 });
 </script>
 

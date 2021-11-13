@@ -37,9 +37,9 @@
     <DialogComponent
       :isOpen.sync="isConfirmLogout"
       text="ログアウトします"
-      :handle="logout"
-      handleBtnText="ログアウト"
-      handleBtnColor="error"
+      :exec="logout"
+      execBtnText="ログアウト"
+      execBtnColor="error"
       :cancel="cancelLogout"
       cancelBtnText="キャンセル"
       canselBtnColor="primary"
@@ -56,8 +56,8 @@ import {
   ref,
   useStore,
 } from "@nuxtjs/composition-api";
-import RadarChertComponent from "@/components/chart/RadarChertComponent.vue";
-import DialogComponent from "@/components/dialog/DialogComponent.vue";
+import RadarChertComponent from "@/components/atoms/chart/RadarChertComponent.vue";
+import DialogComponent from "@/components/molecules/dialog/DialogComponent.vue";
 import { getUser } from "@/usecase/UserService";
 import { User } from "@/model/User";
 import { max } from "@/util/Calc";

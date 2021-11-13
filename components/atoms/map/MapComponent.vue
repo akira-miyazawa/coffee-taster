@@ -46,7 +46,7 @@ import {
   reactive,
   ref,
 } from "@nuxtjs/composition-api";
-import SpeechballoonComponent from "@/components/map/SpeechballoonComponent.vue";
+import SpeechballoonComponent from "@/components/molecules/map/SpeechballoonComponent.vue";
 
 export default defineComponent({
   components: {
@@ -214,8 +214,6 @@ export default defineComponent({
       selectedLocation.lng = lng;
     };
     const handleGmapInfoWindow = (index: number) => {
-      console.log(selectedLocationIndex.value);
-      console.log(markers[index].disable);
       // 初回
       if (selectedLocationIndex.value == null) {
         // 前の選択された場所のindexを更新

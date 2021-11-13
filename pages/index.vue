@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { defineComponent } from "@nuxtjs/composition-api";
-import MapComponent from "@/components/map/MapComponent.vue";
+import MapComponent from "@/components/atoms/map/MapComponent.vue";
 
 export default defineComponent({
   components: {

@@ -134,9 +134,9 @@
       <DialogComponent
         :isOpen.sync="isConfirmBrowsing"
         text="編集内容は破棄されますがよろしいですか？"
-        :handle="toBrose"
-        handleBtnText="変更を破棄"
-        handleBtnColor="error"
+        :exec="toBrose"
+        execBtnText="変更を破棄"
+        execBtnColor="error"
         :cancel="toEdit"
         cancelBtnText="編集を続ける"
         canselBtnColor="primary"
@@ -144,9 +144,9 @@
       <DialogComponent
         :isOpen.sync="isConfirmEdit"
         text="上書きしますがよろしいですか？"
-        :handle="handleUpdate"
-        handleBtnText="変更"
-        handleBtnColor="success"
+        :exec="handleUpdate"
+        execBtnText="変更"
+        execBtnColor="success"
         :cancel="cancelEdit"
         cancelBtnText="キャンセル"
         canselBtnColor="primary"
@@ -154,9 +154,9 @@
       <DialogComponent
         :isOpen.sync="isConfirmDelete"
         text="削除しますがよろしいですか？"
-        :handle="handleDelete"
-        handleBtnText="削除"
-        handleBtnColor="error"
+        :exec="handleDelete"
+        execBtnText="削除"
+        execBtnColor="error"
         :cancel="cancelDelete"
         cancelBtnText="キャンセル"
         canselBtnColor="primary"
@@ -174,14 +174,14 @@ import {
   useStore,
 } from "@nuxtjs/composition-api";
 import ListComponent from "@/components/page/ListComponent.vue";
-import TextComponent from "@/components/text/TextComponent.vue";
-import RadioButtonComponent from "@/components/button/RadioButtonComponent.vue";
-import RatingComponent from "@/components/rating/RatingComponent.vue";
-import RadarChertComponent from "@/components/chart/RadarChertComponent.vue";
-import SelectComponent from "@/components/select/SelectComponent.vue";
-import TextareaComponent from "@/components/text/TextareaComponent.vue";
-import FloatingButtonComponent from "@/components/button/FloatingButtonComponent.vue";
-import DialogComponent from "@/components/dialog/DialogComponent.vue";
+import TextComponent from "@/components/atoms/text/TextComponent.vue";
+import RadioButtonComponent from "@/components/atoms/button/RadioButtonComponent.vue";
+import RatingComponent from "@/components/atoms/rating/RatingComponent.vue";
+import RadarChertComponent from "@/components/atoms/chart/RadarChertComponent.vue";
+import SelectComponent from "@/components/atoms/select/SelectComponent.vue";
+import TextareaComponent from "@/components/atoms/text/TextareaComponent.vue";
+import FloatingButtonComponent from "@/components/molecules/buttons/FloatingButtonComponent.vue";
+import DialogComponent from "@/components/molecules/dialog/DialogComponent.vue";
 import { convertShopRequest } from "@/util/Convert";
 import { deleteShop, getShop } from "@/usecase/ShopService";
 import { ShopResponse } from "@/types/response";
