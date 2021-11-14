@@ -10,7 +10,7 @@
     :color="color"
     @click="handleClick"
   >
-    <v-icon>{{ icon }}</v-icon>
+    <v-icon :color="iconColor">{{ icon }}</v-icon>
   </v-btn>
 </template>
 
@@ -58,6 +58,10 @@ export default defineComponent({
     icon: {
       type: String,
       require: true,
+    },
+    iconColor: {
+      type: String,
+      default: undefined,
     },
   },
 });

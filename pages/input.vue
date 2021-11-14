@@ -106,9 +106,17 @@
         :isLarge="true"
         :isReadonly="false"
       />
-      <v-btn class="btn" fixed fab bottom right @click="postForm" color="brown">
-        <v-icon color="white">mdi-plus</v-icon>
-      </v-btn>
+      <RoundButtonComponent
+        class="btn"
+        :isFixed="true"
+        :isFab="true"
+        :isBottom="true"
+        :isRight="true"
+        color="brown"
+        :handleClick="postForm"
+        icon="mdi-plus"
+        iconColor="white"
+      />
     </v-form>
   </div>
 </template>
@@ -129,6 +137,7 @@ import RatingComponent from "@/components/atoms/rating/RatingComponent.vue";
 import RadarChertComponent from "@/components/atoms/chart/RadarChertComponent.vue";
 import SelectComponent from "@/components/atoms/select/SelectComponent.vue";
 import TextareaComponent from "@/components/atoms/text/TextareaComponent.vue";
+import RoundButtonComponent from "@/components/atoms/button/RoundButtonComponent.vue";
 import { Form, RoastType } from "@/types/input";
 import { postShop } from "@/usecase/ShopService";
 
@@ -140,6 +149,7 @@ export default defineComponent({
     RadarChertComponent,
     SelectComponent,
     TextareaComponent,
+    RoundButtonComponent,
   },
   setup(props) {
     const store = useStore();

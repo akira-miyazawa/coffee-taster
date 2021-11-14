@@ -2,36 +2,34 @@
   <div>
     <div class="img">
       <v-layout class="layout">
-        <v-img src="/img/logo.png" max-height="200" max-width="200"></v-img>
+        <ImgComponent src="/img/logo.png" maxHeight="200" maxWidth="200" />
       </v-layout>
     </div>
     <v-divider></v-divider>
     <v-row class="user-info">
-      <v-icon class="user-icon" absolute left>mdi-account-circle</v-icon>
+      <IconComponent
+        class="user-icon"
+        :isLeft="true"
+        :size="36"
+        iconText="mdi-account-circle"
+      />
       <v-col class="name"
         ><span class="user-name">{{ userName }}</span> さん</v-col
       >
-      <v-icon
+      <ClickableIconComponent
         class="logout-icon"
-        style="font-size: 36px"
-        absolute
-        right
-        @click="indicateConfirmLogout"
-        >mdi-logout</v-icon
-      >
+        :isRight="true"
+        :size="36"
+        iconText="mdi-logout"
+        :handleClick="indicateConfirmLogout"
+      />
     </v-row>
     <v-divider></v-divider>
     <div v-if="isUnMatchTaste">
       <div class="title">あなたの苦手な傾向</div>
-      <v-chip
-        v-for="taste in unMatchTastes"
-        :key="taste"
-        class="ma-2"
-        color="red"
-        text-color="white"
-      >
-        {{ taste }}
-      </v-chip>
+      <div v-for="taste in unMatchTastes" :key="taste">
+        <ChipComponent color="red" textColor="white" :chipText="taste" />
+      </div>
       <RadarChertComponent :coffeeTasteScore="unMatchCoffeeTasteScore" />
     </div>
     <DialogComponent
@@ -56,6 +54,10 @@ import {
   ref,
   useStore,
 } from "@nuxtjs/composition-api";
+import ImgComponent from "@/components/atoms/img/ImgComponent.vue";
+import IconComponent from "@/components/atoms/icon/IconComponent.vue";
+import ClickableIconComponent from "@/components/atoms/icon/ClickableIconComponent.vue";
+import ChipComponent from "@/components/atoms/chip/ChipComponent.vue";
 import RadarChertComponent from "@/components/atoms/chart/RadarChertComponent.vue";
 import DialogComponent from "@/components/molecules/dialog/DialogComponent.vue";
 import { getUser } from "@/usecase/UserService";
@@ -69,6 +71,10 @@ type UnMatchTaste = {
 
 export default defineComponent({
   components: {
+    ImgComponent,
+    IconComponent,
+    ClickableIconComponent,
+    ChipComponent,
     RadarChertComponent,
     DialogComponent,
   },
@@ -168,14 +174,12 @@ export default defineComponent({
 }
 .user-icon {
   margin-left: 10px;
-  font-size: 36px;
 }
 .user-name {
   font-weight: 600;
 }
 .logout-icon {
   margin-right: 10px;
-  font-size: 36px;
 }
 .title {
   font-weight: 600;

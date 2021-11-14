@@ -2,7 +2,7 @@
   <div id="firebase-ui">
     <div class="img">
       <v-layout class="layout">
-        <v-img src="/img/logo.png" max-height="300" max-width="300"></v-img>
+        <ImgComponent src="/img/logo.png" maxHeight="300" max-width="300" />
       </v-layout>
     </div>
     <div id="firebaseui-auth-container"></div>
@@ -12,9 +12,11 @@
 <script>
 import firebase from "@/plugins/firebase";
 import { defineComponent, onMounted } from "@nuxtjs/composition-api";
+import ImgComponent from "@/components/atoms/img/ImgComponent.vue";
 
 export default defineComponent({
   layout: "login",
+  components: { ImgComponent },
   setup() {
     const useFirebaseUi = () => {
       const firebaseui = require("firebaseui-ja");
