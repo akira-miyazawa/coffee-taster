@@ -50,44 +50,39 @@
           <RadarChertComponent
             :coffeeTasteScore="displayShop.coffeeTasteScore"
           />
-          <RatingComponent
+          <OperateRatingComponent
             itemName="苦味"
-            :tasteScore.sync="displayShop.coffeeTasteScore.bitterness"
+            :score.sync="displayShop.coffeeTasteScore.bitterness"
             backgroundColor="brown lighten-2"
             color="brown"
-            :isLarge="false"
             :isReadonly="!isEdit"
           />
-          <RatingComponent
+          <OperateRatingComponent
             itemName="酸味"
-            :tasteScore.sync="displayShop.coffeeTasteScore.sourness"
+            :score.sync="displayShop.coffeeTasteScore.sourness"
             backgroundColor="brown lighten-2"
             color="brown"
-            :isLarge="false"
             :isReadonly="!isEdit"
           />
-          <RatingComponent
+          <OperateRatingComponent
             itemName="甘み"
-            :tasteScore.sync="displayShop.coffeeTasteScore.sweetness"
+            :score.sync="displayShop.coffeeTasteScore.sweetness"
             backgroundColor="brown lighten-2"
             color="brown"
-            :isLarge="false"
             :isReadonly="!isEdit"
           />
-          <RatingComponent
+          <OperateRatingComponent
             itemName="コク"
-            :tasteScore.sync="displayShop.coffeeTasteScore.richness"
+            :score.sync="displayShop.coffeeTasteScore.richness"
             backgroundColor="brown lighten-2"
             color="brown"
-            :isLarge="false"
             :isReadonly="!isEdit"
           />
-          <RatingComponent
+          <OperateRatingComponent
             itemName="香り"
-            :tasteScore.sync="displayShop.coffeeTasteScore.scent"
+            :score.sync="displayShop.coffeeTasteScore.scent"
             backgroundColor="brown lighten-2"
             color="brown"
-            :isLarge="false"
             :isReadonly="!isEdit"
           />
           <SelectComponent
@@ -115,10 +110,10 @@
             :isReadonly="!isEdit"
             hint="必須"
           />
-          <RatingComponent
+          <OperateRatingComponent
             class="rating"
             itemName="あなたの評価"
-            :tasteScore.sync="displayShop.score"
+            :score.sync="displayShop.score"
             backgroundColor="grey darken-1"
             color="yellow darken-3"
             :isLarge="true"
@@ -176,7 +171,7 @@ import {
 import ListComponent from "@/components/page/ListComponent.vue";
 import TextComponent from "@/components/atoms/text/TextComponent.vue";
 import RadioButtonComponent from "@/components/atoms/button/RadioButtonComponent.vue";
-import RatingComponent from "@/components/atoms/rating/RatingComponent.vue";
+import OperateRatingComponent from "@/components/molecules/rating/OperateRatingComponent.vue";
 import RadarChertComponent from "@/components/atoms/chart/RadarChertComponent.vue";
 import SelectComponent from "@/components/atoms/select/SelectComponent.vue";
 import TextareaComponent from "@/components/atoms/text/TextareaComponent.vue";
@@ -194,7 +189,7 @@ export default defineComponent({
     ListComponent,
     TextComponent,
     RadioButtonComponent,
-    RatingComponent,
+    OperateRatingComponent,
     RadarChertComponent,
     SelectComponent,
     TextareaComponent,

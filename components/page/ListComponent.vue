@@ -8,14 +8,13 @@
         </v-list-item-content>
         <v-list-item-action>
           <v-list-item-action-text v-text="item.timeStamp" />
-          <v-rating
-            small
-            dense
-            :value="item.score"
-            length="5"
-            backgroundColor="grey darken-1"
+          <RatingComponent
+            :score="item.score"
+            :isReadonly="true"
+            :isSmall="true"
+            :isDense="true"
             color="yellow darken-3"
-            readonly
+            backgroundColor="grey darken-1"
           />
         </v-list-item-action>
       </v-list-item>
@@ -27,8 +26,10 @@
 <script lang="ts">
 import { defineComponent, PropType } from "@nuxtjs/composition-api";
 import { ShopRequest } from "@/types/request";
+import RatingComponent from "@/components/atoms/rating/RatingComponent.vue";
 
 export default defineComponent({
+  components: { RatingComponent },
   props: {
     shopList: {
       type: Array as PropType<ShopRequest[]>,

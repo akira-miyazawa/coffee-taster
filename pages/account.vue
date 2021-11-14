@@ -27,9 +27,7 @@
     <v-divider></v-divider>
     <div v-if="isUnMatchTaste">
       <div class="title">あなたの苦手な傾向</div>
-      <div v-for="taste in unMatchTastes" :key="taste">
-        <ChipComponent color="red" textColor="white" :chipText="taste" />
-      </div>
+      <ChipsComponent :chips="unMatchTastes" color="red" textColor="white" />
       <RadarChertComponent :coffeeTasteScore="unMatchCoffeeTasteScore" />
     </div>
     <DialogComponent
@@ -57,7 +55,7 @@ import {
 import ImgComponent from "@/components/atoms/img/ImgComponent.vue";
 import IconComponent from "@/components/atoms/icon/IconComponent.vue";
 import ClickableIconComponent from "@/components/atoms/icon/ClickableIconComponent.vue";
-import ChipComponent from "@/components/atoms/chip/ChipComponent.vue";
+import ChipsComponent from "@/components/molecules/chips/ChipsComponent.vue";
 import RadarChertComponent from "@/components/atoms/chart/RadarChertComponent.vue";
 import DialogComponent from "@/components/molecules/dialog/DialogComponent.vue";
 import { getUser } from "@/usecase/UserService";
@@ -74,7 +72,7 @@ export default defineComponent({
     ImgComponent,
     IconComponent,
     ClickableIconComponent,
-    ChipComponent,
+    ChipsComponent,
     RadarChertComponent,
     DialogComponent,
   },

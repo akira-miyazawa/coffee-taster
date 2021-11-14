@@ -32,45 +32,35 @@
         />
       </v-radio-group>
       <RadarChertComponent :coffeeTasteScore="form.coffeeTasteScore" />
-      <RatingComponent
+      <OperateRatingComponent
         itemName="苦味"
-        :tasteScore.sync="form.coffeeTasteScore.bitterness"
+        :score.sync="form.coffeeTasteScore.bitterness"
         backgroundColor="brown lighten-2"
         color="brown"
-        :isLarge="false"
-        :isReadonly="false"
       />
-      <RatingComponent
+      <OperateRatingComponent
         itemName="酸味"
-        :tasteScore.sync="form.coffeeTasteScore.sourness"
+        :score.sync="form.coffeeTasteScore.sourness"
         backgroundColor="brown lighten-2"
         color="brown"
-        :isLarge="false"
-        :isReadonly="false"
       />
-      <RatingComponent
+      <OperateRatingComponent
         itemName="甘み"
-        :tasteScore.sync="form.coffeeTasteScore.sweetness"
+        :score.sync="form.coffeeTasteScore.sweetness"
         backgroundColor="brown lighten-2"
         color="brown"
-        :isLarge="false"
-        :isReadonly="false"
       />
-      <RatingComponent
+      <OperateRatingComponent
         itemName="コク"
-        :tasteScore.sync="form.coffeeTasteScore.richness"
+        :score.sync="form.coffeeTasteScore.richness"
         backgroundColor="brown lighten-2"
         color="brown"
-        :isLarge="false"
-        :isReadonly="false"
       />
-      <RatingComponent
+      <OperateRatingComponent
         itemName="香り"
-        :tasteScore.sync="form.coffeeTasteScore.scent"
+        :score.sync="form.coffeeTasteScore.scent"
         backgroundColor="brown lighten-2"
         color="brown"
-        :isLarge="false"
-        :isReadonly="false"
       />
       <SelectComponent
         class="input"
@@ -97,14 +87,13 @@
         :isReadonly="false"
         hint="必須"
       />
-      <RatingComponent
+      <OperateRatingComponent
         class="rating"
         itemName="あなたの評価"
-        :tasteScore.sync="form.score"
+        :score.sync="form.score"
         backgroundColor="grey darken-1"
         color="yellow darken-3"
         :isLarge="true"
-        :isReadonly="false"
       />
       <RoundButtonComponent
         class="btn"
@@ -133,7 +122,7 @@ import {
 } from "@nuxtjs/composition-api";
 import TextComponent from "@/components/atoms/text/TextComponent.vue";
 import RadioButtonComponent from "@/components/atoms/button/RadioButtonComponent.vue";
-import RatingComponent from "@/components/atoms/rating/RatingComponent.vue";
+import OperateRatingComponent from "@/components/molecules/rating/OperateRatingComponent.vue";
 import RadarChertComponent from "@/components/atoms/chart/RadarChertComponent.vue";
 import SelectComponent from "@/components/atoms/select/SelectComponent.vue";
 import TextareaComponent from "@/components/atoms/text/TextareaComponent.vue";
@@ -145,7 +134,7 @@ export default defineComponent({
   components: {
     TextComponent,
     RadioButtonComponent,
-    RatingComponent,
+    OperateRatingComponent,
     RadarChertComponent,
     SelectComponent,
     TextareaComponent,

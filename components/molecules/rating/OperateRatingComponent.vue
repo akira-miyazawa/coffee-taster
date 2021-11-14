@@ -1,22 +1,32 @@
 <template>
-  <v-rating
-    :value="score"
-    :length="length"
-    :readonly="isReadonly"
-    :large="isLarge"
-    :small="isSmall"
-    :dense="isDense"
-    :color="color"
-    :background-color="backgroundColor"
-    @input="handleScore"
-  />
+  <v-layout>
+    <v-flex align-self-center text-center>
+      {{ itemName }}
+    </v-flex>
+    <v-flex align-self-center text-center>
+      <RatingComponent
+        :score="score"
+        :length="length"
+        :isReadonly="isReadonly"
+        :isLarge="isLarge"
+        :color="color"
+        :backgroundColor="backgroundColor"
+      />
+    </v-flex>
+  </v-layout>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "@nuxtjs/composition-api";
+import RatingComponent from "@/components/atoms/rating/RatingComponent.vue";
 
 export default defineComponent({
+  components: { RatingComponent },
   props: {
+    itemName: {
+      type: String,
+      require: true,
+    },
     score: {
       type: Number,
       require: true,
@@ -33,14 +43,6 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    isSmall: {
-      type: Boolean,
-      default: false,
-    },
-    isDense: {
-      type: Boolean,
-      default: false,
-    },
     color: {
       type: String,
       default: undefined,
@@ -49,14 +51,6 @@ export default defineComponent({
       type: String,
       default: undefined,
     },
-  },
-  setup(props, context) {
-    const handleScore = (score: number) => {
-      context.emit("update:tasteScore", score);
-    };
-    return {
-      handleScore,
-    };
   },
 });
 </script>
