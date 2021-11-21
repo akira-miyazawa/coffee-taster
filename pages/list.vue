@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ListComponent :shopList="shopList" :selectItem="selectItem" />
+    <RaitingListComponent :shopList="shopList" :selectItem.sync="selectItem" />
     <v-dialog v-model="isOpen" fullscreen>
       <v-card>
         <div class="switch-area">
@@ -168,7 +168,7 @@ import {
   ref,
   useStore,
 } from "@nuxtjs/composition-api";
-import ListComponent from "@/components/page/ListComponent.vue";
+import RaitingListComponent from "@/components/molecules/list/RaitingListComponent.vue";
 import TextComponent from "@/components/atoms/text/TextComponent.vue";
 import RadioButtonComponent from "@/components/atoms/button/RadioButtonComponent.vue";
 import OperateRatingComponent from "@/components/molecules/rating/OperateRatingComponent.vue";
@@ -186,7 +186,7 @@ import { updateShop } from "@/usecase/ShopService";
 
 export default defineComponent({
   components: {
-    ListComponent,
+    RaitingListComponent,
     TextComponent,
     RadioButtonComponent,
     OperateRatingComponent,

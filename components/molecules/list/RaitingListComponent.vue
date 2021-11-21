@@ -33,11 +33,11 @@ export default defineComponent({
   props: {
     shopList: {
       type: Array as PropType<ShopRequest[]>,
-      require: true,
+      required: true,
     },
     selectItem: {
       type: Function as unknown as () => (item: ShopRequest) => void,
-      require: true,
+      required: true,
     },
   },
 });
