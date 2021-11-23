@@ -4,6 +4,10 @@
 
 コーヒーの味を記録できるアプリケーションです。
 
+- テストアカウント
+  - mail: test@test.com
+  - password: test0000
+
 <img src="https://github.com/akira-miyazawa/coffee-taster/blob/main/static/icon.png" width="300px" height="300px">
 
 ## 機能
