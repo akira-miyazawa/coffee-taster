@@ -3,8 +3,7 @@
 ## 概要
 
 コーヒーの味を記録できるアプリケーションです。
-苦手な傾向がわかり、あなたの好みがわかるようになります。
-コーヒー好きなあなたにぜひ
+
 <img src="https://github.com/akira-miyazawa/coffee-taster/blob/main/static/icon.png" width="300px" height="300px">
 
 ## 機能
