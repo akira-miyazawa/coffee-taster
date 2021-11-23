@@ -4,8 +4,8 @@
 
 コーヒーの味を記録できるアプリケーションです。
 苦手な傾向がわかり、あなたの好みがわかるようになります。
-コーヒーが好きなあなたにぜひ！！！
-[![ロゴ](https://github.com/akira-miyazawa/coffee-taster/blob/main/static/img/logo.png)]
+コーヒー好きなあなたにぜひ
+<img src="https://github.com/akira-miyazawa/coffee-taster/blob/main/static/icon.png" width="300px" height="300px">
 
 ## 機能
 
