@@ -6,8 +6,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - cafe-taster',
-    title: 'cafe-taster',
+    titleTemplate: '%s - coffee-taster',
+    title: 'cofee-taster',
     htmlAttrs: {
       lang: 'en'
     },
