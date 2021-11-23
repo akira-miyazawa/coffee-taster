@@ -1,4 +1,68 @@
-# cafe-taster
+# COFFEE TASTER
+
+## 概要
+
+コーヒーの味を記録できるアプリケーションです。
+苦手な傾向がわかり、あなたの好みがわかるようになります。
+コーヒーが好きなあなたにぜひ！！！
+[![ロゴ](https://github.com/akira-miyazawa/coffee-taster/blob/main/static/img/logo.png)]
+
+## 機能
+
+コーヒー好き目線でこれからも機能を充実させていきます
+
+### `現在地周辺のカフェを表示する機能`
+
+あなたのいるカフェを検索してスムーズに記録することができます。
+
+### `コーヒーの味の記録機能`
+
+`苦味`・`酸味`・`甘み`・`コク`・`香り`を 5 段階評価でつけます。
+さらにあなたの評価を記載することで、お気に入りのコーヒーを記録しておくことができます。
+
+### `苦手な傾向を表示する機能`
+
+評価が 2 以下のコーヒーのテイストから`苦味`・`酸味`・`甘み`・`コク`・`香り`のチャートを表示します。
+
+## 使用技術
+
+- Nuxt.js × TypeScript
+  - Compositon API
+  - PWA
+- Firebase
+  - FireStore
+  - Authentication
+  - Hosting
+
+## 設計
+
+設計思想を取り入れながら開発を進めています。
+取り組んでいる内容を記載しておきます。
+
+### `DDD`
+
+| ユビキタス言語     | 概要                                                                                                               |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| ショップ名         | 対象の店舗名                                                                                                       |
+| ドリンク名         | 注文したドリンク名                                                                                                 |
+| ドリンクタイプ     | HOT か ICE                                                                                                         |
+| テイストスコア     | 1~5 段階で設定 <br> sourness(酸味) <br> bitterness(苦味) <br> sweetness(甘み) <br> scent(香り) <br> richness(コク) |
+| コメント           | 自由記入欄(1000 文字以下)                                                                                          |
+| 焙煎               | <br> LIGHT(浅煎り) <br> MEDIUM(中煎り) <br> DEEP(深煎り) <br> NONE(不明)                                           |
+| 産地               | コーヒー豆の産地                                                                                                   |
+| 評価               | コーヒーのお気に入り度 <br> 1~5 段階で設定                                                                         |
+| アンマッチテイスト | 評価が 2 以下のコーヒーのテイストスコアを平均して、ユーザーの苦手な傾向を示したもの                                |
+
+### `Atomic Design`
+
+下記の表のルールを参考にコンポーネント設計をしています。
+| ディレクトリ | 責務 |
+| ---- | ---- |
+| ~components/atoms | UI パーツ |
+| ~components/molecules | atoms を組合せた UI パーツ |
+| ~components/organisms | Store・ビジネスロジック　|
+| ~layouts | ページレイアウト |
+| ~pages | 表示するページ |
 
 ## Build Setup
 
@@ -40,7 +104,6 @@ More information about the usage of this directory in [the documentation](https:
 Layouts are a great help when you want to change the look and feel of your Nuxt app, whether you want to include a sidebar or have distinct layouts for mobile and desktop.
 
 More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/layouts).
-
 
 ### `pages`
 
