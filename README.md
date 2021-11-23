@@ -50,7 +50,7 @@
 | ドリンクタイプ     | HOT か ICE                                                                                                         |
 | テイストスコア     | 1~5 段階で設定 <br> sourness(酸味) <br> bitterness(苦味) <br> sweetness(甘み) <br> scent(香り) <br> richness(コク) |
 | コメント           | 自由記入欄(1000 文字以下)                                                                                          |
-| 焙煎               | <br> LIGHT(浅煎り) <br> MEDIUM(中煎り) <br> DEEP(深煎り) <br> NONE(不明)                                           |
+| 焙煎               | LIGHT(浅煎り) <br> MEDIUM(中煎り) <br> DEEP(深煎り) <br> NONE(不明)                                                |
 | 産地               | コーヒー豆の産地                                                                                                   |
 | 評価               | コーヒーのお気に入り度 <br> 1~5 段階で設定                                                                         |
 | アンマッチテイスト | 評価が 2 以下のコーヒーのテイストスコアを平均して、ユーザーの苦手な傾向を示したもの                                |
