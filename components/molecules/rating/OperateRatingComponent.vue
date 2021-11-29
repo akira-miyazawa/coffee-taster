@@ -5,19 +5,20 @@
     </v-flex>
     <v-flex align-self-center text-center>
       <RatingComponent
-        :score="score"
+        :score.sync="score"
         :length="length"
         :isReadonly="isReadonly"
         :isLarge="isLarge"
         :color="color"
         :backgroundColor="backgroundColor"
+        :handleScore="handleScore"
       />
     </v-flex>
   </v-layout>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@nuxtjs/composition-api";
+import { defineComponent, ref, watch } from "@nuxtjs/composition-api";
 import RatingComponent from "@/components/atoms/rating/RatingComponent.vue";
 
 export default defineComponent({
@@ -25,11 +26,11 @@ export default defineComponent({
   props: {
     itemName: {
       type: String,
-      require: true,
+      required: true,
     },
     score: {
       type: Number,
-      require: true,
+      required: true,
     },
     length: {
       type: Number,
@@ -51,6 +52,14 @@ export default defineComponent({
       type: String,
       default: undefined,
     },
+  },
+  setup(props, context) {
+    const handleScore = (score: number) => {
+      context.emit("update:score", score);
+    };
+    return {
+      handleScore,
+    };
   },
 });
 </script>

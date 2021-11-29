@@ -19,7 +19,7 @@ export default defineComponent({
   props: {
     score: {
       type: Number,
-      require: true,
+      required: true,
     },
     length: {
       type: Number,
@@ -49,14 +49,10 @@ export default defineComponent({
       type: String,
       default: undefined,
     },
-  },
-  setup(props, context) {
-    const handleScore = (score: number) => {
-      context.emit("update:tasteScore", score);
-    };
-    return {
-      handleScore,
-    };
+    handleScore: {
+      type: Function as unknown as () => (score: number) => void,
+      required: true,
+    },
   },
 });
 </script>

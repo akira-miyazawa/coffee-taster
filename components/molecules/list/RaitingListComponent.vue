@@ -9,12 +9,13 @@
         <v-list-item-action>
           <v-list-item-action-text v-text="item.timeStamp" />
           <RatingComponent
-            :score="item.score"
+            :score.sync="item.score"
             :isReadonly="true"
             :isSmall="true"
             :isDense="true"
             color="yellow darken-3"
             backgroundColor="grey darken-1"
+            :handleScore="handleScore"
           />
         </v-list-item-action>
       </v-list-item>
@@ -39,6 +40,14 @@ export default defineComponent({
       type: Function as unknown as () => (item: ShopRequest) => void,
       required: true,
     },
+  },
+  setup(props, context) {
+    const handleScore = (score: number) => {
+      context.emit("update:score", score);
+    };
+    return {
+      handleScore,
+    };
   },
 });
 </script>

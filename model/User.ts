@@ -1,4 +1,4 @@
-import { UnmatchCoffeeTasteScore } from "./UnmatchCoffeeTasteScore";
+import { UnmatchCoffeeTasteScore } from "@/model/UnmatchCoffeeTasteScore";
 
 export class User {
   /** ユーザーID */
