@@ -9,15 +9,15 @@ export default defineComponent({
   props: {
     src: {
       type: String,
-      require: true,
+      required: true,
     },
     maxHeight: {
       type: String,
-      require: true,
+      required: true,
     },
     maxWidth: {
       type: String,
-      require: true,
+      required: true,
     },
   },
 });

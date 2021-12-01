@@ -14,19 +14,19 @@ export default defineComponent({
   props: {
     value: {
       type: String,
-      require: true,
+      required: true,
     },
     label: {
       type: String,
-      require: true,
+      required: true,
     },
     isReadonly: {
       type: Boolean,
-      require: true,
+      required: true,
     },
     color: {
       type: String,
-      require: true,
+      required: true,
     },
   },
 });

@@ -15,7 +15,7 @@ export default defineComponent({
   props: {
     coffeeTasteScore: {
       type: Object as PropType<CoffeeTasteScoreType>,
-      require: true,
+      required: true,
     },
   },
   setup(props) {

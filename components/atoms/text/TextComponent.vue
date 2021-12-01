@@ -19,23 +19,22 @@ export default defineComponent({
   props: {
     text: {
       type: String,
-      require: true,
+      required: true,
     },
     rules: {
       type: Array,
-      require: true,
     },
     label: {
       type: String,
-      require: true,
+      required: true,
     },
     isReadonly: {
       type: Boolean,
-      require: true,
+      required: true,
     },
     hint: {
       type: String,
-      require: true,
+      required: true,
     },
   },
   setup(props, context) {

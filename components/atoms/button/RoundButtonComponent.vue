@@ -53,11 +53,11 @@ export default defineComponent({
     },
     handleClick: {
       type: Function,
-      require: true,
+      required: true,
     },
     icon: {
       type: String,
-      require: true,
+      required: true,
     },
     iconColor: {
       type: String,

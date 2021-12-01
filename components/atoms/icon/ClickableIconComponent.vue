@@ -33,11 +33,11 @@ export default defineComponent({
     },
     iconText: {
       type: String,
-      requiure: true,
+      required: true,
     },
     handleClick: {
       type: Function,
-      require: true,
+      required: true,
     },
   },
 });

@@ -19,7 +19,7 @@ export default defineComponent({
     },
     chipText: {
       type: String,
-      require: true,
+      required: true,
     },
   },
 });

@@ -19,11 +19,11 @@ export default defineComponent({
     },
     handleClick: {
       type: Function,
-      require: true,
+      required: true,
     },
     btnText: {
       type: String,
-      require: true,
+      required: true,
     },
   },
 });

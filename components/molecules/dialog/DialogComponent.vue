@@ -34,35 +34,35 @@ export default defineComponent({
   props: {
     isOpen: {
       type: Boolean,
-      require: true,
+      required: true,
     },
     text: {
       type: String,
-      require: true,
+      required: true,
     },
     exec: {
       type: Function,
-      require: true,
+      required: true,
     },
     execBtnText: {
       type: String,
-      require: true,
+      required: true,
     },
     execBtnColor: {
       type: String,
-      require: true,
+      required: true,
     },
     cancel: {
       type: Function,
-      require: true,
+      required: true,
     },
     cancelBtnText: {
       type: String,
-      require: true,
+      required: true,
     },
     canselBtnColor: {
       type: String,
-      require: true,
+      required: true,
     },
   },
 });

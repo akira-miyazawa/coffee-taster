@@ -48,15 +48,15 @@ export default defineComponent({
   props: {
     indicateConfirmDelete: {
       type: Function,
-      require: true,
+      required: true,
     },
     indicateConfirmEdit: {
       type: Function,
-      require: true,
+      required: true,
     },
     close: {
       type: Function,
-      require: true,
+      required: true,
     },
   },
   setup() {

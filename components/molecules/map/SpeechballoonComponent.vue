@@ -24,7 +24,7 @@ export default defineComponent({
   props: {
     title: {
       type: String,
-      require: true,
+      required: true,
     },
   },
   setup(props) {

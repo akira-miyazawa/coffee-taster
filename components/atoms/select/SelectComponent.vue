@@ -20,27 +20,27 @@ export default defineComponent({
   props: {
     selectValue: {
       type: String,
-      require: true,
+      required: true,
     },
     items: {
       type: Array,
-      require: true,
+      required: true,
     },
     label: {
       type: String,
-      require: true,
+      required: true,
     },
     isReadonly: {
       type: Boolean,
-      require: true,
+      required: true,
     },
     itemText: {
       type: String,
-      require: true,
+      required: true,
     },
     itemValue: {
       type: String,
-      require: true,
+      required: true,
     },
   },
   setup(props, context) {
