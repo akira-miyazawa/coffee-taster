@@ -1,5 +1,5 @@
 <template>
-  <v-layout>
+  <v-layout wrap>
     <v-flex align-self-center text-center>
       {{ itemName }}
     </v-flex>
@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from "@nuxtjs/composition-api";
+import { defineComponent } from "@nuxtjs/composition-api";
 import RatingComponent from "@/components/atoms/rating/RatingComponent.vue";
 
 export default defineComponent({

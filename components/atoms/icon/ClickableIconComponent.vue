@@ -36,7 +36,7 @@ export default defineComponent({
       required: true,
     },
     handleClick: {
-      type: Function,
+      type: Function as unknown as () => boolean,
       required: true,
     },
   },

@@ -7,12 +7,13 @@
     </div>
     <v-divider></v-divider>
     <v-row class="user-info">
-      <IconComponent
-        class="user-icon"
-        :isLeft="true"
-        :size="36"
-        iconText="mdi-account-circle"
-      />
+      <div class="user-icon">
+        <IconComponent
+          :isLeft="true"
+          :size="36"
+          iconText="mdi-account-circle"
+        />
+      </div>
       <v-col class="name"
         ><span class="user-name">{{ userName }}</span> さん</v-col
       >
@@ -144,12 +145,17 @@ export default defineComponent({
     };
 
     const indicateConfirmLogout = () => (isConfirmLogout.value = true);
-    const cancelLogout = () => (isConfirmLogout.value = false);
+    const logout = async (): Promise<void> => {
+      await store.dispatch("auth/logout");
+    };
+    const cancelLogout = () => {
+      isConfirmLogout.value = false;
+    };
 
     return {
       userName: computed(() => store.getters["auth/userName"]),
       isLoggedIn: computed(() => store.getters["auth/isLoggedIn"]),
-      logout: async () => await store.dispatch("auth/logout"),
+      logout,
       isUnMatchTaste,
       unMatchTastes,
       unMatchCoffeeTasteScore,

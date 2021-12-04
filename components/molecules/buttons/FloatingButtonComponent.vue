@@ -47,15 +47,15 @@ export default defineComponent({
   components: { RoundButtonComponent },
   props: {
     indicateConfirmDelete: {
-      type: Function,
+      type: Function as () => void,
       required: true,
     },
     indicateConfirmEdit: {
-      type: Function,
+      type: Function as () => void,
       required: true,
     },
     close: {
-      type: Function,
+      type: Function as (() => void) | (() => Promise<void>),
       required: true,
     },
   },

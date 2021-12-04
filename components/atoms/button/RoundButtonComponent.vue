@@ -41,7 +41,7 @@ export default defineComponent({
     },
     isSmall: {
       type: Boolean,
-      defalut: false,
+      default: false,
     },
     isDark: {
       type: Boolean,
@@ -52,7 +52,7 @@ export default defineComponent({
       default: undefined,
     },
     handleClick: {
-      type: Function,
+      type: Function as (() => Promise<void>) | (() => void),
       required: true,
     },
     icon: {
