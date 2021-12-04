@@ -94,6 +94,7 @@
       </div>
       <div class="rating">
         <OperateRatingComponent
+          :isColumn="true"
           itemName="あなたの評価"
           :score.sync="form.score"
           backgroundColor="grey darken-1"
@@ -237,7 +238,6 @@ export default defineComponent({
   justify-content: center;
 }
 .rating {
-  display: block;
   margin-bottom: 10vh;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <v-layout wrap>
+  <v-layout :column="isColumn">
     <v-flex align-self-center text-center>
       {{ itemName }}
     </v-flex>
@@ -24,6 +24,10 @@ import RatingComponent from "@/components/atoms/rating/RatingComponent.vue";
 export default defineComponent({
   components: { RatingComponent },
   props: {
+    isColumn: {
+      type: Boolean,
+      default: false,
+    },
     itemName: {
       type: String,
       required: true,
@@ -34,7 +38,7 @@ export default defineComponent({
     },
     length: {
       type: Number,
-      defalut: 5,
+      default: 5,
     },
     isReadonly: {
       type: Boolean,
