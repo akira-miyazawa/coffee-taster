@@ -12,23 +12,25 @@
             @change="editDisplay"
           />
         </div>
-        <v-form ref="formRef" v-model="valid" lazy-validation>
+        <div class="input">
           <TextComponent
-            class="input"
             :text.sync="displayShop.shopName"
             :rules="[rules.required, rules.textCounter]"
             label="ショップ名"
             :isReadonly="!isEdit"
             hint="必須"
           />
-          <TextComponent
-            class="input"
-            :text.sync="displayShop.coffeeName"
-            :rules="[rules.required, rules.textCounter]"
-            label="ドリンク名"
-            :isReadonly="!isEdit"
-            hint="必須"
-          />
+        </div>
+        <v-form ref="formRef" v-model="valid" lazy-validation>
+          <div class="input">
+            <TextComponent
+              :text.sync="displayShop.coffeeName"
+              :rules="[rules.required, rules.textCounter]"
+              label="ドリンク名"
+              :isReadonly="!isEdit"
+              hint="必須"
+            />
+          </div>
           <v-radio-group
             class="radio-group"
             v-model="displayShop.drinkStatus"
@@ -85,40 +87,44 @@
             color="brown"
             :isReadonly="!isEdit"
           />
-          <SelectComponent
-            class="input"
-            :selectValue.sync="displayShop.roast"
-            :items="roastList"
-            label="焙煎"
-            :isReadonly="!isEdit"
-            itemText="name"
-            itemValue="id"
-          />
-          <TextComponent
-            class="input"
-            :text.sync="displayShop.origin"
-            label="産地"
-            :isReadonly="!isEdit"
-            hint=""
-          />
-          <TextareaComponent
-            class="input"
-            :text.sync="displayShop.comment"
-            :rules="[rules.required, rules.textareaCounter]"
-            :maxlength="500"
-            label="コメント"
-            :isReadonly="!isEdit"
-            hint="必須"
-          />
-          <OperateRatingComponent
-            class="rating"
-            itemName="あなたの評価"
-            :score.sync="displayShop.score"
-            backgroundColor="grey darken-1"
-            color="yellow darken-3"
-            :isLarge="true"
-            :isReadonly="!isEdit"
-          />
+          <div class="input">
+            <SelectComponent
+              :selectValue.sync="displayShop.roast"
+              :items="roastList"
+              label="焙煎"
+              :isReadonly="!isEdit"
+              itemText="name"
+              itemValue="id"
+            />
+          </div>
+          <div class="input">
+            <TextComponent
+              :text.sync="displayShop.origin"
+              label="産地"
+              :isReadonly="!isEdit"
+              hint=""
+            />
+          </div>
+          <div class="input">
+            <TextareaComponent
+              :text.sync="displayShop.comment"
+              :rules="[rules.required, rules.textareaCounter]"
+              :maxlength="500"
+              label="コメント"
+              :isReadonly="!isEdit"
+              hint="必須"
+            />
+          </div>
+          <div class="rating">
+            <OperateRatingComponent
+              itemName="あなたの評価"
+              :score.sync="displayShop.score"
+              backgroundColor="grey darken-1"
+              color="yellow darken-3"
+              :isLarge="true"
+              :isReadonly="!isEdit"
+            />
+          </div>
           <FloatingButtonComponent
             :indicateConfirmDelete="indicateConfirmDelete"
             :indicateConfirmEdit="indicateConfirmEdit"
@@ -348,7 +354,9 @@ export default defineComponent({
       shopList.value = responses.map((res) => convertShopRequest(res));
     };
 
-    const indicateConfirmEdit = () => (isConfirmEdit.value = true);
+    const indicateConfirmEdit = () => {
+      isConfirmEdit.value = true;
+    };
 
     const handleUpdate = async () => {
       if (formRef.value.validate()) {
@@ -367,8 +375,12 @@ export default defineComponent({
       isConfirmEdit.value = false;
       isEdit.value = false;
     };
-    const cancelEdit = () => (isConfirmEdit.value = false);
-    const indicateConfirmDelete = () => (isConfirmDelete.value = true);
+    const cancelEdit = () => {
+      isConfirmEdit.value = false;
+    };
+    const indicateConfirmDelete = () => {
+      isConfirmDelete.value = true;
+    };
     const handleDelete = async () => {
       await deleteShop(store.getters["auth/userToken"], shop);
       // 再取得の処理
@@ -379,7 +391,9 @@ export default defineComponent({
       isConfirmDelete.value = false;
       isOpen.value = false;
     };
-    const cancelDelete = () => (isConfirmDelete.value = false);
+    const cancelDelete = () => {
+      isConfirmDelete.value = false;
+    };
 
     return {
       shopList,

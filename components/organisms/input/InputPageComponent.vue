@@ -1,22 +1,24 @@
 <template>
   <div>
     <v-form ref="formRef" v-model="valid" lazy-validation>
-      <TextComponent
-        class="input"
-        :text.sync="form.shopName"
-        :rules="[rules.required, rules.textCounter]"
-        label="ショップ名"
-        :isReadonly="false"
-        hint="必須"
-      />
-      <TextComponent
-        class="input"
-        :text.sync="form.coffeeName"
-        :rules="[rules.required, rules.textCounter]"
-        label="ドリンク名"
-        :isReadonly="false"
-        hint="必須"
-      />
+      <div class="input">
+        <TextComponent
+          :text.sync="form.shopName"
+          :rules="[rules.required, rules.textCounter]"
+          label="ショップ名"
+          :isReadonly="false"
+          hint="必須"
+        />
+      </div>
+      <div class="input">
+        <TextComponent
+          :text.sync="form.coffeeName"
+          :rules="[rules.required, rules.textCounter]"
+          label="ドリンク名"
+          :isReadonly="false"
+          hint="必須"
+        />
+      </div>
       <v-radio-group class="radio-group" v-model="form.drinkStatus" row>
         <RadioButtonComponent
           value="HOT"
@@ -62,39 +64,43 @@
         backgroundColor="brown lighten-2"
         color="brown"
       />
-      <SelectComponent
-        class="input"
-        :selectValue.sync="form.roast"
-        :items="roastList"
-        label="焙煎"
-        :isReadonly="false"
-        itemText="name"
-        itemValue="id"
-      />
-      <TextComponent
-        class="input"
-        :text.sync="form.origin"
-        label="産地"
-        :isReadonly="false"
-        hint=""
-      />
-      <TextareaComponent
-        class="input"
-        :text.sync="form.comment"
-        :rules="[rules.required, rules.textareaCounter]"
-        :maxlength="500"
-        label="コメント"
-        :isReadonly="false"
-        hint="必須"
-      />
-      <OperateRatingComponent
-        class="rating"
-        itemName="あなたの評価"
-        :score.sync="form.score"
-        backgroundColor="grey darken-1"
-        color="yellow darken-3"
-        :isLarge="true"
-      />
+      <div class="input">
+        <SelectComponent
+          :selectValue.sync="form.roast"
+          :items="roastList"
+          label="焙煎"
+          :isReadonly="false"
+          itemText="name"
+          itemValue="id"
+        />
+      </div>
+      <div class="input">
+        <TextComponent
+          :text.sync="form.origin"
+          label="産地"
+          :isReadonly="false"
+          hint=""
+        />
+      </div>
+      <div class="input">
+        <TextareaComponent
+          :text.sync="form.comment"
+          :rules="[rules.required, rules.textareaCounter]"
+          :maxlength="500"
+          label="コメント"
+          :isReadonly="false"
+          hint="必須"
+        />
+      </div>
+      <div class="rating">
+        <OperateRatingComponent
+          itemName="あなたの評価"
+          :score.sync="form.score"
+          backgroundColor="grey darken-1"
+          color="yellow darken-3"
+          :isLarge="true"
+        />
+      </div>
       <RoundButtonComponent
         class="btn"
         :isFixed="true"

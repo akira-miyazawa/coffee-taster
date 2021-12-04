@@ -18,7 +18,7 @@ export default defineComponent({
       default: undefined,
     },
     handleClick: {
-      type: Function,
+      type: Function as (() => void) | (() => Promise<void>),
       required: true,
     },
     btnText: {

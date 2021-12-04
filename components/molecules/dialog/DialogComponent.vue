@@ -41,7 +41,7 @@ export default defineComponent({
       required: true,
     },
     exec: {
-      type: Function,
+      type: Function as (() => Promise<void>) | (() => void),
       required: true,
     },
     execBtnText: {
@@ -53,7 +53,7 @@ export default defineComponent({
       required: true,
     },
     cancel: {
-      type: Function,
+      type: Function as () => void,
       required: true,
     },
     cancelBtnText: {

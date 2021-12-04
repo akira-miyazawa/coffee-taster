@@ -14,7 +14,7 @@ export default defineComponent({
   components: { ChipComponent },
   props: {
     chips: {
-      type: Array as PropType<String[]>,
+      type: Array as PropType<string[]>,
       required: true,
     },
     color: {
