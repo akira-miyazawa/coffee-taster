@@ -9,13 +9,7 @@
           <Nuxt />
         </v-container>
       </v-main>
-      <v-navigation-drawer
-        v-if="$device.isDesktop"
-        color="brown"
-        app
-        touchless
-        permanent
-      >
+      <v-navigation-drawer v-if="$device.isDesktop" color="brown" app permanent>
         <TabsComponent
           :selectedValue.sync="selectedTab"
           :isFixedTabs="true"
@@ -209,12 +203,5 @@ body,
 }
 .v-tabs >>> .v-slide-group__content {
   background-color: #795548;
-}
-.v-tab {
-  min-width: 40px;
-  justify-content: left;
-}
-.v-tabs {
-  text-align: left;
 }
 </style>
