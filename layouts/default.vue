@@ -9,49 +9,32 @@
           <Nuxt />
         </v-container>
       </v-main>
-      <v-navigation-drawer v-if="$device.isDesktop" permanent app>
-        <!-- v-list-itemに変更する -->
-        <v-tabs
-          v-model="selectedTab"
-          :height="70"
-          fixed-tabs
+      <v-navigation-drawer
+        v-if="$device.isDesktop"
+        color="brown"
+        app
+        touchless
+        permanent
+      >
+        <TabsComponent
+          :selectedValue.sync="selectedTab"
+          :isFixedTabs="true"
+          :isVertical="true"
           color="brown lighten-4"
-        >
-          <v-tab href="index" @click.prevent="homeRoute()">
-            <v-icon>mdi-map-marker</v-icon>
-          </v-tab>
-          <v-tab href="input" @click.prevent="inputRoute()">
-            <v-icon>mdi-pencil-plus</v-icon>
-          </v-tab>
-          <v-tab href="list" @click.prevent="listRoute()">
-            <v-icon>mdi-format-list-bulleted</v-icon>
-          </v-tab>
-          <v-tab href="account" @click.prevent="accountRoute()">
-            <v-icon>mdi-account</v-icon>
-          </v-tab>
-        </v-tabs>
+          :tabValues="leftTabValues"
+          :isTabLeft="true"
+        />
       </v-navigation-drawer>
       <v-footer v-else fixed padless app>
-        <!-- Bottom navigationに変更する (v-footerも不要かもしれない) -->
-        <v-tabs
-          v-model="selectedTab"
-          :height="70"
-          fixed-tabs
+        <TabsComponent
+          :selectedValue.sync="selectedTab"
+          :isFixedTabs="true"
+          :isVertical="false"
           color="brown lighten-4"
-        >
-          <v-tab href="index" @click.prevent="homeRoute()">
-            <v-icon>mdi-map-marker</v-icon>
-          </v-tab>
-          <v-tab href="input" @click.prevent="inputRoute()">
-            <v-icon>mdi-pencil-plus</v-icon>
-          </v-tab>
-          <v-tab href="list" @click.prevent="listRoute()">
-            <v-icon>mdi-format-list-bulleted</v-icon>
-          </v-tab>
-          <v-tab href="account" @click.prevent="accountRoute()">
-            <v-icon>mdi-account</v-icon>
-          </v-tab>
-        </v-tabs>
+          :height="70"
+          :tabValues="underTabValues"
+          :isTabLeft="false"
+        />
       </v-footer>
     </v-app>
   </div>
@@ -62,12 +45,15 @@ import {
   computed,
   defineComponent,
   onMounted,
-  reactive,
   ref,
+  reactive,
   useRoute,
   useRouter,
   watch,
 } from "@nuxtjs/composition-api";
+import TabsComponent, {
+  Tabs,
+} from "@/components/molecules/tabs/TabsComponent.vue";
 
 type Tab = "index" | "input" | "list" | "account";
 
@@ -78,12 +64,54 @@ export default defineComponent({
     const query = computed(() => route.value.path);
     const headerText = ref<string>();
     const selectedTab = ref<Tab>();
-    const items = reactive([
-      { title: "Dashboard", icon: "mdi-view-dashboard" },
-      { title: "Photos", icon: "mdi-image" },
-      { title: "About", icon: "mdi-help-box" },
+    const underTabValues = reactive<Tabs[]>([
+      {
+        href: "index",
+        clickFunction: () => router.push("/"),
+        iconText: "mdi-map-marker",
+      },
+      {
+        href: "input",
+        clickFunction: () => router.push("/input"),
+        iconText: "mdi-pencil-plus",
+      },
+      {
+        href: "list",
+        clickFunction: () => router.push("/list"),
+        iconText: "mdi-format-list-bulleted",
+      },
+      {
+        href: "account",
+        clickFunction: () => router.push("/account"),
+        iconText: "mdi-account",
+      },
     ]);
-
+    const leftTabValues = reactive<Tabs[]>([
+      {
+        href: "index",
+        clickFunction: () => router.push("/"),
+        iconText: "mdi-map-marker",
+        text: "周辺のカフェ",
+      },
+      {
+        href: "input",
+        clickFunction: () => router.push("/input"),
+        iconText: "mdi-pencil-plus",
+        text: "MEMO",
+      },
+      {
+        href: "list",
+        clickFunction: () => router.push("/list"),
+        iconText: "mdi-format-list-bulleted",
+        text: "一覧",
+      },
+      {
+        href: "account",
+        clickFunction: () => router.push("/account"),
+        iconText: "mdi-account",
+        text: "マイページ",
+      },
+    ]);
     onMounted(() => {
       if (query.value === "/") {
         selectedTab.value = "index";
@@ -106,7 +134,6 @@ export default defineComponent({
         return;
       }
     });
-
     watch(query, (newVal) => {
       if (newVal === "/") {
         selectedTab.value = "index";
@@ -129,7 +156,6 @@ export default defineComponent({
         return;
       }
     });
-
     const homeRoute = () => {
       router.push("/");
     };
@@ -142,7 +168,6 @@ export default defineComponent({
     const accountRoute = () => {
       router.push("/account");
     };
-
     return {
       selectedTab,
       headerText,
@@ -150,9 +175,11 @@ export default defineComponent({
       inputRoute,
       listRoute,
       accountRoute,
-      items,
+      underTabValues,
+      leftTabValues,
     };
   },
+  components: { TabsComponent },
 });
 </script>
 
@@ -185,5 +212,9 @@ body,
 }
 .v-tab {
   min-width: 40px;
+  justify-content: left;
+}
+.v-tabs {
+  text-align: left;
 }
 </style>
