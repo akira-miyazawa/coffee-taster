@@ -33,37 +33,49 @@
           color="indigo"
         />
       </v-radio-group>
-      <RadarChertComponent :coffeeTasteScore="form.coffeeTasteScore" />
-      <OperateRatingComponent
-        itemName="苦味"
-        :score.sync="form.coffeeTasteScore.bitterness"
-        backgroundColor="brown lighten-2"
-        color="brown"
-      />
-      <OperateRatingComponent
-        itemName="酸味"
-        :score.sync="form.coffeeTasteScore.sourness"
-        backgroundColor="brown lighten-2"
-        color="brown"
-      />
-      <OperateRatingComponent
-        itemName="甘み"
-        :score.sync="form.coffeeTasteScore.sweetness"
-        backgroundColor="brown lighten-2"
-        color="brown"
-      />
-      <OperateRatingComponent
-        itemName="コク"
-        :score.sync="form.coffeeTasteScore.richness"
-        backgroundColor="brown lighten-2"
-        color="brown"
-      />
-      <OperateRatingComponent
-        itemName="香り"
-        :score.sync="form.coffeeTasteScore.scent"
-        backgroundColor="brown lighten-2"
-        color="brown"
-      />
+      <v-row>
+        <v-col :cols="8" class="taste-rating" align-self="end">
+          <OperateRatingComponent
+            itemName="苦味"
+            :score.sync="form.coffeeTasteScore.bitterness"
+            backgroundColor="brown lighten-2"
+            color="brown"
+          />
+          <OperateRatingComponent
+            itemName="酸味"
+            :score.sync="form.coffeeTasteScore.sourness"
+            backgroundColor="brown lighten-2"
+            color="brown"
+          />
+          <OperateRatingComponent
+            itemName="甘み"
+            :score.sync="form.coffeeTasteScore.sweetness"
+            backgroundColor="brown lighten-2"
+            color="brown"
+          />
+          <OperateRatingComponent
+            itemName="コク"
+            :score.sync="form.coffeeTasteScore.richness"
+            backgroundColor="brown lighten-2"
+            color="brown"
+          />
+          <OperateRatingComponent
+            itemName="香り"
+            :score.sync="form.coffeeTasteScore.scent"
+            backgroundColor="brown lighten-2"
+            color="brown"
+          />
+        </v-col>
+        <v-col :cols="4" class="chart-rating">
+          <RadarChertComponent
+            :labels="['苦味', '酸味', '甘み', 'コク', '香り']"
+            :coffeeTasteScore="form.coffeeTasteScore"
+            backgroundColor="rgba(141, 110, 99, 0.2)"
+            borderColor="#6D4C41"
+            gridLineColor="#BCAAA4"
+          />
+        </v-col>
+      </v-row>
       <div class="input">
         <SelectComponent
           :selectValue.sync="form.roast"
@@ -102,17 +114,18 @@
           :isLarge="true"
         />
       </div>
-      <RoundButtonComponent
-        class="btn"
-        :isFixed="true"
-        :isFab="true"
-        :isBottom="true"
-        :isRight="true"
-        color="brown"
-        :handleClick="postForm"
-        icon="mdi-plus"
-        iconColor="white"
-      />
+      <div class="button">
+        <IconTextButtonComponent
+          :isRounded="true"
+          color="brown"
+          :handleClick="postForm"
+          btnText="記録する"
+          textColor="white"
+          icon="mdi-plus"
+          iconColor="white"
+          :isLarge="true"
+        />
+      </div>
     </v-form>
   </div>
 </template>
@@ -133,9 +146,9 @@ import OperateRatingComponent from "@/components/molecules/rating/OperateRatingC
 import RadarChertComponent from "@/components/atoms/chart/RadarChertComponent.vue";
 import SelectComponent from "@/components/atoms/select/SelectComponent.vue";
 import TextareaComponent from "@/components/atoms/text/TextareaComponent.vue";
-import RoundButtonComponent from "@/components/atoms/button/RoundButtonComponent.vue";
 import { Form, RoastType } from "@/types/input";
 import { postShop } from "@/usecase/ShopService";
+import IconTextButtonComponent from "@/components/atoms/button/IconTextButtonComponent.vue";
 
 export default defineComponent({
   components: {
@@ -145,7 +158,7 @@ export default defineComponent({
     RadarChertComponent,
     SelectComponent,
     TextareaComponent,
-    RoundButtonComponent,
+    IconTextButtonComponent,
   },
   setup(props) {
     const store = useStore();
@@ -231,13 +244,21 @@ export default defineComponent({
   margin-top: 5vh;
   margin-bottom: 5vh;
 }
-.btn {
-  margin-bottom: 70px;
-}
 .radio-group >>> .v-input--radio-group__input {
   justify-content: center;
 }
 .rating {
   margin-bottom: 10vh;
+}
+.taste-rating {
+  max-width: 40vw;
+}
+.chart-rating {
+  max-width: 40vw;
+}
+.button {
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+  text-align: center;
 }
 </style>

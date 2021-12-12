@@ -1,6 +1,6 @@
 <template>
   <rader-chart :chart-data="chartData()" :options="{ scale, legend }" />
-</template>
+</template>　
 
 <script lang="ts">
 import {
@@ -13,9 +13,25 @@ import { CoffeeTasteScoreType } from "@/types/input";
 
 export default defineComponent({
   props: {
+    labels: {
+      type: Array as PropType<string[]>,
+      required: true,
+    },
     coffeeTasteScore: {
       type: Object as PropType<CoffeeTasteScoreType>,
       required: true,
+    },
+    backgroundColor: {
+      type: String,
+      required: true,
+    },
+    borderColor: {
+      type: String,
+      required: true,
+    },
+    gridLineColor: {
+      type: String,
+      requried: true,
     },
   },
   setup(props) {
@@ -37,8 +53,8 @@ export default defineComponent({
             ],
             fill: true,
             borderWidth: 2,
-            backgroundColor: "rgba(141, 110, 99, 0.2)",
-            borderColor: "#6D4C41",
+            backgroundColor: props.backgroundColor,
+            borderColor: props.borderColor,
           },
         ],
       };
@@ -51,7 +67,7 @@ export default defineComponent({
         display: false,
       },
       gridLines: {
-        color: "#BCAAA4",
+        color: props.gridLineColor,
         borderDash: [2],
       },
       pointLabels: {
@@ -69,6 +85,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped>
-</style>

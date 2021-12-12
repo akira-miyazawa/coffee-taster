@@ -1,6 +1,6 @@
 <template>
   <v-layout :column="isColumn">
-    <v-flex align-self-center text-center>
+    <v-flex align-self-center text-right>
       {{ itemName }}
     </v-flex>
     <v-flex align-self-center text-center>

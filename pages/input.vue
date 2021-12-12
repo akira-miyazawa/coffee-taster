@@ -1,16 +1,19 @@
 <template>
   <div>
-    <InputPageComponent />
+    <DesktopInputPageComponent v-if="$device.isDesktop" />
+    <MobileInputPageComponent v-else />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "@nuxtjs/composition-api";
-import InputPageComponent from "@/components/organisms/input/InputPageComponent.vue";
+import DesktopInputPageComponent from "@/components/organisms/input/DesktopInputPageComponent.vue";
+import MobileInputPageComponent from "@/components/organisms/input/MobileInputPageComponent.vue";
 
 export default defineComponent({
   components: {
-    InputPageComponent,
+    DesktopInputPageComponent,
+    MobileInputPageComponent,
   },
 });
 </script>
