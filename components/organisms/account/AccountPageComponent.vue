@@ -29,7 +29,13 @@
     <div v-if="isUnMatchTaste">
       <div class="title">あなたの苦手な傾向</div>
       <ChipsComponent :chips="unMatchTastes" color="red" textColor="white" />
-      <RadarChertComponent :coffeeTasteScore="unMatchCoffeeTasteScore" />
+      <RadarChertComponent
+        :labels="['苦味', '酸味', '甘み', 'コク', '香り']"
+        :coffeeTasteScore="unMatchCoffeeTasteScore"
+        backgroundColor="rgba(141, 110, 99, 0.2)"
+        borderColor="#6D4C41"
+        gridLineColor="#BCAAA4"
+      />
     </div>
     <DialogComponent
       :isOpen.sync="isConfirmLogout"

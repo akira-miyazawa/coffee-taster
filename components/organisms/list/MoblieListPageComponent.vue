@@ -50,7 +50,11 @@
             />
           </v-radio-group>
           <RadarChertComponent
+            :labels="['苦味', '酸味', '甘み', 'コク', '香り']"
             :coffeeTasteScore="displayShop.coffeeTasteScore"
+            backgroundColor="rgba(141, 110, 99, 0.2)"
+            borderColor="#6D4C41"
+            gridLineColor="#BCAAA4"
           />
           <OperateRatingComponent
             itemName="苦味"
@@ -117,6 +121,7 @@
           </div>
           <div class="rating">
             <OperateRatingComponent
+              :isColumn="true"
               itemName="あなたの評価"
               :score.sync="displayShop.score"
               backgroundColor="grey darken-1"
@@ -448,7 +453,6 @@ export default defineComponent({
   text-align: right;
 }
 .rating {
-  display: block;
   margin-bottom: 10vh;
 }
 .score-rating {
