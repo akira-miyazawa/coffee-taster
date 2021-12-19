@@ -1,16 +1,19 @@
 <template>
   <div>
-    <ListPageComponent />
+    <DesktopListPageComponent v-if="$device.isDesktop" />
+    <MoblieListPageComponent v-else />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "@nuxtjs/composition-api";
-import ListPageComponent from "@/components/organisms/list/ListPageComponent.vue";
+import DesktopListPageComponent from "@/components/organisms/list/DesktopListPageComponent.vue";
+import MoblieListPageComponent from "@/components/organisms/list/MoblieListPageComponent.vue";
 
 export default defineComponent({
   components: {
-    ListPageComponent,
+    DesktopListPageComponent,
+    MoblieListPageComponent,
   },
 });
 </script>
