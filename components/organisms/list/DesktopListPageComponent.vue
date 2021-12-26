@@ -50,7 +50,7 @@
             />
           </v-radio-group>
           <v-row>
-            <v-col :cols="8" class="taste-rating" align-self="end">
+            <v-col :cols="6" class="taste-rating" align-self="end">
               <OperateRatingComponent
                 itemName="苦味"
                 :score.sync="displayShop.coffeeTasteScore.bitterness"
@@ -87,7 +87,7 @@
                 :isReadonly="!isEdit"
               />
             </v-col>
-            <v-col :cols="4" class="chart-rating">
+            <v-col :cols="6" class="chart-rating">
               <RadarChertComponent
                 :labels="['苦味', '酸味', '甘み', 'コク', '香り']"
                 :coffeeTasteScore="displayShop.coffeeTasteScore"
