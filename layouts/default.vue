@@ -18,6 +18,11 @@
           :tabValues="leftTabValues"
           :isTabLeft="true"
         />
+        <template v-slot:append>
+          <div class="logo" @click="accountRoute">
+            <ImgComponent src="/img/logo2.png" maxHeight="175" maxWidth="175" />
+          </div>
+        </template>
       </v-navigation-drawer>
       <v-footer v-else fixed padless app>
         <TabsComponent
@@ -48,6 +53,7 @@ import {
 import TabsComponent, {
   Tabs,
 } from "@/components/molecules/tabs/TabsComponent.vue";
+import ImgComponent from "@/components/atoms/img/ImgComponent.vue";
 
 type Tab = "index" | "input" | "list" | "account";
 
@@ -173,7 +179,7 @@ export default defineComponent({
       leftTabValues,
     };
   },
-  components: { TabsComponent },
+  components: { TabsComponent, ImgComponent },
 });
 </script>
 
@@ -203,5 +209,9 @@ body,
 }
 .v-tabs >>> .v-slide-group__content {
   background-color: #795548;
+}
+.logo {
+  display: flex;
+  justify-content: center;
 }
 </style>
