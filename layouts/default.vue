@@ -10,6 +10,9 @@
         </v-container>
       </v-main>
       <v-navigation-drawer v-if="$device.isDesktop" color="brown" app permanent>
+        <div class="logo" @click="accountRoute">
+          <ImgComponent src="/img/logo2.png" maxHeight="100" maxWidth="100" />
+        </div>
         <TabsComponent
           :selectedValue.sync="selectedTab"
           :isFixedTabs="true"
@@ -18,11 +21,6 @@
           :tabValues="leftTabValues"
           :isTabLeft="true"
         />
-        <template v-slot:append>
-          <div class="logo" @click="accountRoute">
-            <ImgComponent src="/img/logo2.png" maxHeight="175" maxWidth="175" />
-          </div>
-        </template>
       </v-navigation-drawer>
       <v-footer v-else fixed padless app>
         <TabsComponent
