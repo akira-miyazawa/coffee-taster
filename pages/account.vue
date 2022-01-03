@@ -1,16 +1,19 @@
 <template>
   <div>
-    <AccountPageComponent />
+    <DesktopAccountPageComponent v-if="$device.isDesktop" />
+    <MoblieAccountPageComponent v-else />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "@nuxtjs/composition-api";
-import AccountPageComponent from "@/components/organisms/account/AccountPageComponent.vue";
+import DesktopAccountPageComponent from "@/components/organisms/account/DesktopAccountPageComponent.vue";
+import MoblieAccountPageComponent from "@/components/organisms/account/MoblieAccountPageComponent.vue";
 
 export default defineComponent({
   components: {
-    AccountPageComponent,
+    DesktopAccountPageComponent,
+    MoblieAccountPageComponent,
   },
 });
 </script>

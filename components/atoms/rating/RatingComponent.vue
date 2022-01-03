@@ -8,6 +8,7 @@
     :dense="isDense"
     :color="color"
     :background-color="backgroundColor"
+    :half-increments="halfIncrements"
     @input="handleScore"
   />
 </template>
@@ -48,6 +49,10 @@ export default defineComponent({
     backgroundColor: {
       type: String,
       default: undefined,
+    },
+    halfIncrements: {
+      type: Boolean,
+      default: false,
     },
     handleScore: {
       type: Function as unknown as () => (score: number) => void,
