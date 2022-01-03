@@ -12,6 +12,7 @@
         :color="color"
         :backgroundColor="backgroundColor"
         :handleScore="handleScore"
+        :halfIncrements="halfIncrements"
       />
     </v-flex>
   </v-layout>
@@ -55,6 +56,10 @@ export default defineComponent({
     backgroundColor: {
       type: String,
       default: undefined,
+    },
+    halfIncrements: {
+      type: Boolean,
+      default: false,
     },
   },
   setup(props, context) {

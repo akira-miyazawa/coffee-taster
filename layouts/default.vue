@@ -10,6 +10,9 @@
         </v-container>
       </v-main>
       <v-navigation-drawer v-if="$device.isDesktop" color="brown" app permanent>
+        <div class="logo" @click="accountRoute">
+          <ImgComponent src="/img/logo2.png" maxHeight="100" maxWidth="100" />
+        </div>
         <TabsComponent
           :selectedValue.sync="selectedTab"
           :isFixedTabs="true"
@@ -48,6 +51,7 @@ import {
 import TabsComponent, {
   Tabs,
 } from "@/components/molecules/tabs/TabsComponent.vue";
+import ImgComponent from "@/components/atoms/img/ImgComponent.vue";
 
 type Tab = "index" | "input" | "list" | "account";
 
@@ -173,7 +177,7 @@ export default defineComponent({
       leftTabValues,
     };
   },
-  components: { TabsComponent },
+  components: { TabsComponent, ImgComponent },
 });
 </script>
 
@@ -203,5 +207,9 @@ body,
 }
 .v-tabs >>> .v-slide-group__content {
   background-color: #795548;
+}
+.logo {
+  display: flex;
+  justify-content: center;
 }
 </style>
