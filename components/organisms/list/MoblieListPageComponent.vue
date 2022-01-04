@@ -1,8 +1,7 @@
 <template>
   <div>
-    <RaitingListComponent :shopList="shopList" :selectItem.sync="selectItem" />
-    <v-dialog v-model="isOpen" fullscreen>
-      <v-card>
+    <div v-if="isOpen">
+      <v-form ref="formRef" v-model="valid" lazy-validation>
         <div class="switch-area">
           <v-switch
             v-model="isEdit"
@@ -21,122 +20,121 @@
             hint="必須"
           />
         </div>
-        <v-form ref="formRef" v-model="valid" lazy-validation>
-          <div class="input">
-            <TextComponent
-              :text.sync="displayShop.coffeeName"
-              :rules="[rules.required, rules.textCounter]"
-              label="ドリンク名"
-              :isReadonly="!isEdit"
-              hint="必須"
-            />
-          </div>
-          <v-radio-group
-            class="radio-group"
-            v-model="displayShop.drinkStatus"
-            row
-          >
-            <RadioButtonComponent
-              value="HOT"
-              label="HOT"
-              :isReadonly="!isEdit"
-              color="red"
-            />
-            <RadioButtonComponent
-              value="ICE"
-              label="ICE"
-              :isReadonly="!isEdit"
-              color="indigo"
-            />
-          </v-radio-group>
-          <RadarChertComponent
-            :labels="['苦味', '酸味', '甘み', 'コク', '香り']"
-            :coffeeTasteScore="displayShop.coffeeTasteScore"
-            backgroundColor="rgba(141, 110, 99, 0.2)"
-            borderColor="#6D4C41"
-            gridLineColor="#BCAAA4"
+        <div class="input">
+          <TextComponent
+            :text.sync="displayShop.coffeeName"
+            :rules="[rules.required, rules.textCounter]"
+            label="ドリンク名"
+            :isReadonly="!isEdit"
+            hint="必須"
           />
+        </div>
+        <v-radio-group
+          class="radio-group"
+          v-model="displayShop.drinkStatus"
+          row
+        >
+          <RadioButtonComponent
+            value="HOT"
+            label="HOT"
+            :isReadonly="!isEdit"
+            color="red"
+          />
+          <RadioButtonComponent
+            value="ICE"
+            label="ICE"
+            :isReadonly="!isEdit"
+            color="indigo"
+          />
+        </v-radio-group>
+        <RadarChertComponent
+          :labels="['苦味', '酸味', '甘み', 'コク', '香り']"
+          :coffeeTasteScore="displayShop.coffeeTasteScore"
+          backgroundColor="rgba(141, 110, 99, 0.2)"
+          borderColor="#6D4C41"
+          gridLineColor="#BCAAA4"
+        />
+        <OperateRatingComponent
+          itemName="苦味"
+          :score.sync="displayShop.coffeeTasteScore.bitterness"
+          backgroundColor="brown lighten-2"
+          color="brown"
+          :isReadonly="!isEdit"
+        />
+        <OperateRatingComponent
+          itemName="酸味"
+          :score.sync="displayShop.coffeeTasteScore.sourness"
+          backgroundColor="brown lighten-2"
+          color="brown"
+          :isReadonly="!isEdit"
+        />
+        <OperateRatingComponent
+          itemName="甘み"
+          :score.sync="displayShop.coffeeTasteScore.sweetness"
+          backgroundColor="brown lighten-2"
+          color="brown"
+          :isReadonly="!isEdit"
+        />
+        <OperateRatingComponent
+          itemName="コク"
+          :score.sync="displayShop.coffeeTasteScore.richness"
+          backgroundColor="brown lighten-2"
+          color="brown"
+          :isReadonly="!isEdit"
+        />
+        <OperateRatingComponent
+          itemName="香り"
+          :score.sync="displayShop.coffeeTasteScore.scent"
+          backgroundColor="brown lighten-2"
+          color="brown"
+          :isReadonly="!isEdit"
+        />
+        <div class="input">
+          <SelectComponent
+            :selectValue.sync="displayShop.roast"
+            :items="roastList"
+            label="焙煎"
+            :isReadonly="!isEdit"
+            itemText="name"
+            itemValue="id"
+          />
+        </div>
+        <div class="input">
+          <TextComponent
+            :text.sync="displayShop.origin"
+            label="産地"
+            :isReadonly="!isEdit"
+            hint=""
+          />
+        </div>
+        <div class="input">
+          <TextareaComponent
+            :text.sync="displayShop.comment"
+            :rules="[rules.required, rules.textareaCounter]"
+            :maxlength="500"
+            label="コメント"
+            :isReadonly="!isEdit"
+            hint="必須"
+          />
+        </div>
+        <div class="rating">
           <OperateRatingComponent
-            itemName="苦味"
-            :score.sync="displayShop.coffeeTasteScore.bitterness"
-            backgroundColor="brown lighten-2"
-            color="brown"
+            :isColumn="true"
+            itemName="あなたの評価"
+            :score.sync="displayShop.score"
+            backgroundColor="grey darken-1"
+            color="yellow darken-3"
+            :isLarge="true"
             :isReadonly="!isEdit"
           />
-          <OperateRatingComponent
-            itemName="酸味"
-            :score.sync="displayShop.coffeeTasteScore.sourness"
-            backgroundColor="brown lighten-2"
-            color="brown"
-            :isReadonly="!isEdit"
-          />
-          <OperateRatingComponent
-            itemName="甘み"
-            :score.sync="displayShop.coffeeTasteScore.sweetness"
-            backgroundColor="brown lighten-2"
-            color="brown"
-            :isReadonly="!isEdit"
-          />
-          <OperateRatingComponent
-            itemName="コク"
-            :score.sync="displayShop.coffeeTasteScore.richness"
-            backgroundColor="brown lighten-2"
-            color="brown"
-            :isReadonly="!isEdit"
-          />
-          <OperateRatingComponent
-            itemName="香り"
-            :score.sync="displayShop.coffeeTasteScore.scent"
-            backgroundColor="brown lighten-2"
-            color="brown"
-            :isReadonly="!isEdit"
-          />
-          <div class="input">
-            <SelectComponent
-              :selectValue.sync="displayShop.roast"
-              :items="roastList"
-              label="焙煎"
-              :isReadonly="!isEdit"
-              itemText="name"
-              itemValue="id"
-            />
-          </div>
-          <div class="input">
-            <TextComponent
-              :text.sync="displayShop.origin"
-              label="産地"
-              :isReadonly="!isEdit"
-              hint=""
-            />
-          </div>
-          <div class="input">
-            <TextareaComponent
-              :text.sync="displayShop.comment"
-              :rules="[rules.required, rules.textareaCounter]"
-              :maxlength="500"
-              label="コメント"
-              :isReadonly="!isEdit"
-              hint="必須"
-            />
-          </div>
-          <div class="rating">
-            <OperateRatingComponent
-              :isColumn="true"
-              itemName="あなたの評価"
-              :score.sync="displayShop.score"
-              backgroundColor="grey darken-1"
-              color="yellow darken-3"
-              :isLarge="true"
-              :isReadonly="!isEdit"
-            />
-          </div>
-          <FloatingButtonComponent
-            :indicateConfirmDelete="indicateConfirmDelete"
-            :indicateConfirmEdit="indicateConfirmEdit"
-            :close="close"
-          />
-        </v-form>
-      </v-card>
+        </div>
+        <FloatingButtonComponent
+          :indicateConfirmDelete="indicateConfirmDelete"
+          :indicateConfirmEdit="indicateConfirmEdit"
+          :close="close"
+          :bottom="160"
+        />
+      </v-form>
       <DialogComponent
         :isOpen.sync="isConfirmBrowsing"
         text="編集内容は破棄されますがよろしいですか？"
@@ -167,7 +165,12 @@
         cancelBtnText="キャンセル"
         canselBtnColor="primary"
       />
-    </v-dialog>
+    </div>
+    <RaitingListComponent
+      v-else
+      :shopList="shopList"
+      :selectItem.sync="selectItem"
+    />
   </div>
 </template>
 
@@ -453,7 +456,7 @@ export default defineComponent({
   text-align: right;
 }
 .rating {
-  margin-bottom: 10vh;
+  margin-bottom: 15vh;
 }
 .score-rating {
   display: block;

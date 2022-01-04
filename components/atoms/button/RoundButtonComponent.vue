@@ -8,6 +8,7 @@
     :small="isSmall"
     :dark="isDark"
     :color="color"
+    :style="styleObj"
     @click="handleClick"
   >
     <v-icon :color="iconColor">{{ icon }}</v-icon>
@@ -62,6 +63,10 @@ export default defineComponent({
     iconColor: {
       type: String,
       default: undefined,
+    },
+    styleObj: {
+      type: Object,
+      defalut: {},
     },
   },
 });

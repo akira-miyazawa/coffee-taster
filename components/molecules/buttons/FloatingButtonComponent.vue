@@ -1,7 +1,14 @@
 <template>
   <v-row class="flex-column">
     <v-col>
-      <v-speed-dial v-model="fab" fab fixed bottom right style="bottom: 80px">
+      <v-speed-dial
+        v-model="fab"
+        fab
+        fixed
+        bottom
+        right
+        :style="{ bottom: `${bottom}px` }"
+      >
         <template v-slot:activator>
           <v-btn v-model="fab" color="brown" dark fab>
             <v-icon v-if="fab"> mdi-undo </v-icon>
@@ -32,6 +39,7 @@
         :isFab="true"
         :isBottom="true"
         :isRight="true"
+        :styleObj="{ bottom: `${closeBtnBottom}px` }"
         :handleClick="close"
         icon="mdi-close"
       />
@@ -40,7 +48,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "@nuxtjs/composition-api";
+import { computed, defineComponent, ref } from "@nuxtjs/composition-api";
 import RoundButtonComponent from "@/components/atoms/button/RoundButtonComponent.vue";
 
 export default defineComponent({
@@ -58,10 +66,20 @@ export default defineComponent({
       type: Function as (() => void) | (() => Promise<void>),
       required: true,
     },
+    bottom: {
+      type: Number,
+      required: true,
+    },
   },
-  setup() {
+  setup(props) {
     const fab = ref<boolean>(false);
-    return { fab };
+    const closeBtnBottom = computed(() => {
+      if (props.bottom > 80) {
+        return props.bottom / 2 + 16;
+      }
+      return 16;
+    });
+    return { fab, closeBtnBottom };
   },
 });
 </script>
