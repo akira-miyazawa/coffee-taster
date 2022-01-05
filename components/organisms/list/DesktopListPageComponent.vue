@@ -48,7 +48,7 @@
           />
         </v-radio-group>
         <v-row>
-          <v-col :cols="6" class="taste-rating" align-self="end">
+          <v-col :cols="8" class="taste-rating" align-self="end">
             <OperateRatingComponent
               itemName="苦味"
               :score.sync="displayShop.coffeeTasteScore.bitterness"
@@ -85,7 +85,7 @@
               :isReadonly="!isEdit"
             />
           </v-col>
-          <v-col :cols="6" class="chart-rating">
+          <v-col :cols="4" class="chart-rating">
             <RadarChertComponent
               :labels="['苦味', '酸味', '甘み', 'コク', '香り']"
               :coffeeTasteScore="displayShop.coffeeTasteScore"
@@ -451,9 +451,6 @@ export default defineComponent({
   margin-top: 5vh;
   margin-bottom: 5vh;
 }
-.btn {
-  text-align: center;
-}
 .switch {
   margin-right: 1vw;
   display: inline-block;
@@ -464,14 +461,13 @@ export default defineComponent({
 .rating {
   margin-bottom: 10vh;
 }
-.score-rating {
-  display: block;
-}
-.v-card {
-  padding: 14px !important;
-  background-color: #efebe9;
-}
 .radio-group >>> .v-input--radio-group__input {
   justify-content: center;
+}
+.taste-rating {
+  max-width: 40vw;
+}
+.chart-rating {
+  max-width: 40vw;
 }
 </style>
