@@ -24,7 +24,7 @@ export default defineComponent({
     },
     length: {
       type: Number,
-      defalut: 5,
+      default: 5,
     },
     isReadonly: {
       type: Boolean,

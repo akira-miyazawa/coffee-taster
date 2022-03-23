@@ -20,7 +20,7 @@ export class ShopService {
   async get(): Promise<ShopResponse[]> {
     const responses = await this.repository.get();
     return responses.map((res): ShopResponse => {
-      const shop = new Shop(res.data.shop_name);
+      const shop = new Shop(res.placeId, res.data.shop_name);
       const coffee = new Coffee(
         res.data.coffee_name,
         res.data.status,
@@ -32,6 +32,7 @@ export class ShopService {
       const timeStamp = new TimeStamp(res.data.timeStamp.toDate());
       return {
         documentId: res.documentId,
+        placeId: shop.placeId,
         shopName: shop.name,
         coffeeName: coffee.name,
         drinkStatus: coffee.status,
@@ -46,7 +47,7 @@ export class ShopService {
   }
 
   async post(form: Form) {
-    const shop = new Shop(form.shopName);
+    const shop = new Shop(form.placeId, form.shopName);
     const coffee = new Coffee(
       form.coffeeName,
       form.drinkStatus,
@@ -59,7 +60,7 @@ export class ShopService {
   }
 
   async update(shopReq: ShopRequest) {
-    const shop = new Shop(shopReq.shopName);
+    const shop = new Shop(shopReq.placeId, shopReq.shopName);
     const coffee = new Coffee(
       shopReq.coffeeName,
       shopReq.drinkStatus,

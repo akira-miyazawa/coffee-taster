@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <MapComponent />
-  </div>
+  <MapComponent />
 </template>
 
 <script lang="ts">

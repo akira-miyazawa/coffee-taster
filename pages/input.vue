@@ -15,5 +15,8 @@ export default defineComponent({
     DesktopInputPageComponent,
     MobileInputPageComponent,
   },
+  setup() {
+    return {};
+  },
 });
 </script>

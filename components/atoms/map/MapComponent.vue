@@ -1,42 +1,69 @@
 <template>
-  <v-row justify="center" align="center">
-    <GmapMap
-      class="gmap-map"
-      map-type-id="roadmap"
-      :center="centerLocation"
-      :zoom="zoom"
-      :style="styleMap"
-      :options="mapOptions"
-      ref="mapRef"
-    >
-      <GmapMarker
-        :position="currentLocation"
-        :clickable="false"
-        :draggable="false"
+  <div>
+    <v-row justify="center" align="center">
+      <gmap-autocomplete
+        class="search_container"
+        placeholder="カフェ・コーヒーショップ検索"
+        :select-first-on-enter="true"
+        @place_changed="setPlace"
+        :value="placeName"
       />
-      <GmapMarker
-        v-for="(m, index) in markers"
-        :key="`GmapMarker${m.id}`"
-        :position="m.position"
-        :title="m.title"
-        :clickable="true"
-        :draggable="false"
-        :icon="m.icon"
-        @click="handleEvent(m.position, index, markers)"
-      />
-      <GmapInfoWindow
-        class="info-window"
-        :options="infoOptions"
-        v-for="m in markers"
-        :key="`${m.id}`"
-        :position="m.position"
-        :title="m.title"
-        :opened="m.disable"
+    </v-row>
+    <v-row>
+      <GmapMap
+        class="gmap-map"
+        map-type-id="roadmap"
+        :center="centerLocation"
+        :zoom="zoom"
+        :options="mapOptions"
+        ref="mapRef"
+        :style="styleMap"
       >
-        <SpeechballoonComponent :title="m.title" />
-      </GmapInfoWindow>
-    </GmapMap>
-  </v-row>
+        <GmapMarker
+          :position="currentLocation"
+          :clickable="false"
+          :draggable="false"
+        />
+        <GmapMarker
+          v-for="(m, index) in markers"
+          :key="`GmapMarker${m.id}`"
+          :position="m.position"
+          :title="m.title"
+          :clickable="true"
+          :draggable="false"
+          :icon="m.icon"
+          @click="handleEvent(m.position, index, markers)"
+        />
+        <GmapInfoWindow
+          class="info-window"
+          :options="infoOptions"
+          v-for="m in markers"
+          :key="`${m.id}`"
+          :position="m.position"
+          :title="m.title"
+          :opened="m.disable"
+        >
+          <SpeechballoonComponent :title="m.title" />
+        </GmapInfoWindow>
+        <GmapInfoWindow
+          class="info-window"
+          :options="infoOptions"
+          :position="selectPlace.position"
+          :title="selectPlace.name"
+          :opened="bottomSheetDisable"
+        >
+          <SpeechballoonComponent
+            :title="selectPlace.name"
+            :photos="selectPlace.photos"
+          />
+        </GmapInfoWindow>
+      </GmapMap>
+    </v-row>
+    <BottomSheetComponent
+      :disable="bottomSheetDisable"
+      :select-place="selectPlace"
+    />
+  </div>
 </template>
 
 <script lang="ts">
@@ -47,10 +74,13 @@ import {
   ref,
 } from "@nuxtjs/composition-api";
 import SpeechballoonComponent from "@/components/molecules/map/SpeechballoonComponent.vue";
+import { Place } from "@/types/input";
+import BottomSheetComponent from "@/components/molecules/bottom-sheet/BottomSheetComponent.vue";
 
 export default defineComponent({
   components: {
     SpeechballoonComponent,
+    BottomSheetComponent,
   },
   setup(props, context) {
     const currentLocation = reactive<{ lat: number; lng: number }>({
@@ -70,7 +100,7 @@ export default defineComponent({
     const zoom = ref<number>(16);
     const styleMap = reactive<any>({
       width: "100%",
-      height: "400px",
+      height: "100%",
     });
     const mapOptions = reactive<any>({
       streetViewControl: false,
@@ -79,12 +109,46 @@ export default defineComponent({
       mapTypeControl: false,
       fullscreenControl: false,
     });
-    const infoOptions = reactive<any>({
-      maxWidth: 300,
-      minWidth: 200,
-    });
+    const infoOptions = reactive<any>({});
     const markers = reactive<any>([]);
     const mapRef = ref<any>(null);
+
+    const setName = (place: any) => place.name;
+    const placeName = ref<string>("");
+
+    const selectPlace = reactive<Place>({
+      placeId: "",
+      position: undefined,
+      name: "",
+      address: "",
+      photos: [],
+      week: [],
+    });
+    const bottomSheetDisable = ref<boolean>(false);
+
+    const setPlace = (place: google.maps.places.PlaceResult) => {
+      const lat: number | undefined = place.geometry?.location.lat();
+      const lng: number | undefined = place.geometry?.location.lng();
+      if (!lat || !lng || !place.place_id) {
+        setTimeout(() => {}, 2000);
+        return;
+      }
+      placeName.value = place.name;
+
+      setCenterLocation(lat, lng);
+      console.log(place);
+      selectPlace.placeId = place.place_id;
+      selectPlace.position = place.geometry?.location;
+      selectPlace.name = place.name;
+      selectPlace.address =
+        place.formatted_address == null ? "" : place.formatted_address;
+      const map = place.photos?.map((photo: google.maps.places.PlacePhoto) =>
+        photo.getUrl({})
+      );
+      selectPlace.photos = map == null ? [] : map;
+      selectPlace.week = place.opening_hours?.weekday_text ?? [];
+      bottomSheetDisable.value = true;
+    };
 
     onMounted(async () => {
       await getCurrentPosition();
@@ -252,18 +316,33 @@ export default defineComponent({
       markers,
       mapRef,
       handleEvent,
+      setPlace,
+      selectPlace,
+      bottomSheetDisable,
+      setName,
+      placeName,
     };
   },
 });
 </script>
  
 <style lang="postcss" scoped>
-.gmap-map {
-  position: unset;
-  width: 100%;
-  height: 100%;
+.search_container {
+  padding: 3px 10px;
+  border-radius: 20px;
+  height: 2.3em;
+  width: 265px;
+  background-color: #fff;
+  margin: 3px 0 3px 0;
 }
-.gmap-map >>> button.gm-ui-hover-effect {
-  visibility: hidden;
+.search_container:focus {
+  outline: 3px solid #795548;
+}
+.gmap-map {
+  position: absolute;
+}
+
+.gmap-map >>> .gm-style {
+  height: 40px;
 }
 </style>

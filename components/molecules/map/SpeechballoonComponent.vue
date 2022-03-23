@@ -1,19 +1,22 @@
 <template>
-  <div>
-    <div class="window">
-      <div class="title">{{ title }}</div>
-      <TextButtonComponent
-        :isText="true"
-        color="brown"
-        :handleClick="toInput"
-        btnText="記録する"
-      />
-    </div>
-  </div>
+  <v-card class="window">
+    <v-img
+      v-if="photos.length > 0"
+      :src="photos[0]"
+      :aspect-ratio="16 / 9"
+    ></v-img>
+    <div class="title">{{ title }}</div>
+    <TextButtonComponent
+      :isText="true"
+      color="brown"
+      :handleClick="toInput"
+      btnText="記録する"
+    />
+  </v-card>
 </template>
 
 <script lang="ts">
-import { useRouter, useStore } from "@nuxtjs/composition-api";
+import { PropType, useRouter, useStore } from "@nuxtjs/composition-api";
 import { defineComponent } from "@vue/composition-api";
 import TextButtonComponent from "@/components/atoms/button/TextButtonComponent.vue";
 
@@ -25,6 +28,10 @@ export default defineComponent({
     title: {
       type: String,
       required: true,
+    },
+    photos: {
+      type: Array as PropType<string[]>,
+      default: () => [],
     },
   },
   setup(props) {
@@ -41,6 +48,8 @@ export default defineComponent({
 
 <style scoped lang="postcss">
 .window {
+  max-width: 50vw;
+  max-height: 30vh;
   text-align: center;
 }
 </style>

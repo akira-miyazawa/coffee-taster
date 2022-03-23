@@ -167,6 +167,7 @@ export default defineComponent({
 
     const form = reactive<Form>({
       shopName: "",
+      placeId: "",
       coffeeName: "",
       drinkStatus: "HOT",
       coffeeTasteScore: {
@@ -200,6 +201,7 @@ export default defineComponent({
     });
 
     onMounted(() => {
+      form.placeId = store.getters["shop/placeId"];
       form.shopName = store.getters["shop/shopName"];
     });
 

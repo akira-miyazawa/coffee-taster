@@ -7,5 +7,6 @@ export interface AuthState {
 }
 
 export interface ShopState {
+  placeId: string;
   shopName: string;
 }

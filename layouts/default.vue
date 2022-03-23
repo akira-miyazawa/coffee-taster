@@ -5,7 +5,7 @@
         <v-app-bar-title>{{ headerText }}</v-app-bar-title>
       </v-app-bar>
       <v-main>
-        <v-container>
+        <v-container class="container">
           <Nuxt />
         </v-container>
       </v-main>
@@ -211,5 +211,9 @@ body,
 .logo {
   display: flex;
   justify-content: center;
+}
+
+.container {
+  height: 100%;
 }
 </style>

@@ -1,4 +1,6 @@
 export interface Form {
+  /** place_id */
+  placeId: string;
   /** ショップ名 */
   shopName: string;
   /** ドリンク名 */
@@ -30,3 +32,12 @@ export type DrinkStatus = 'HOT' | 'ICE';
 
 /** 焙煎 */
 export type RoastType = 'LIGHT' | 'MEDIUM' | 'DEEP' | 'NONE';
+
+export interface Place {
+  placeId: string;
+  position: google.maps.LatLng | undefined;
+  name: string;
+  address: string;
+  photos: string[];
+  week: string[];
+}

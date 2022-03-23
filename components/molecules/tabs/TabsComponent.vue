@@ -38,11 +38,11 @@ export default defineComponent({
     },
     isFixedTabs: {
       type: Boolean,
-      defalut: false,
+      default: false,
     },
     isVertical: {
       type: Boolean,
-      defalut: false,
+      default: false,
     },
     color: {
       type: String,

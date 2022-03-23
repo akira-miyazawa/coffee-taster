@@ -24,6 +24,7 @@ export class ShopRepository {
     try {
       const userDoc = db.collection('user').doc(this.token);
       await userDoc.collection('shop').add({
+        placeId: shop.placeId,
         shop_name: shop.name,
         coffee_name: coffee.name,
         status: coffee.status,

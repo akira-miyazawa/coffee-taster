@@ -66,7 +66,7 @@ export default defineComponent({
     },
     styleObj: {
       type: Object,
-      defalut: {},
+      default: undefined,
     },
   },
 });

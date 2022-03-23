@@ -22,7 +22,7 @@ export default defineComponent({
     },
     isRounded: {
       type: Boolean,
-      defalut: false,
+      default: false,
     },
     color: {
       type: String,
@@ -50,7 +50,7 @@ export default defineComponent({
     },
     isLarge: {
       type: Boolean,
-      defalut: false,
+      default: false,
     },
   },
 });

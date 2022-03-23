@@ -3,6 +3,8 @@ import { CoffeeTasteScoreType, DrinkStatus, RoastType } from "./input";
 export interface ShopRequest {
   /** ドキュメントID */
   documentId: string;
+  /** place_id */
+  placeId: string;
   /** ショップ名 */
   shopName: string;
   /** ドリンク名 */

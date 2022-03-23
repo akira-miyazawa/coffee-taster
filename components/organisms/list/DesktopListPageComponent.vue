@@ -221,6 +221,7 @@ export default defineComponent({
     const shopList = ref<ShopRequest[]>([]);
     const shop = reactive<ShopRequest>({
       documentId: "",
+      placeId: "",
       shopName: "",
       coffeeName: "",
       drinkStatus: "HOT",
@@ -239,6 +240,7 @@ export default defineComponent({
     });
     const displayShop = reactive<ShopRequest>({
       documentId: "",
+      placeId: "",
       shopName: "",
       coffeeName: "",
       drinkStatus: "HOT",
