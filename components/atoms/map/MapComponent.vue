@@ -2,11 +2,24 @@
   <div>
     <v-row justify="center" align="center">
       <gmap-autocomplete
+        id="autocomplete"
         class="search_container"
+        ref="autocompleteRef"
         placeholder="カフェ・コーヒーショップ検索"
         :select-first-on-enter="true"
         @place_changed="setPlace"
         :value="placeName"
+        :options="{
+          fields: [
+            'geometry',
+            'place_id',
+            'name',
+            'formatted_address',
+            'photos',
+            'opening_hours',
+            'types',
+          ],
+        }"
       />
     </v-row>
     <v-row>
@@ -26,41 +39,18 @@
         />
         <GmapMarker
           v-for="(m, index) in markers"
-          :key="`GmapMarker${m.id}`"
-          :position="m.position"
-          :title="m.title"
+          :key="`GmapMarker${index}`"
+          :position="m.geometry == null ? null : m.geometry.location"
+          :title="m.name"
           :clickable="true"
           :draggable="false"
-          :icon="m.icon"
-          @click="handleEvent(m.position, index, markers)"
+          :icon="icon"
+          @click="setMarker(m)"
         />
-        <GmapInfoWindow
-          class="info-window"
-          :options="infoOptions"
-          v-for="m in markers"
-          :key="`${m.id}`"
-          :position="m.position"
-          :title="m.title"
-          :opened="m.disable"
-        >
-          <SpeechballoonComponent :title="m.title" />
-        </GmapInfoWindow>
-        <GmapInfoWindow
-          class="info-window"
-          :options="infoOptions"
-          :position="selectPlace.position"
-          :title="selectPlace.name"
-          :opened="bottomSheetDisable"
-        >
-          <SpeechballoonComponent
-            :title="selectPlace.name"
-            :photos="selectPlace.photos"
-          />
-        </GmapInfoWindow>
       </GmapMap>
     </v-row>
     <BottomSheetComponent
-      :disable="bottomSheetDisable"
+      :disable.sync="bottomSheetDisable"
       :select-place="selectPlace"
     />
   </div>
@@ -110,8 +100,9 @@ export default defineComponent({
       fullscreenControl: false,
     });
     const infoOptions = reactive<any>({});
-    const markers = reactive<any>([]);
+    const markers = reactive<google.maps.places.PlaceResult[]>([]);
     const mapRef = ref<any>(null);
+    const autocompleteRef = ref<any>(null);
 
     const setName = (place: any) => place.name;
     const placeName = ref<string>("");
@@ -125,18 +116,37 @@ export default defineComponent({
       week: [],
     });
     const bottomSheetDisable = ref<boolean>(false);
+    const icon = reactive<{
+      url: string;
+      scaledSize: google.maps.Size | null;
+      origin: google.maps.Point | null;
+      anchor: google.maps.Point | null;
+    }>({
+      url: "/img/coffee.png", // url
+      scaledSize: null,
+      origin: null,
+      anchor: null,
+    });
+
+    onMounted(async () => {
+      await getCurrentPosition();
+      mapRef.value.$mapPromise.then(() => {
+        icon.scaledSize = new google.maps.Size(30, 30);
+        icon.origin = new google.maps.Point(0, 0);
+        icon.anchor = new google.maps.Point(0, 0);
+      });
+    });
 
     const setPlace = (place: google.maps.places.PlaceResult) => {
       const lat: number | undefined = place.geometry?.location.lat();
       const lng: number | undefined = place.geometry?.location.lng();
       if (!lat || !lng || !place.place_id) {
+        alert("ないよ");
         setTimeout(() => {}, 2000);
         return;
       }
       placeName.value = place.name;
-
       setCenterLocation(lat, lng);
-      console.log(place);
       selectPlace.placeId = place.place_id;
       selectPlace.position = place.geometry?.location;
       selectPlace.name = place.name;
@@ -150,9 +160,33 @@ export default defineComponent({
       bottomSheetDisable.value = true;
     };
 
-    onMounted(async () => {
-      await getCurrentPosition();
-    });
+    const setMarker = (place: google.maps.places.PlaceResult) => {
+      const placeId = place.place_id == null ? "" : place.place_id;
+      mapRef.value.$mapPromise.then(() => {
+        const map = mapRef.value.$mapObject;
+        new google.maps.places.PlacesService(map).getDetails(
+          {
+            placeId: placeId,
+            fields: [
+              "geometry",
+              "place_id",
+              "name",
+              "formatted_address",
+              "photos",
+              "opening_hours",
+            ],
+          },
+          function (
+            results: google.maps.places.PlaceResult,
+            status: google.maps.places.PlacesServiceStatus
+          ) {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+              setPlace(results);
+            }
+          }
+        );
+      });
+    };
 
     const success = (position: any) => {
       currentLocation.lat = position.coords.latitude;
@@ -231,42 +265,12 @@ export default defineComponent({
           ) {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
               results.forEach((place: google.maps.places.PlaceResult) => {
-                // デフォルトのアイコンが大きめなので縮小
-                const icon = {
-                  url: "/img/coffee.png", // url
-                  scaledSize: new google.maps.Size(30, 30), // scaled size
-                  origin: new google.maps.Point(0, 0), // origin
-                  anchor: new google.maps.Point(0, 0), // anchor
-                };
-                const marker = {
-                  position: place.geometry?.location,
-                  icon: icon,
-                  title: place.name,
-                  id: place.place_id,
-                  disable: false,
-                };
-                markers.push(marker);
+                markers.push(place);
               });
             }
           }.bind(this)
         );
       });
-    };
-
-    /**
-     * 場所を選択したときの処理を実行
-     * @param position 緯度・経度
-     * @param index インデックス
-     * @param markers マーカーの情報
-     */
-    const handleEvent = (
-      positon: { lat: number; lng: number },
-      index: number,
-      markers: any[]
-    ) => {
-      setCenterLocation(positon.lat, positon.lng);
-      setSelectedLocation(positon.lat, positon.lng);
-      handleGmapInfoWindow(index);
     };
 
     const setCenterLocation = (lat: number, lng: number) => {
@@ -276,31 +280,6 @@ export default defineComponent({
     const setSelectedLocation = (lat: number, lng: number) => {
       selectedLocation.lat = lat;
       selectedLocation.lng = lng;
-    };
-    const handleGmapInfoWindow = (index: number) => {
-      // 初回
-      if (selectedLocationIndex.value == null) {
-        // 前の選択された場所のindexを更新
-        selectedLocationIndex.value = index;
-        // 表示する
-        markers[index].disable = true;
-        return;
-      }
-      if (
-        selectedLocationIndex.value != null &&
-        markers[index].disable === true
-      ) {
-        // 前の選択された場所のindexを更新
-        selectedLocationIndex.value = index;
-        markers[index].disable = false;
-        return;
-      }
-      // 前に選択された場所は非表示にする
-      markers[selectedLocationIndex.value].disable = false;
-      // 前の選択された場所のindexを更新
-      selectedLocationIndex.value = index;
-      // 表示する
-      markers[index].disable = true;
     };
 
     return {
@@ -315,12 +294,14 @@ export default defineComponent({
       infoOptions,
       markers,
       mapRef,
-      handleEvent,
+      autocompleteRef,
       setPlace,
+      setMarker,
       selectPlace,
       bottomSheetDisable,
       setName,
       placeName,
+      icon,
     };
   },
 });

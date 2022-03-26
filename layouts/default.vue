@@ -191,6 +191,10 @@ body,
   width: 100% !important;
   background-color: #efebe9;
 }
+
+body {
+  padding-bottom: env(safe-area-inset-bottom);
+}
 </style>
 
 <style lang="postcss" scoped>

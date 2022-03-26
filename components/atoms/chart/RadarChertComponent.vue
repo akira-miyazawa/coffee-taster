@@ -1,6 +1,6 @@
 <template>
   <rader-chart :chart-data="chartData()" :options="{ scale, legend }" />
-</template>　
+</template>
 
 <script lang="ts">
 import {
