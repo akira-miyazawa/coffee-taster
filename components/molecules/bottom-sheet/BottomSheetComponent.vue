@@ -7,7 +7,7 @@
   >
     <v-card class="text-center">
       <v-btn class="mt-6" color="brown" @click="toInput"> 記録する </v-btn>
-      <v-card-title>{{ selectPlace.name }}</v-card-title>
+      <v-card-title class="title">{{ selectPlace.name }}</v-card-title>
       <div>
         <v-expansion-panels accordion>
           <ExpansionPalnelComponent
@@ -31,9 +31,17 @@
           v-for="photo in selectPlace.photos"
           :key="photo"
           :src="photo"
+          :lazy-src="photo"
           max-height="150"
           max-width="250"
-        ></v-img>
+        >
+          <template v-slot:placeholder>
+            <v-row class="fill-height ma-0" align="center" justify="center">
+              <v-progress-circular indeterminate color="grey lighten-5">
+              </v-progress-circular>
+            </v-row>
+          </template>
+        </v-img>
       </div>
     </v-card>
   </v-bottom-sheet>
@@ -82,6 +90,9 @@ export default defineComponent({
 </script>
 
 <style scoped lang="postcss">
+.title {
+  margin-right: 24px;
+}
 .text-center {
   overflow: scroll;
   height: 30vh;

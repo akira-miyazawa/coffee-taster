@@ -98,6 +98,9 @@ export default defineComponent({
       gestureHandling: "greedy",
       mapTypeControl: false,
       fullscreenControl: false,
+      zoomControl: false,
+      noSuppress: true,
+      clickableIcons: false,
     });
     const infoOptions = reactive<any>({});
     const markers = reactive<google.maps.places.PlaceResult[]>([]);
