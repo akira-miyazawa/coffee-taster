@@ -36,16 +36,27 @@
           :position="currentLocation"
           :clickable="false"
           :draggable="false"
+          :animation="2"
         />
+        <template v-for="m in markers">
+          <GmapMarker
+            v-if="isIndicate(m)"
+            :key="m.place_id"
+            :position="m.geometry == null ? null : m.geometry.location"
+            :title="m.name"
+            :clickable="false"
+            :draggable="false"
+            :icon="cafeIcon"
+            :animation="2"
+            @click="setMarker(m)"
+          />
+        </template>
         <GmapMarker
-          v-for="(m, index) in markers"
-          :key="`GmapMarker${index}`"
-          :position="m.geometry == null ? null : m.geometry.location"
-          :title="m.name"
-          :clickable="true"
+          :position="selectedLocation"
+          :clickable="false"
           :draggable="false"
-          :icon="icon"
-          @click="setMarker(m)"
+          :animation="1"
+          icon="http://maps.google.com/mapfiles/ms/icons/orange-dot.png"
         />
       </GmapMap>
     </v-row>
@@ -81,9 +92,12 @@ export default defineComponent({
       lat: 0,
       lng: 0,
     });
-    const selectedLocation = reactive<{ lat: number; lng: number }>({
-      lat: 0,
-      lng: 0,
+    const selectedLocation = reactive<{
+      lat: number | null;
+      lng: number | null;
+    }>({
+      lat: null,
+      lng: null,
     });
     const infoWinOpenDisable = ref<boolean>(false);
     const selectedLocationIndex = ref<number | null>(null);
@@ -119,7 +133,7 @@ export default defineComponent({
       week: [],
     });
     const bottomSheetDisable = ref<boolean>(false);
-    const icon = reactive<{
+    const cafeIcon = reactive<{
       url: string;
       scaledSize: google.maps.Size | null;
       origin: google.maps.Point | null;
@@ -134,9 +148,9 @@ export default defineComponent({
     onMounted(async () => {
       await getCurrentPosition();
       mapRef.value.$mapPromise.then(() => {
-        icon.scaledSize = new google.maps.Size(30, 30);
-        icon.origin = new google.maps.Point(0, 0);
-        icon.anchor = new google.maps.Point(0, 0);
+        cafeIcon.scaledSize = new google.maps.Size(30, 30);
+        cafeIcon.origin = new google.maps.Point(0, 0);
+        cafeIcon.anchor = new google.maps.Point(0, 0);
       });
     });
 
@@ -161,6 +175,11 @@ export default defineComponent({
       selectPlace.photos = map == null ? [] : map;
       selectPlace.week = place.opening_hours?.weekday_text ?? [];
       bottomSheetDisable.value = true;
+
+      setSelectedLocation(
+        selectPlace.position?.lat() ?? 0,
+        selectPlace.position?.lng() ?? 0
+      );
     };
 
     const setMarker = (place: google.maps.places.PlaceResult) => {
@@ -276,6 +295,18 @@ export default defineComponent({
       });
     };
 
+    const isIndicate = (place: google.maps.places.PlaceResult): boolean => {
+      if (place.geometry == null) {
+        return true;
+      }
+      const markerLat = place.geometry.location.lat();
+      const markerlng = place.geometry.location.lng();
+
+      return (
+        markerLat !== selectedLocation.lat || markerlng !== selectedLocation.lng
+      );
+    };
+
     const setCenterLocation = (lat: number, lng: number) => {
       centerLocation.lat = lat;
       centerLocation.lng = lng;
@@ -300,11 +331,12 @@ export default defineComponent({
       autocompleteRef,
       setPlace,
       setMarker,
+      isIndicate,
       selectPlace,
       bottomSheetDisable,
       setName,
       placeName,
-      icon,
+      cafeIcon,
     };
   },
 });
