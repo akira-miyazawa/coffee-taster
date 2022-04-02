@@ -8,6 +8,24 @@
     <v-card class="text-center">
       <v-btn class="mt-6" color="brown" @click="toInput"> 記録する </v-btn>
       <v-card-title class="title">{{ selectPlace.name }}</v-card-title>
+      <div v-if="selectPlace.photos.length !== 0" class="img-area">
+        <v-img
+          class="image"
+          v-for="photo in selectPlace.photos"
+          :key="photo"
+          :src="photo"
+          :lazy-src="photo"
+          max-height="150"
+          max-width="250"
+        >
+          <template v-slot:placeholder>
+            <v-row class="fill-height ma-0" align="center" justify="center">
+              <v-progress-circular indeterminate color="grey lighten-5">
+              </v-progress-circular>
+            </v-row>
+          </template>
+        </v-img>
+      </div>
       <div>
         <v-expansion-panels accordion>
           <ExpansionPalnelComponent
@@ -25,23 +43,6 @@
             content-color="#efebe9"
           />
         </v-expansion-panels>
-      </div>
-      <div v-if="selectPlace.photos.length !== 0" class="img-area">
-        <v-img
-          v-for="photo in selectPlace.photos"
-          :key="photo"
-          :src="photo"
-          :lazy-src="photo"
-          max-height="150"
-          max-width="250"
-        >
-          <template v-slot:placeholder>
-            <v-row class="fill-height ma-0" align="center" justify="center">
-              <v-progress-circular indeterminate color="grey lighten-5">
-              </v-progress-circular>
-            </v-row>
-          </template>
-        </v-img>
       </div>
     </v-card>
   </v-bottom-sheet>
@@ -107,5 +108,10 @@ export default defineComponent({
 
 .tree {
   display: inline-flex;
+}
+
+.image {
+  border-radius: 5px;
+  margin: 5px;
 }
 </style>

@@ -4,7 +4,6 @@
       <gmap-autocomplete
         id="autocomplete"
         class="search_container"
-        ref="autocompleteRef"
         placeholder="カフェ・コーヒーショップ検索"
         :select-first-on-enter="true"
         @place_changed="setPlace"
@@ -116,12 +115,9 @@ export default defineComponent({
       noSuppress: true,
       clickableIcons: false,
     });
-    const infoOptions = reactive<any>({});
     const markers = reactive<google.maps.places.PlaceResult[]>([]);
     const mapRef = ref<any>(null);
-    const autocompleteRef = ref<any>(null);
 
-    const setName = (place: any) => place.name;
     const placeName = ref<string>("");
 
     const selectPlace = reactive<Place>({
@@ -147,11 +143,13 @@ export default defineComponent({
 
     onMounted(async () => {
       await getCurrentPosition();
+      console.log(1);
       mapRef.value.$mapPromise.then(() => {
         cafeIcon.scaledSize = new google.maps.Size(30, 30);
         cafeIcon.origin = new google.maps.Point(0, 0);
         cafeIcon.anchor = new google.maps.Point(0, 0);
       });
+      console.log(2);
     });
 
     const setPlace = (place: google.maps.places.PlaceResult) => {
@@ -210,7 +208,7 @@ export default defineComponent({
       });
     };
 
-    const success = (position: any) => {
+    const success = (position: GeolocationPosition) => {
       currentLocation.lat = position.coords.latitude;
       currentLocation.lng = position.coords.longitude;
       // 初回は現在地が中心点
@@ -228,21 +226,27 @@ export default defineComponent({
       });
     };
 
-    const error = (error: any) => {
-      switch (error.code) {
-        case 1: //PERMISSION_DENIED
-          alert("位置情報の利用が許可されていません");
-          break;
-        case 2: //POSITION_UNAVAILABLE
-          alert("現在位置が取得できませんでした");
-          break;
-        case 3: //TIMEOUT
-          alert("タイムアウトになりました");
-          break;
-        default:
-          alert("現在位置が取得できませんでした");
-          break;
+    const error = (error: GeolocationPositionError) => {
+      if (error.code === 1) {
+        //PERMISSION_DENIED
+        alert("位置情報の利用が許可されていません");
+        setDefaultLocation();
+        return;
       }
+      if (error.code === 2) {
+        //POSITION_UNAVAILABLE
+        alert("現在位置が取得できませんでした");
+        setDefaultLocation();
+        return;
+      }
+      if (error.code === 3) {
+        //TIMEOUT
+        alert("タイムアウトになりました");
+        return;
+      }
+      alert("現在位置が取得できませんでした");
+      setDefaultLocation();
+      return;
     };
 
     /**
@@ -257,12 +261,16 @@ export default defineComponent({
         alert(
           "現在地情報を取得できませんでした。お使いのブラウザでは現在地情報を利用できない可能性があります。エリアを入力してください。"
         );
-        // 現在地取得不可の場合は東京駅付近に移動
-        currentLocation.lat = 35.6813092;
-        currentLocation.lng = 139.7677269;
-        centerLocation.lat = 35.6813092;
-        centerLocation.lng = 139.7677269;
+        setDefaultLocation();
       }
+    };
+
+    const setDefaultLocation = () => {
+      // 現在地取得不可の場合は東京駅付近に移動
+      currentLocation.lat = 35.6813092;
+      currentLocation.lng = 139.7677269;
+      centerLocation.lat = 35.6813092;
+      centerLocation.lng = 139.7677269;
     };
 
     /**
@@ -325,16 +333,13 @@ export default defineComponent({
       zoom,
       styleMap,
       mapOptions,
-      infoOptions,
       markers,
       mapRef,
-      autocompleteRef,
       setPlace,
       setMarker,
       isIndicate,
       selectPlace,
       bottomSheetDisable,
-      setName,
       placeName,
       cafeIcon,
     };
