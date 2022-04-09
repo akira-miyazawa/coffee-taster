@@ -7,8 +7,8 @@
 
 <script lang="ts">
 import { defineComponent } from "@nuxtjs/composition-api";
-import DesktopInputPageComponent from "@/components/organisms/input/DesktopInputPageComponent.vue";
-import MobileInputPageComponent from "@/components/organisms/input/MobileInputPageComponent.vue";
+import DesktopInputPageComponent from "@/components/organisms/pc/input/DesktopInputPageComponent.vue";
+import MobileInputPageComponent from "@/components/organisms/sp/input/MobileInputPageComponent.vue";
 
 export default defineComponent({
   components: {

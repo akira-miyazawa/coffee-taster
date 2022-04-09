@@ -7,8 +7,8 @@
 
 <script lang="ts">
 import { defineComponent } from "@nuxtjs/composition-api";
-import DesktopListPageComponent from "@/components/organisms/list/DesktopListPageComponent.vue";
-import MoblieListPageComponent from "@/components/organisms/list/MoblieListPageComponent.vue";
+import DesktopListPageComponent from "@/components/organisms/pc/list/DesktopListPageComponent.vue";
+import MoblieListPageComponent from "@/components/organisms/sp/list/MoblieListPageComponent.vue";
 
 export default defineComponent({
   components: {
